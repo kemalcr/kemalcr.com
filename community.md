@@ -10,7 +10,7 @@ There are a number of places to connect with community members at all experience
 
 - <a href="https://github.com/kemalcr/kemal/issues">Issues Tracker</a> - for bugs and feature requests
 - <a href="https://groups.google.com/forum/#!forum/kemalcr">Mailing List </a> - for help and long term discussion
-- <a href="https://gitter.im/kemalcr/kemal">Gitter Channel</a>  - for general help and discussion
+- <a href="https://gitter.im/sdogruyol/kemal">Gitter Channel</a>  - for general help and discussion
 
 ## Videos
 
