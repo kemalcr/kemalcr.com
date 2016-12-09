@@ -4,10 +4,8 @@ This is the repo for the official [Kemal](http://kemalcr.com) site.
 
 ## Installation
 
-* `git clone git@github.com:kemalcr/kemal.git`
-* `cd kemal`
-* `git fetch`
-* `git checkout gh-pages`
+* `git clone git@github.com:kemalcr/kemalcr.com.git`
+* `cd kemalcr.com`
 * `gem install jekyll` requires [rubygems](http://rubygems.org)
 * `jekyll serve` boots website locally
 
