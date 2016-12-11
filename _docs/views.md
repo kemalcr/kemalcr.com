@@ -48,7 +48,7 @@ And you should use `content` variable (like `yield` in Rails) in layout file.
 blocks inside views to be rendered later during the request. The most
 common use is to populate different parts of your layout from your view.
 
-The currently supported engines are: ecr and slang.
+The currently supported engines are: `ecr` and `slang`.
 
 #### Usage
 
@@ -74,7 +74,7 @@ layout, to render the captured block:
 
 For example, some of your views might need a few javascript tags and
 stylesheets, but you don't want to force this files in all your pages.
-Then you can put `<%= yield_content :scripts_and_styles %>` on your
+Then you can put `<%= yield_content "scripts_and_styles" %>` on your
 layout, inside the `<head>` tag, and each view can call `content_for`
 setting the appropriate set of tags that should be added to the layout.
 
