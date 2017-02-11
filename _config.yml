@@ -33,3 +33,6 @@ examples:
 
 jsarr:
   - name: "/js/browser.js"
+
+gems:
+  - jemoji
