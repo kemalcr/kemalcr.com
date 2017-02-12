@@ -4,24 +4,29 @@ title: "File Upload"
 order: 7
 ---
 
-Kemal has built-in and easy to use file upload handling. Here's a sample for multiple file upload.
+File uploads can be accessed from request `params` like `env.params.files["filename"]`.
+
+It has 5 useful methods to get the job done!
+
+- `tmpfile`: This is the temporary file for file upload. Useful for saving or manipulating the upload file.
+- `tmpfile_path`: File path of `tmpfile`.
+- `filename`: File name of the file upload. (`logo.png`, `images.zip` e.g)
+- `meta`: Meta information for the file upload.
+- `headers`: Request headers for the file upload.
+
+Here's a fully working sample for reading an image file upload with key `image1` and saving it under `public/uploads`.
 
 ```ruby
-require "kemal"
-
 post "/upload" do |env|
-  parse_multipart(env) do |f|
-    image1 = f.data if f.field == "image1"
-    image2 = f.data if f.field == "image2"
-    puts f.meta
-    puts f.headers
-    "Upload complete"
+  file = env.params.files["image1"].tmpfile
+  file_path = ::File.join [Kemal.config.public_folder, "uploads/", file.filename]
+  File.open(file_path, "w") do |f|
+    IO.copy(file, f)
   end
+  "Upload ok"
 end
-
-Kemal.run
 ```
 
-`curl` command for testing.
+You can test this with below `curl` command.
 
-`curl -F "image=@image1.png" -F "image2=@image2.png"  http://localhost:3000/upload`
+`curl -F "image1=@/Users/serdar/Downloads/kemal.png" http://localhost:3000/upload`
