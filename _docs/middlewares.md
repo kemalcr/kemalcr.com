@@ -49,7 +49,7 @@ You need to register your custom logger with `logger` config property.
 ```ruby
 require "kemal"
 
-Kemal.config.logger = MyCustomLogger.new(Kemal.config.env)
+Kemal.config.logger = MyCustomLogger.new
 ...
 ```
 
