@@ -4,11 +4,12 @@ title: "Database Connection"
 order: 12
 ---
 
-Kemal supports database connection in an easy and extensible way.
+Kemal is `Database Agnostic`. It doesn't enforce any database and / or libraries.
 
-Currently you can use the drivers for Postgresql and MySQL with:
+However here are some suggested libraries that you can use
 
-- [crystal-pg](https://github.com/will/crystal-pg)
-- [crystal-mysql](https://github.com/waterlink/crystal-mysql)
+- [crystal-db](https://github.com/crystal-lang/crystal-db): Common DB API for Crystal. Supports PostgreSQL, MySQL and SQLite.
+- [crecto](https://github.com/fridgerator/crecto): Database wrapper for Crystal, inspired by Ecto.
+- [topaz](https://github.com/topaz-crystal/topaz): A simple and useful db wrapper.
 
-You can check the relevant repo for samples and more info.
+Please check the relevant repo for samples and more info.
