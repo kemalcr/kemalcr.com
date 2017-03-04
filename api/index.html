@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta id="repository-name" content="">
+  <link href="css/style.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="js/doc.js"></script>
+  <title>README - </title>
+</head>
+<body>
+
+<div id="types-list">
+  <div id="search-box">
+    <input type="search" id="search-input" placeholder="Search...">
+  </div>
+
+  <ul>
+    <li class="current"><a href="index.html">README</a></li>
+  </ul>
+
+  <ul>
+  
+  <li class=" " data-id="/toplevel" data-name="top level namespace">
+      <a href="toplevel.html">Top Level Namespace</a>
+      
+    </li>
+  
+  <li class="parent " data-id="/Kemal" data-name="kemal">
+      <a href="Kemal.html">Kemal</a>
+      
+        <ul>
+  
+  <li class=" " data-id="/Kemal/BaseLogHandler" data-name="kemal::baseloghandler">
+      <a href="Kemal/BaseLogHandler.html">BaseLogHandler</a>
+      
+    </li>
+  
+  <li class=" " data-id="/Kemal/CLI" data-name="kemal::cli">
+      <a href="Kemal/CLI.html">CLI</a>
+      
+    </li>
+  
+  <li class=" " data-id="/Kemal/CommonExceptionHandler" data-name="kemal::commonexceptionhandler">
+      <a href="Kemal/CommonExceptionHandler.html">CommonExceptionHandler</a>
+      
+    </li>
+  
+  <li class=" " data-id="/Kemal/CommonLogHandler" data-name="kemal::commonloghandler">
+      <a href="Kemal/CommonLogHandler.html">CommonLogHandler</a>
+      
+    </li>
+  
+  <li class=" " data-id="/Kemal/Config" data-name="kemal::config">
+      <a href="Kemal/Config.html">Config</a>
+      
+    </li>
+  
+  <li class="parent " data-id="/Kemal/Exceptions" data-name="kemal::exceptions">
+      <a href="Kemal/Exceptions.html">Exceptions</a>
+      
+        <ul>
+  
+  <li class=" " data-id="/Kemal/Exceptions/CustomException" data-name="kemal::exceptions::customexception">
+      <a href="Kemal/Exceptions/CustomException.html">CustomException</a>
+      
+    </li>
+  
+  <li class=" " data-id="/Kemal/Exceptions/InvalidPathStartException" data-name="kemal::exceptions::invalidpathstartexception">
+      <a href="Kemal/Exceptions/InvalidPathStartException.html">InvalidPathStartException</a>
+      
+    </li>
+  
+  <li class=" " data-id="/Kemal/Exceptions/RouteNotFound" data-name="kemal::exceptions::routenotfound">
+      <a href="Kemal/Exceptions/RouteNotFound.html">RouteNotFound</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" " data-id="/Kemal/Handler" data-name="kemal::handler">
+      <a href="Kemal/Handler.html">Handler</a>
+      
+    </li>
+  
+  <li class=" " data-id="/Kemal/InitHandler" data-name="kemal::inithandler">
+      <a href="Kemal/InitHandler.html">InitHandler</a>
+      
+    </li>
+  
+  <li class=" " data-id="/Kemal/NullLogHandler" data-name="kemal::nullloghandler">
+      <a href="Kemal/NullLogHandler.html">NullLogHandler</a>
+      
+    </li>
+  
+  <li class=" " data-id="/Kemal/ParamParser" data-name="kemal::paramparser">
+      <a href="Kemal/ParamParser.html">ParamParser</a>
+      
+    </li>
+  
+  <li class=" " data-id="/Kemal/Route" data-name="kemal::route">
+      <a href="Kemal/Route.html">Route</a>
+      
+    </li>
+  
+  <li class=" " data-id="/Kemal/RouteHandler" data-name="kemal::routehandler">
+      <a href="Kemal/RouteHandler.html">RouteHandler</a>
+      
+    </li>
+  
+  <li class=" " data-id="/Kemal/SSL" data-name="kemal::ssl">
+      <a href="Kemal/SSL.html">SSL</a>
+      
+    </li>
+  
+  <li class=" " data-id="/Kemal/StaticFileHandler" data-name="kemal::staticfilehandler">
+      <a href="Kemal/StaticFileHandler.html">StaticFileHandler</a>
+      
+    </li>
+  
+  <li class=" " data-id="/Kemal/Utils" data-name="kemal::utils">
+      <a href="Kemal/Utils.html">Utils</a>
+      
+    </li>
+  
+  <li class=" " data-id="/Kemal/WebSocketHandler" data-name="kemal::websockethandler">
+      <a href="Kemal/WebSocketHandler.html">WebSocketHandler</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+</div>
+
+<div id="main-content">
+<p><a href="http://kemalcr.com" target="_blank"><img src="https://avatars3.githubusercontent.com/u/15321198?v=3&s=200" alt="Kemal"/></a></p>
+
+<h1>Kemal</h1>
+
+<p>Lightning Fast, Super Simple web framework.</p>
+
+<p><a href="https://travis-ci.org/kemalcr/kemal" target="_blank"><img src="https://travis-ci.org/kemalcr/kemal.svg?branch=master" alt="Build Status"/></a>
+<a href="https://gitter.im/sdogruyol/kemal?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge" target="_blank"><img src="https://badges.gitter.im/Join%20Chat.svg" alt="Join the chat at https://gitter.im/sdogruyol/kemal"/></a></p>
+
+<h1>Super Simple ⚡️</h1>
+
+<pre><code class='language-ruby'>require "kemal"
+
+# Matches GET "http://host:port/"
+get "/" do
+  "Hello World!"
+end
+
+# Creates a WebSocket handler.
+# Matches "ws://host:port/socket"
+ws "/socket" do |socket|
+  socket.send "Hello from Kemal!"
+end
+
+Kemal.run</code></pre>
+
+<p>Start your application!</p>
+
+<pre><code>crystal src<span class="s">/kemal_sample.cr</code></pre>
+
+<p>Go to <em>http://localhost:3000</em></p>
+
+<p>Check <a href="http://kemalcr.com" target="_blank">documentation</a> or <a href="https://github.com/kemalcr/kemal/tree/master/samples" target="_blank">samples</a> for more.</p>
+
+<h1>Installation</h1>
+
+<p>Add this to your application's <code>shard.yml</code>:</p>
+
+<pre><code class='language-yaml'>dependencies:
+  kemal:
+    github: kemalcr/kemal
+    branch: master</code></pre>
+
+<h1>Features</h1>
+
+<ul><li>Support all REST verbs</li><li>Websocket support</li><li>Request/Response context, easy parameter handling</li><li>Middlewares</li><li>Built-in JSON support</li><li>Built-in static file serving</li><li>Built-in view templating via <a href="https://github.com/jeromegn/kilt" target="_blank">Kilt</a></li></ul>
+
+<h1>Documentation</h1>
+
+<p>You can read the documentation at the official site <a href="http://kemalcr.com" target="_blank">kemalcr.com</a></p>
+
+<h2>Thanks</h2>
+
+<p>Thanks to Manas for their awesome work on <a href="https://github.com/manastech/frank" target="_blank">Frank</a>.</p>
+</div>
+</body>
+</html>

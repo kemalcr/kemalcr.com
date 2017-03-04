@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta id="repository-name" content="">
+  <link href="../css/style.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="../js/doc.js"></script>
+  <title>Kemal::Handler - </title>
+</head>
+<body>
+
+<div id="types-list">
+  <div id="search-box">
+    <input type="search" id="search-input" placeholder="Search...">
+  </div>
+
+  <ul>
+    <li><a href="../index.html">README</a></li>
+  </ul>
+
+  <ul>
+  
+  <li class=" " data-id="/toplevel" data-name="top level namespace">
+      <a href="../toplevel.html">Top Level Namespace</a>
+      
+    </li>
+  
+  <li class="parent open current" data-id="/Kemal" data-name="kemal">
+      <a href="../Kemal.html">Kemal</a>
+      
+        <ul>
+  
+  <li class=" " data-id="/Kemal/BaseLogHandler" data-name="kemal::baseloghandler">
+      <a href="../Kemal/BaseLogHandler.html">BaseLogHandler</a>
+      
+    </li>
+  
+  <li class=" " data-id="/Kemal/CLI" data-name="kemal::cli">
+      <a href="../Kemal/CLI.html">CLI</a>
+      
+    </li>
+  
+  <li class=" " data-id="/Kemal/CommonExceptionHandler" data-name="kemal::commonexceptionhandler">
+      <a href="../Kemal/CommonExceptionHandler.html">CommonExceptionHandler</a>
+      
+    </li>
+  
+  <li class=" " data-id="/Kemal/CommonLogHandler" data-name="kemal::commonloghandler">
+      <a href="../Kemal/CommonLogHandler.html">CommonLogHandler</a>
+      
+    </li>
+  
+  <li class=" " data-id="/Kemal/Config" data-name="kemal::config">
+      <a href="../Kemal/Config.html">Config</a>
+      
+    </li>
+  
+  <li class="parent " data-id="/Kemal/Exceptions" data-name="kemal::exceptions">
+      <a href="../Kemal/Exceptions.html">Exceptions</a>
+      
+        <ul>
+  
+  <li class=" " data-id="/Kemal/Exceptions/CustomException" data-name="kemal::exceptions::customexception">
+      <a href="../Kemal/Exceptions/CustomException.html">CustomException</a>
+      
+    </li>
+  
+  <li class=" " data-id="/Kemal/Exceptions/InvalidPathStartException" data-name="kemal::exceptions::invalidpathstartexception">
+      <a href="../Kemal/Exceptions/InvalidPathStartException.html">InvalidPathStartException</a>
+      
+    </li>
+  
+  <li class=" " data-id="/Kemal/Exceptions/RouteNotFound" data-name="kemal::exceptions::routenotfound">
+      <a href="../Kemal/Exceptions/RouteNotFound.html">RouteNotFound</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class=" current" data-id="/Kemal/Handler" data-name="kemal::handler">
+      <a href="../Kemal/Handler.html">Handler</a>
+      
+    </li>
+  
+  <li class=" " data-id="/Kemal/InitHandler" data-name="kemal::inithandler">
+      <a href="../Kemal/InitHandler.html">InitHandler</a>
+      
+    </li>
+  
+  <li class=" " data-id="/Kemal/NullLogHandler" data-name="kemal::nullloghandler">
+      <a href="../Kemal/NullLogHandler.html">NullLogHandler</a>
+      
+    </li>
+  
+  <li class=" " data-id="/Kemal/ParamParser" data-name="kemal::paramparser">
+      <a href="../Kemal/ParamParser.html">ParamParser</a>
+      
+    </li>
+  
+  <li class=" " data-id="/Kemal/Route" data-name="kemal::route">
+      <a href="../Kemal/Route.html">Route</a>
+      
+    </li>
+  
+  <li class=" " data-id="/Kemal/RouteHandler" data-name="kemal::routehandler">
+      <a href="../Kemal/RouteHandler.html">RouteHandler</a>
+      
+    </li>
+  
+  <li class=" " data-id="/Kemal/SSL" data-name="kemal::ssl">
+      <a href="../Kemal/SSL.html">SSL</a>
+      
+    </li>
+  
+  <li class=" " data-id="/Kemal/StaticFileHandler" data-name="kemal::staticfilehandler">
+      <a href="../Kemal/StaticFileHandler.html">StaticFileHandler</a>
+      
+    </li>
+  
+  <li class=" " data-id="/Kemal/Utils" data-name="kemal::utils">
+      <a href="../Kemal/Utils.html">Utils</a>
+      
+    </li>
+  
+  <li class=" " data-id="/Kemal/WebSocketHandler" data-name="kemal::websockethandler">
+      <a href="../Kemal/WebSocketHandler.html">WebSocketHandler</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+</div>
+
+<div id="main-content">
+<h1 class="type-name">
+
+  <span class="kind">class</span> Kemal::Handler
+
+</h1>
+
+
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="../Kemal/Handler.html">Kemal::Handler</a></li><li class="superclass">Reference</li><li class="superclass">Object</li></ul>
+
+
+
+
+  <h2>Overview</h2>
+
+  <p><code><a href="../Kemal/Handler.html">Kemal::Handler</a></code> is a subclass of <code>HTTP::Handler</code>.
+It adds <code><a href="../Kemal/Handler.html#only%28paths%2Cmethod%3D%22GET%22%29-macro">only</a></code>, <code><a href="../Kemal/Handler.html#only_match%3F%28env%29-instance-method">#only_match?</a></code>, <code><a href="../Kemal/Handler.html#exclude%28paths%2Cmethod%3D%22GET%22%29-macro">exclude</a></code>, <code><a href="../Kemal/Handler.html#exclude_match%3F%28env%29-instance-method">#exclude_match?</a></code>.
+These methods are useful for custom handlers for conditional execution.</p>
+
+
+
+
+
+  <h2>Included Modules</h2>
+  <ul class="other-types-list">
+  
+    <li class="other-type">HTTP::Handler</li>
+  
+  </ul>
+
+
+
+
+
+
+
+
+
+
+  <h2>Defined in:</h2>
+  
+
+
+
+
+
+
+
+  <h2>Instance Method Summary</h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#call%28env%29-instance-method" class="signature"><strong>#call</strong>(env)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#exclude_match%3F%28env%29-instance-method" class="signature"><strong>#exclude_match?</strong>(env)</a>
+        
+          <div class="summary"><p>Processes the path based on <code><a href="../Kemal/Handler.html#exclude%28paths%2Cmethod%3D%22GET%22%29-macro">exclude</a></code> paths which is a <code>Array(String)</code>.</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#only_match%3F%28env%29-instance-method" class="signature"><strong>#only_match?</strong>(env)</a>
+        
+          <div class="summary"><p>Processes the path based on <code><a href="../Kemal/Handler.html#only%28paths%2Cmethod%3D%22GET%22%29-macro">only</a></code> paths which is a <code>Array(String)</code>.</p></div>
+        
+      </li>
+    
+  </ul>
+
+
+
+  <h2>Macro Summary</h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#exclude%28paths%2Cmethod%3D%22GET%22%29-macro" class="signature"><strong>exclude</strong>(paths, method = "GET")</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#only%28paths%2Cmethod%3D%22GET%22%29-macro" class="signature"><strong>only</strong>(paths, method = "GET")</a>
+        
+      </li>
+    
+  </ul>
+
+
+
+<div class="methods-inherited">
+  
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+  
+    
+
+
+    
+
+
+  
+</div>
+
+
+
+
+  <h2>Instance Method Detail</h2>
+  
+    <div class="entry-detail" id="call&#40;env&#41;-instance-method">
+      <div class="signature">
+        
+        def <strong>call</strong>(env)
+
+        <a class="method-permalink" href="#call%28env%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="exclude_match?&#40;env&#41;-instance-method">
+      <div class="signature">
+        
+        def <strong>exclude_match?</strong>(env)
+
+        <a class="method-permalink" href="#exclude_match%3F%28env%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Processes the path based on <code><a href="../Kemal/Handler.html#exclude%28paths%2Cmethod%3D%22GET%22%29-macro">exclude</a></code> paths which is a <code>Array(String)</code>.
+If the path is not found on <code><a href="../Kemal/Handler.html#exclude%28paths%2Cmethod%3D%22GET%22%29-macro">exclude</a></code> conditions the handler will continue processing.
+If the path is found in <code><a href="../Kemal/Handler.html#exclude%28paths%2Cmethod%3D%22GET%22%29-macro">exclude</a></code> conditions it'll stop processing and will pass the request
+to next handler.</p>
+
+<p>However this is not done automatically. All handlers must inherit from <code><a href="../Kemal/Handler.html">Kemal::Handler</a></code>.</p>
+
+<pre><code><span class="k">class</span> <span class="t">ExcludeHandler</span> <span class="o"><</span> <span class="t">Kemal</span><span class="t">::</span><span class="t">Handler</span>
+  exclude [<span class="s">&quot;/&quot;</span>]
+
+  <span class="k">def</span> <span class="m">call</span>(env)
+    <span class="k">return</span> call_next(env) <span class="k">if</span> exclude_match?(env)
+    puts <span class="s">&quot;If the path is not / i will be doing some processing here.&quot;</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="only_match?&#40;env&#41;-instance-method">
+      <div class="signature">
+        
+        def <strong>only_match?</strong>(env)
+
+        <a class="method-permalink" href="#only_match%3F%28env%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc"><p>Processes the path based on <code><a href="../Kemal/Handler.html#only%28paths%2Cmethod%3D%22GET%22%29-macro">only</a></code> paths which is a <code>Array(String)</code>.
+If the path is not found on <code><a href="../Kemal/Handler.html#only%28paths%2Cmethod%3D%22GET%22%29-macro">only</a></code> conditions the handler will continue processing.
+If the path is found in <code><a href="../Kemal/Handler.html#only%28paths%2Cmethod%3D%22GET%22%29-macro">only</a></code> conditions it'll stop processing and will pass the request
+to next handler.</p>
+
+<p>However this is not done automatically. All handlers must inherit from <code><a href="../Kemal/Handler.html">Kemal::Handler</a></code>.</p>
+
+<pre><code><span class="k">class</span> <span class="t">OnlyHandler</span> <span class="o"><</span> <span class="t">Kemal</span><span class="t">::</span><span class="t">Handler</span>
+  only [<span class="s">&quot;/&quot;</span>]
+
+  <span class="k">def</span> <span class="m">call</span>(env)
+    <span class="k">return</span> call_next(env) <span class="k">unless</span> only_match?(env)
+    puts <span class="s">&quot;If the path is / i will be doing some processing here.&quot;</span>
+  <span class="k">end</span>
+<span class="k">end</span></code></pre></div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+
+
+
+  <h2>Macro Detail</h2>
+  
+    <div class="entry-detail" id="exclude&#40;paths,method&#61;&quot;GET&quot;&#41;-macro">
+      <div class="signature">
+        
+        macro <strong>exclude</strong>(paths, method = "GET")
+
+        <a class="method-permalink" href="#exclude%28paths%2Cmethod%3D%22GET%22%29-macro">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="only&#40;paths,method&#61;&quot;GET&quot;&#41;-macro">
+      <div class="signature">
+        
+        macro <strong>only</strong>(paths, method = "GET")
+
+        <a class="method-permalink" href="#only%28paths%2Cmethod%3D%22GET%22%29-macro">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+      </div>
+    </div>
+  
+
+
+</div>
+
+</body>
+</html>
