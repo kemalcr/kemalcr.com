@@ -1,7 +1,7 @@
 ---
 layout: doc
 title: Sessions
-order: 11
+order: 12
 ---
 
 Kemal supports Sessions with [kemal-session](https://github.com/kemalcr/kemal-session).
