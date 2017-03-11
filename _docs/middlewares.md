@@ -4,8 +4,6 @@ title: Middlewares
 order: 9
 ---
 
-## Middlewares
-
 Middlewares a.k.a `Handler`s are the building blocks of `Kemal`. It lets you seperate your concerns into different layers.
 
 Each middleware is supposed to have one responsibility. Take a look at `Kemal`'s built-in middlewares to see what that means.
@@ -23,6 +21,55 @@ class CustomHandler < Kemal::Handler
 end
 
 add_handler CustomHandler.new
+```
+
+### Custom middleware filters
+Kemal gives you access to two handy filters `only` and `exclude`. These can be used to process your custom middleware for `only` specific routes, or to `exclude` from specific routes.
+
+```ruby
+class OnlyHandler < Kemal::Handler
+  # Matches GET /specials and GET /deals
+  only ["/specials", "/deals"]
+  
+  def call(env)
+    # continue on to next handler unless the request matches the only filter
+    return call_next(env) unless only_match?(env)
+    puts "If the path is /specials or /deals, I will be doing some processing here."
+  end
+end
+
+class PostOnlyHandler < Kemal::Handler
+  # Matches POST /blogs
+  only ["/blogs"], "POST"
+
+  def call(env)
+    # call_next is called for GET /blogs, but not POST /blogs
+    return call_next(env) unless only_match?(env)
+    puts "If the request is a POST to /blogs, I will do some processing here."
+  end
+end
+```
+
+```ruby
+class ExcludeHandler < Kemal::Handler
+  # Matches GET /
+  exclude ["/"]
+
+  def call(env)
+    return call_next(env) if exclude_match?(env)
+    puts "If the path is not / I will be doing some processing here."
+  end
+end
+
+class PostExcludeHandler < Kemal::Handler
+  # Matches POST /
+  exclude ["/"], "POST"
+  
+  def call(env)
+    return call_next(env) if exclude_match?(env)
+    puts "If the request is not a POST to /, I will do some processing here."
+  end
+end
 ```
 
 ## Creating a custom Logger middleware
