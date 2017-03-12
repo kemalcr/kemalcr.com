@@ -17,7 +17,7 @@ Please check the relevant repo for samples and more info.
 ### Using Crystal DB with Kemal
 To use `crystal-db` with Kemal you will need to make sure it's included in your shard as well as the [compatible driver](https://github.com/crystal-lang/crystal-db#crystal-db) (i.e. mysql, sqlite, pg...)
 
-Using Kemal with MySQL
+#### Using Kemal with MySQL
 ```ruby
 require "kemal"
 require "db"
@@ -33,7 +33,7 @@ get "/posts/:id" do |env|
 end
 ```
 
-Using Kemal with PostgreSQL
+#### Using Kemal with PostgreSQL
 ```ruby
 require "kemal"
 require "db"
@@ -50,7 +50,7 @@ end
 
 **NOTE:** According to [these docs](https://crystal-lang.org/docs/database/#exec) use `?` for placeholders in mysql or sqlite, but `$1` for placeholders in pg.
 
-Using Kemal with SQLite3
+#### Using Kemal with SQLite3
 ```ruby
 require "kemal"
 require "db"
