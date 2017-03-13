@@ -51,12 +51,12 @@ post "/json_params" do |env|
 end
 
 # Using a standard post body
-# name=Serdar&likes[]=Ruby&likes[]=Crystal
+# name=Serdar&likes=Ruby&likes=Crystal
 post "/body_params" do |env|
   name = env.params.body["name"].as(String)
-  likes = env.params.body.fetch_all("likes[]").as(Array)
+  likes = env.params.body["likes"].as(Array)
   "#{name} likes #{likes.join(",")}"
 end
 ```
 
-**NOTE:** For Array or Hash like params, you will need to use the `fetch_all` method. You can read more about [HTTP::Params](https://crystal-lang.org/api/HTTP/Params.html) from the Crystal docs.
+**NOTE:** For Array or Hash like params, Kemal will group like keys for you. Alternatively, you can use the square bracket notation `likes[]=ruby&likes[]=crystal`. Be sure to access the param name exactly how it was passed. (i.e. `env.params.body["likes[]"]`).
