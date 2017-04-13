@@ -34,7 +34,7 @@ And you should use `content` variable (like `yield` in Rails) in layout file.
 ```erb
 <html>
 <head>
-  <title><%= $title %></title>
+  <title>My Kemal Application</title>
 </head>
 <body>
   <%= content %>
