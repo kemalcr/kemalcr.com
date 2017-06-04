@@ -21,11 +21,12 @@ Here's a fully working sample for reading an image file upload with key `image1`
 ```ruby
 post "/upload" do |env|
   file = env.params.files["image1"]
+  filename = file.filename
   # Be sure to check if file.filename is not empty otherwise it'll raise a compile time error
-  if !file.filename.is_a?(String)
+  if !filename.is_a?(String)
     p "No filename included in upload"
   else
-    file_path = ::File.join [Kemal.config.public_folder, "uploads/", file.filename]
+    file_path = ::File.join [Kemal.config.public_folder, "uploads/", filename]
     File.open(file_path, "w") do |f|
       IO.copy(file.tmpfile, f)
     end
