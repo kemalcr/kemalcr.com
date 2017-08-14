@@ -1,7 +1,7 @@
 ---
 layout: doc
 title: "Database Connection"
-order: 12
+order: 13
 ---
 
 Kemal is `Database Agnostic`. It doesn't enforce any database and / or libraries.
