@@ -18,7 +18,7 @@ collections:
 
 nav_bars:
   - title: "Guide"
-    url: "/docs/getting_started"
+    url: "/guide"
   - title: "API"
     url: "/api/index.html"
   - title: "Blog"
@@ -36,5 +36,5 @@ examples:
 jsarr:
   - name: "/js/browser.js"
 
-gems:
+plugins:
   - jemoji
