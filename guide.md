@@ -759,6 +759,22 @@ You can use [capistrano-kemal](https://github.com/sdogruyol/capistrano-kemal) to
 
 You can cross-compile a Kemal app by using this [guide](http://crystal-lang.org/docs/syntax_and_semantics/cross-compilation.html).
 
+# Environment
+
+Kemal respects `KEMAL_ENV` environment variable and `Kemal.config.env`. By default this is `development`.
+
+To change
+
+```
+$ export KEMAL_ENV=production
+```
+
+or in your code
+
+```ruby
+Kemal.config.env = "production"
+```
+
 ### Improve this guide
 
 Please help us improve this guide with pull requests to [this website repository](https://github.com/kemalcr/kemalcr.com).
