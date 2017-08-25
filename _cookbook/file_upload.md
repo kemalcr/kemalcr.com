@@ -1,6 +1,6 @@
 ---
 layout: doc
-title: File Upload
+title: File Upload Recipe
 ---
 
 ```ruby

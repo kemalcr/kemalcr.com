@@ -1,6 +1,6 @@
 ---
 layout: doc
-title: WebSocket Realtime Chat
+title: WebSocket Chat Recipe
 ---
 
 ```ruby

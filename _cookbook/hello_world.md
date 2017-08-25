@@ -1,6 +1,6 @@
 ---
 layout: doc
-title: Hello World
+title: Hello World Recipe
 ---
 
 ```ruby

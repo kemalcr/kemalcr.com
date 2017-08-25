@@ -1,6 +1,6 @@
 ---
 layout: doc
-title: CORS
+title: CORS Recipe
 ---
 
 ```ruby
