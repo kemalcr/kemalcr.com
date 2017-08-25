@@ -13,12 +13,14 @@ highlighter:      rouge
 permalink:        /blog/:year/:month/:day/:title/
 
 collections:
-  docs:
+  cookbook:
     output: true
 
 nav_bars:
   - title: "Guide"
     url: "/guide"
+  - title: "Cookbook"
+    url: "/cookbook/hello_world"  
   - title: "API"
     url: "/api/index.html"
   - title: "Blog"
