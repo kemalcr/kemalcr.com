@@ -736,7 +736,7 @@ end
 
 # Testing
 
-You can test your Kemal application using `spec-kemal`.
+You can test your Kemal application using [spec-kemal](https://github.com/kemalcr/spec-kemal).
 
 First add it to your `shard.yml`
 
