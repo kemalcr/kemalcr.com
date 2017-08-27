@@ -740,7 +740,7 @@ You can test your Kemal application using `spec-kemal`.
 
 First add it to your `shard.yml`
 
-```yml
+```yaml
 name: your-kemal-app
 version: 0.1.0
 
@@ -759,14 +759,14 @@ shards install
 
 Just require it before your files in your `spec/spec_helper.cr`
 
-```crystal
+```ruby
 require "spec-kemal"
 require "../src/your-kemal-app"
 ```
 
 Your Kemal application
 
-```crystal
+```ruby
 # src/your-kemal-app.cr
 
 require "kemal"
@@ -784,7 +784,7 @@ Now you can easily test your `Kemal` application in your `spec`s.
 KEMAL_ENV=test crystal spec
 ```
 
-```crystal
+```ruby
 # spec/your-kemal-app-spec.cr
 
 describe "Your::Kemal::App" do
