@@ -3,7 +3,7 @@ layout: default
 title: Kemal - Guide
 ---
 
-# Getting Started
+# [Getting Started](#getting-started)
 
 This guide assumes that you have Crystal installed in your system. Check Crystal installation methods [here](https://crystal-lang.org/docs/installation/).
 
@@ -66,7 +66,7 @@ You should see some logs like these:
 2015-12-01 13:47:48 +0200 | 200 | GET / - (666µs)
 ```
 
-# Routes
+# [Routes](#routes)
 
 You can handle HTTP methods as easy as writing method names and the route with a code block. Kemal will handle all the hard work.
 
@@ -148,7 +148,7 @@ passing a hash to `serve_static`
 serve_static({"gzip" => true, "dir_listing" => false})
 ```
 
-# Views / Templates
+# [Views / Templates](#views-templates)
 
 You can use ERB-like built-in [ECR](http://crystal-lang.org/api/ECR.html) to render dynamic views.
 
@@ -245,7 +245,7 @@ get "/:name" do
 end
 ```
 
-# Filters
+# [Filters](#filters)
 
 Before filters are evaluated before each request within the same context as the routes. They can modify the request and response.
 
@@ -325,7 +325,7 @@ Each time `GET /foo` (or any other route since we didn't specify a route for the
 
 _Note: `authorized?` and `Session.new` are fictitious calls used to illustrate the example._
 
-# Helpers
+# [Helpers](#helpers)
 
 ### Browser Redirect
 
@@ -392,7 +392,7 @@ Optionally you can override the mime_type
 send_file env, "./path/to/file", "image/jpeg"
 ```
 
-# Middlewares
+# [Middlewares](#middlewares)
 
 Middlewares a.k.a `Handler`s are the building blocks of `Kemal`. It lets you seperate your concerns into different layers.
 
@@ -498,7 +498,7 @@ Kemal organization contains some useful middlewares
 - [kemal-basic-auth](https://github.com/kemalcr/kemal-basic-auth): Add HTTP Basic Authorization to your Kemal application.
 - [kemal-csrf](https://github.com/kemalcr/kemal-csrf): Add CSRF protection to your Kemal application.
 
-# HTTP Parameters
+# [HTTP Parameters](#http-parameters)
 
 When passing data through an HTTP request, you will often need to use query parameters, or post parameters depending on which HTTP method you're using.
 
@@ -557,7 +557,7 @@ end
 
 **NOTE:** For Array or Hash like params, Kemal will group like keys for you. Alternatively, you can use the square bracket notation `likes[]=ruby&likes[]=crystal`. Be sure to access the param name exactly how it was passed. (i.e. `env.params.body["likes[]"]`).
 
-# HTTP Request / Response Context
+# [HTTP Request / Response Context](#context)
 
 Accessing the HTTP request/response context (query params, body, content_type, headers, status_code) is super easy. You can use the context returned from the block:
 
@@ -633,7 +633,7 @@ Some common request information is available at `env.request.*`:
 - **cookies**
   - e.g. `env.request.cookies["cookie_name"].value`
 
-# File Upload
+# [File Upload](#file-upload)
 
 File uploads can be accessed from request `params` like `env.params.files["filename"]`.
 
@@ -697,7 +697,7 @@ It's ***only recommended*** to use `MemoryEngine` for development and test purpo
 
 Please check [kemal-session](https://github.com/kemalcr/kemal-session) for usage and compatible storage engines.
 
-# WebSockets
+# [WebSockets](#websockets)
 
 Using *Websockets* is super easy!
 
@@ -734,7 +734,7 @@ ws "/" do |socket|
 end
 ```
 
-# Testing
+# [Testing](#testing)
 
 You can test your Kemal application using [spec-kemal](https://github.com/kemalcr/spec-kemal).
 
@@ -798,7 +798,7 @@ describe "Your::Kemal::App" do
 end
 ```
 
-# SSL
+# [SSL](#ssl)
 
 Kemal has built-in and easy to use SSL support.
 
@@ -809,7 +809,7 @@ crystal build --release src/your_app.cr
 ./your_app --ssl --ssl-key-file your_key_file --ssl-cert-file your_cert_file
 ```
 
-# Deployment
+# [Deployment](#deployment)
 
 ### Heroku
 
@@ -823,7 +823,7 @@ You can use [capistrano-kemal](https://github.com/sdogruyol/capistrano-kemal) to
 
 You can cross-compile a Kemal app by using this [guide](http://crystal-lang.org/docs/syntax_and_semantics/cross-compilation.html).
 
-# Environment
+# [Environment](#environment)
 
 Kemal respects `KEMAL_ENV` environment variable and `Kemal.config.env`. By default this is `development`.
 
