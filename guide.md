@@ -91,7 +91,7 @@ delete "/" do
 .. annihilate something ..
 end
 ```
-
+Any **string** returned from a route will be output to the browser.
 Routes are matched in the order they are defined. The first route that matches the request is invoked.
 
 # Static Files
