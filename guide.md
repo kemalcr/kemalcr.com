@@ -134,7 +134,7 @@ By default `Kemal` serves static files from `public` folder.
 If you don't need static file serving at all(for example an API doesn't need static file serving) you can disable it via
 
 ```ruby
-serve_static false
+serve_static = false
 ```
 
 ### Modifying Other Options
