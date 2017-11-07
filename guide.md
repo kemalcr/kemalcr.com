@@ -22,7 +22,6 @@ Then add *kemal* to the `shard.yml` file as a dependency.
 dependencies:
   kemal:
     github: kemalcr/kemal
-    branch: master
 ```
 
 You should run `shards` to get dependencies:
@@ -36,7 +35,7 @@ It will output something like that:
 ```
 $ shards install
 Updating https://github.com/kemalcr/kemal.git
-Installing kemal (master)
+Installing kemal (0.21.0)
 ```
 
 ### Use Kemal
@@ -381,13 +380,13 @@ end
 
 Send a file with given path and base the mime-type on the file extension
 or default `application/octet-stream` mime_type.
- 
+
 ```ruby
 send_file env, "./path/to/file"
 ```
 
 Optionally you can override the mime_type
-  
+
 ```ruby
 send_file env, "./path/to/file", "image/jpeg"
 ```
@@ -420,7 +419,7 @@ Kemal gives you access to two handy filters `only` and `exclude`. These can be u
 class OnlyHandler < Kemal::Handler
   # Matches GET /specials and GET /deals
   only ["/specials", "/deals"]
-  
+
   def call(env)
     # continue on to next handler unless the request matches the only filter
     return call_next(env) unless only_match?(env)
@@ -454,7 +453,7 @@ end
 class PostExcludeHandler < Kemal::Handler
   # Matches POST /
   exclude ["/"], "POST"
-  
+
   def call(env)
     return call_next(env) if exclude_match?(env)
     puts "If the request is not a POST to /, I will do some processing here."
@@ -693,7 +692,7 @@ Kemal.run
 ```
 
 `kemal-session` has a generic API to multiple storage engines. The default storage engine is `MemoryEngine` which stores the sessions in process memory.
-It's ***only recommended*** to use `MemoryEngine` for development and test purposes. 
+It's ***only recommended*** to use `MemoryEngine` for development and test purposes.
 
 Please check [kemal-session](https://github.com/kemalcr/kemal-session) for usage and compatible storage engines.
 
