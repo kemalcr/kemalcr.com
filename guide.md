@@ -5,11 +5,11 @@ title: Kemal - Guide
 
 # [Getting Started](#getting-started)
 
-This guide assumes that you have Crystal installed in your system. Check Crystal installation methods [here](https://crystal-lang.org/docs/installation/).
+This guide assumes that you already have Crystal installed. If not, check out the [Crystal installation methods](https://crystal-lang.org/docs/installation/) and come back when you're done.
 
-### Install Kemal
+### Installing Kemal
 
-You should create your application first:
+First you need to create your application:
 
 ```
 crystal init app your_app
@@ -24,13 +24,13 @@ dependencies:
     github: kemalcr/kemal
 ```
 
-You should run `shards` to get dependencies:
+Finally run `shards` to get the dependencies:
 
 ```
 shards install
 ```
 
-It will output something like that:
+You should see something like this:
 
 ```
 $ shards install
@@ -38,9 +38,11 @@ Updating https://github.com/kemalcr/kemal.git
 Installing kemal (0.21.0)
 ```
 
-### Use Kemal
+That's it! You're now ready to use Kemal in your application.
 
-Do some awesome stuff with Kemal.
+### Using Kemal
+
+You can do some awesome stuff with Kemal. Let's start with a simple example.
 
 ```ruby
 require "kemal"
@@ -52,18 +54,22 @@ end
 Kemal.run
 ```
 
-### Run!
+### Running Kemal
+
+Starting your application is easy. Simply run:
 
 ```
 crystal run src/your_app.cr
 ```
 
-You should see some logs like these:
+If everything went well, you should see a message saying that Kemal is running.
 
 ```
 [development] Kemal is ready to lead at http://0.0.0.0:3000
 2015-12-01 13:47:48 +0200 | 200 | GET / - (666µs)
 ```
+
+Congrats on your first Kemal application! This is just the beginning. Keep reading to learn how to do more with Kemal.
 
 # [Routes](#routes)
 
@@ -95,7 +101,7 @@ Routes are matched in the order they are defined. The first route that matches t
 
 # Static Files
 
-Add your files to `public` directory and Kemal will serve these files immediately.
+Any files you add to the `public` directory will be served automatically by Kemal.
 
 ```
 app/
@@ -110,7 +116,7 @@ app/
     index.html
 ```
 
-Open index.html and add
+For example, your index.html may look like this:
 
 ```html
 <html>
@@ -124,6 +130,8 @@ Open index.html and add
  </body>
 </html>
 ```
+
+Kemal will serve the files in the `public` directory without having to write routes for them.
 
 ## Static File Options
 
@@ -139,9 +147,11 @@ serve_static false
 ### Modifying Other Options
 
 By default `Kemal` gzips most files, skipping only very small files, or those which don't benefit from gzipping.
+
 If you are running `Kemal` behind a proxy, you may wish to disable this feature. `Kemal` is also able
-to do basic directory listing. This feature is disabled by default. Both of these options are available by
-passing a hash to `serve_static`
+to do basic directory listing. This feature is disabled by default.
+
+Both of these options are available by passing a hash to `serve_static`.
 
 ```ruby
 serve_static({"gzip" => true, "dir_listing" => false})
@@ -158,7 +168,7 @@ get "/:name" do |env|
 end
 ```
 
-And you should have an `hello.ecr` view. It will have the same context as the method.
+Your `hello.ecr` view should have the same context as the method.
 
 ```erb
 Hello <%= name %>
@@ -166,7 +176,7 @@ Hello <%= name %>
 
 ## Using Layouts
 
-You can use **layouts** in Kemal. You should pass a second argument.
+You can use **layouts** in Kemal. You can do this by passing a second argument to the `render` method.
 
 ```ruby
 get "/:name" do
@@ -174,7 +184,7 @@ get "/:name" do
 end
 ```
 
-And you should use `content` variable (like `yield` in Rails) in layout file.
+In your layout file, you need to return the output of `subview.ecr` with the `content` variable (like `yield` in Rails).
 
 ```erb
 <html>
@@ -189,16 +199,16 @@ And you should use `content` variable (like `yield` in Rails) in layout file.
 
 ### content_for and yield_content
 
-`content_for` is a set of helpers that allows you to capture
-blocks inside views to be rendered later during the request. The most
-common use is to populate different parts of your layout from your view.
+You can capture blocks inside views to be rendered later during the request
+with the `content_for` helper. The most common use is to populate different
+parts of your layout from your view.
 
-The currently supported engines are: `ecr` and `slang`.
+Supported engines include `ecr` and `slang`.
 
 #### Usage
 
-You call `content_for`, generally from a view, to capture a block of markup
-giving it an identifier:
+First, call `content_for`, generally from a view, to capture a block of markup
+with an identifier:
 
 ```erb
 # index.ecr
@@ -207,7 +217,7 @@ giving it an identifier:
 <% end %>
 ```
 
-Then, you call **yield_content** with that identifier, generally from a
+Then, call **yield_content** with that identifier, generally from a
 layout, to render the captured block:
 
 ```erb
@@ -215,13 +225,11 @@ layout, to render the captured block:
 <%= yield_content "some_key" %>
 ```
 
-##### And How Is This Useful?
-
-For example, some of your views might need a few javascript tags and
-stylesheets, but you don't want to force this files in all your pages.
-Then you can put `<%= yield_content "scripts_and_styles" %>` on your
-layout, inside the `<head>` tag, and each view can call `content_for`
-setting the appropriate set of tags that should be added to the layout.
+This is useful because some of your views may need specific JavaScript tags or
+stylesheets and you don't want to use these tags in all of your pages.
+To solve this problem, you can use `<%= yield_content "scripts_and_styles" %>` in
+your `layout.ecr`, inside the `<head>` tag, and each view can call `content_for`
+with the appropriate set of tags that should be added to the layout.
 
 ## Using Common Paths
 
@@ -328,7 +336,7 @@ _Note: `authorized?` and `Session.new` are fictitious calls used to illustrate t
 
 ### Browser Redirect
 
-Just like other things in `kemal`, browser redirection is super simple as well. Use `environment` variable in defined route's corresponding block and call `redirect` on it.
+Browser redirects are simple as well. Simply call `env.redirect` in the route's corresponding block.
 
 ```ruby
 # Redirect browser
@@ -348,7 +356,7 @@ public_folder "path/to/your/folder"
 
 ### Logging
 
-Kemal enables logging by default. You can use `logging` helper to disable it.
+Kemal enables logging by default. You can easily disable this like so:
 
 ```ruby
 logging false
@@ -364,7 +372,7 @@ halt env, status_code: 403, response: "Forbidden"
 
 ### Custom Errors
 
-You can customize the built-in error pages or even add your own with `error.
+You can customize the built-in error pages or even add your own with `error`.
 
 ```ruby
 error 404 do
@@ -391,15 +399,15 @@ Optionally you can override the mime_type
 send_file env, "./path/to/file", "image/jpeg"
 ```
 
-# [Middlewares](#middlewares)
+# [Middleware](#middleware)
 
-Middlewares a.k.a `Handler`s are the building blocks of `Kemal`. It lets you seperate your concerns into different layers.
+Middleware, also known as `Handler`s, are the building blocks of `Kemal`. Middleware lets you separate application concerns into different layers.
 
-Each middleware is supposed to have one responsibility. Take a look at `Kemal`'s built-in middlewares to see what that means.
+Each middleware is supposed to have one responsibility. Take a look at `Kemal`'s built-in middleware to see what that means.
 
 ## Creating your own middleware
 
-You can create your own middleware by inheriting from ```Kemal::Handler```
+You can create your own middleware by inheriting from `Kemal::Handler`
 
 ```ruby
 class CustomHandler < Kemal::Handler
@@ -490,9 +498,9 @@ Kemal.config.logger = MyCustomLogger.new
 
 That's it!
 
-### Kemal Middlewares
+### Kemal Middleware
 
-Kemal organization contains some useful middlewares
+The Kemal organization has a variety of useful middleware.
 
 - [kemal-basic-auth](https://github.com/kemalcr/kemal-basic-auth): Add HTTP Basic Authorization to your Kemal application.
 - [kemal-csrf](https://github.com/kemalcr/kemal-csrf): Add CSRF protection to your Kemal application.
@@ -530,10 +538,10 @@ end
 ```
 
 ### POST / Form Parameters
-Kemal has a few options for accessing post parameters. You can easily access JSON payload from the params, or through the standard post body.
+Kemal has a few options for accessing post parameters. You can easily access JSON payload from the parameters, or through the standard post body.
 
-For JSON params, you use `env.params.json`.
-For body params, you use `env.params.body`.
+For JSON parameters, use `env.params.json`.
+For body parameters, use `env.params.body`.
 
 ```ruby
 # The request content type needs to be application/json
@@ -554,11 +562,11 @@ post "/body_params" do |env|
 end
 ```
 
-**NOTE:** For Array or Hash like params, Kemal will group like keys for you. Alternatively, you can use the square bracket notation `likes[]=ruby&likes[]=crystal`. Be sure to access the param name exactly how it was passed. (i.e. `env.params.body["likes[]"]`).
+**NOTE:** For Array or Hash like parameters, Kemal will group like keys for you. Alternatively, you can use the square bracket notation `likes[]=ruby&likes[]=crystal`. Be sure to access the param name exactly how it was passed. (i.e. `env.params.body["likes[]"]`).
 
 # [HTTP Request / Response Context](#context)
 
-Accessing the HTTP request/response context (query params, body, content_type, headers, status_code) is super easy. You can use the context returned from the block:
+Accessing the HTTP request/response context (query paremeters, body, content_type, headers, status_code) is super easy. You can use the context returned from the block:
 
 ```ruby
 # Matches /hello/kemal
@@ -573,7 +581,7 @@ get "/resize" do |env|
   height = env.params.query["height"]
 end
 
-# Easily access JSON payload from the params.
+# Easily access JSON payload from the parameters.
 # The request content type needs to be application/json
 # The payload
 # {"name": "Serdar", "likes": ["Ruby", "Crystal"]}
@@ -599,8 +607,7 @@ end
 
 ### Context Storage
 
-Context is pretty useful. You can use `context` to store some variables and access them later at some point. Each stored value only exist in the lifetime of request / response cycle.
-This pretty useful for sharing states between middlewares, filters e.g
+Contexts are useful for sharing states between filters and middleware. You can use `context` to store some variables and access them later at some point. Each stored value only exist in the lifetime of request / response cycle.
 
 ```ruby
 before_get "/" do |env|
@@ -627,7 +634,7 @@ Some common request information is available at `env.request.*`:
   - e.g. `HTTP/1.1`
 - **path** - the uri path
   - e.g. `http://kemalcr.com/docs/context?lang=cr` => `/docs/context`
-- **resource** - the uri path and query params
+- **resource** - the uri path and query parameters
   - e.g. `http://kemalcr.com/docs/context?lang=cr` => `/docs/context?lang=cr`
 - **cookies**
   - e.g. `env.request.cookies["cookie_name"].value`
@@ -639,7 +646,7 @@ File uploads can be accessed from request `params` like `env.params.files["filen
 It has the following methods
 
 - `tmpfile`: This is temporary file for file upload. Useful for saving the upload file.
-- `filename`: File name of the file upload. (logo.png, images.zip e.g)
+- `filename`: File name of the file upload. (logo.png, images.zip, etc.)
 - `headers`: Headers for the file upload.
 - `creation_time`: Creation time of the file upload.
 - `modification_time`: Last Modification time of the file upload.
@@ -692,15 +699,15 @@ Kemal.run
 ```
 
 `kemal-session` has a generic API to multiple storage engines. The default storage engine is `MemoryEngine` which stores the sessions in process memory.
-It's ***only recommended*** to use `MemoryEngine` for development and test purposes.
+You should ***only*** use `MemoryEngine` for development and testing purposes.
 
-Please check [kemal-session](https://github.com/kemalcr/kemal-session) for usage and compatible storage engines.
+See [kemal-session](https://github.com/kemalcr/kemal-session) for usage and compatible storage engines.
 
 # [WebSockets](#websockets)
 
-Using *Websockets* is super easy!
+Using *Websockets* with Kemal is super easy!
 
-You can easily create a `WebSocket` handler which matches the route of `ws://host:port/route`. You can create more than 1 websocket handler
+You can create a `WebSocket` handler which matches the route of `ws://host:port/route`. You can create more than 1 websocket handler
 with different routes.
 
 ```ruby
@@ -824,15 +831,15 @@ You can cross-compile a Kemal app by using this [guide](http://crystal-lang.org/
 
 # [Environment](#environment)
 
-Kemal respects `KEMAL_ENV` environment variable and `Kemal.config.env`. By default this is `development`.
+Kemal respects the `KEMAL_ENV` environment variable and `Kemal.config.env`. It is set to `development` by default.
 
-To change
+To change this value to `production`, for example, use:
 
 ```
 $ export KEMAL_ENV=production
 ```
 
-or in your code
+If you prefer to do this from within your application, use:
 
 ```ruby
 Kemal.config.env = "production"
