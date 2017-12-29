@@ -40,18 +40,13 @@
       
     </li>
   
-  <li class=" " data-id="github.com/kemalcr/kemal/Kemal/CommonExceptionHandler" data-name="kemal::commonexceptionhandler">
-      <a href="../Kemal/CommonExceptionHandler.html">CommonExceptionHandler</a>
-      
-    </li>
-  
-  <li class=" " data-id="github.com/kemalcr/kemal/Kemal/CommonLogHandler" data-name="kemal::commonloghandler">
-      <a href="../Kemal/CommonLogHandler.html">CommonLogHandler</a>
-      
-    </li>
-  
   <li class=" " data-id="github.com/kemalcr/kemal/Kemal/Config" data-name="kemal::config">
       <a href="../Kemal/Config.html">Config</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/kemalcr/kemal/Kemal/ExceptionHandler" data-name="kemal::exceptionhandler">
+      <a href="../Kemal/ExceptionHandler.html">ExceptionHandler</a>
       
     </li>
   
@@ -90,6 +85,11 @@
       
     </li>
   
+  <li class=" " data-id="github.com/kemalcr/kemal/Kemal/LogHandler" data-name="kemal::loghandler">
+      <a href="../Kemal/LogHandler.html">LogHandler</a>
+      
+    </li>
+  
   <li class=" " data-id="github.com/kemalcr/kemal/Kemal/NullLogHandler" data-name="kemal::nullloghandler">
       <a href="../Kemal/NullLogHandler.html">NullLogHandler</a>
       
@@ -125,6 +125,11 @@
       
     </li>
   
+  <li class=" " data-id="github.com/kemalcr/kemal/Kemal/WebSocket" data-name="kemal::websocket">
+      <a href="../Kemal/WebSocket.html">WebSocket</a>
+      
+    </li>
+  
   <li class=" " data-id="github.com/kemalcr/kemal/Kemal/WebSocketHandler" data-name="kemal::websockethandler">
       <a href="../Kemal/WebSocketHandler.html">WebSocketHandler</a>
       
@@ -154,8 +159,9 @@
 
   <h2>Overview</h2>
 
-  <p><code><a href="../Kemal/Handler.html">Kemal::Handler</a></code> is a subclass of <code>HTTP::Handler</code>.
-It adds <code><a href="../Kemal/Handler.html#only%28paths%2Cmethod%3D%22GET%22%29-macro">only</a></code>, <code><a href="../Kemal/Handler.html#only_match%3F%28env%3AHTTP%3A%3AServer%3A%3AContext%29-instance-method">#only_match?</a></code>, <code><a href="../Kemal/Handler.html#exclude%28paths%2Cmethod%3D%22GET%22%29-macro">exclude</a></code>, <code><a href="../Kemal/Handler.html#exclude_match%3F%28env%3AHTTP%3A%3AServer%3A%3AContext%29-instance-method">#exclude_match?</a></code>.
+  <p><code><a href="../Kemal/Handler.html">Kemal::Handler</a></code> is a subclass of <code>HTTP::Handler</code>.</p>
+
+<p>It adds <code><a href="../Kemal/Handler.html#only%28paths%2Cmethod%3D%22GET%22%29-macro">only</a></code>, <code><a href="../Kemal/Handler.html#only_match%3F%28env%3AHTTP%3A%3AServer%3A%3AContext%29-instance-method">#only_match?</a></code>, <code><a href="../Kemal/Handler.html#exclude%28paths%2Cmethod%3D%22GET%22%29-macro">exclude</a></code>, <code><a href="../Kemal/Handler.html#exclude_match%3F%28env%3AHTTP%3A%3AServer%3A%3AContext%29-instance-method">#exclude_match?</a></code>.
 These methods are useful for custom handlers for conditional execution.</p>
 
 
@@ -181,7 +187,7 @@ These methods are useful for custom handlers for conditional execution.</p>
   <h2>Defined in:</h2>
   
     
-      <a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/handler.cr#L5" target="_blank">kemal/handler.cr</a>
+      <a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/handler.cr#L6" target="_blank">kemal/handler.cr</a>
     
     <br/>
   
@@ -278,7 +284,7 @@ These methods are useful for custom handlers for conditional execution.</p>
 
   <h2>Instance Method Detail</h2>
   
-    <div class="entry-detail" id="call&#40;env:HTTP::Server::Context&#41;-instance-method">
+    <div class="entry-detail" id="call(env:HTTP::Server::Context)-instance-method">
       <div class="signature">
         
         def <strong>call</strong>(env : <a href="../HTTP/Server/Context.html">HTTP::Server::Context</a>)
@@ -289,12 +295,12 @@ These methods are useful for custom handlers for conditional execution.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/handler.cr#L24" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/handler.cr#L25" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="exclude_match?&#40;env:HTTP::Server::Context&#41;-instance-method">
+    <div class="entry-detail" id="exclude_match?(env:HTTP::Server::Context)-instance-method">
       <div class="signature">
         
         def <strong>exclude_match?</strong>(env : <a href="../HTTP/Server/Context.html">HTTP::Server::Context</a>)
@@ -321,12 +327,12 @@ to next handler.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/handler.cr#L62" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/handler.cr#L67" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="only_match?&#40;env:HTTP::Server::Context&#41;-instance-method">
+    <div class="entry-detail" id="only_match?(env:HTTP::Server::Context)-instance-method">
       <div class="signature">
         
         def <strong>only_match?</strong>(env : <a href="../HTTP/Server/Context.html">HTTP::Server::Context</a>)
@@ -353,7 +359,7 @@ to next handler.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/handler.cr#L43" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/handler.cr#L46" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -363,7 +369,7 @@ to next handler.</p>
 
   <h2>Macro Detail</h2>
   
-    <div class="entry-detail" id="exclude&#40;paths,method&#61;&quot;GET&quot;&#41;-macro">
+    <div class="entry-detail" id="exclude(paths,method=&quot;GET&quot;)-macro">
       <div class="signature">
         
         macro <strong>exclude</strong>(paths, method = "GET")
@@ -374,12 +380,12 @@ to next handler.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/handler.cr#L17" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/handler.cr#L18" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="only&#40;paths,method&#61;&quot;GET&quot;&#41;-macro">
+    <div class="entry-detail" id="only(paths,method=&quot;GET&quot;)-macro">
       <div class="signature">
         
         macro <strong>only</strong>(paths, method = "GET")
@@ -390,7 +396,7 @@ to next handler.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/handler.cr#L10" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/handler.cr#L11" target="_blank">View source</a>]
         
       </div>
     </div>

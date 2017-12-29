@@ -40,18 +40,13 @@
       
     </li>
   
-  <li class=" " data-id="github.com/kemalcr/kemal/Kemal/CommonExceptionHandler" data-name="kemal::commonexceptionhandler">
-      <a href="../Kemal/CommonExceptionHandler.html">CommonExceptionHandler</a>
-      
-    </li>
-  
-  <li class=" " data-id="github.com/kemalcr/kemal/Kemal/CommonLogHandler" data-name="kemal::commonloghandler">
-      <a href="../Kemal/CommonLogHandler.html">CommonLogHandler</a>
-      
-    </li>
-  
   <li class=" " data-id="github.com/kemalcr/kemal/Kemal/Config" data-name="kemal::config">
       <a href="../Kemal/Config.html">Config</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/kemalcr/kemal/Kemal/ExceptionHandler" data-name="kemal::exceptionhandler">
+      <a href="../Kemal/ExceptionHandler.html">ExceptionHandler</a>
       
     </li>
   
@@ -90,6 +85,11 @@
       
     </li>
   
+  <li class=" " data-id="github.com/kemalcr/kemal/Kemal/LogHandler" data-name="kemal::loghandler">
+      <a href="../Kemal/LogHandler.html">LogHandler</a>
+      
+    </li>
+  
   <li class=" " data-id="github.com/kemalcr/kemal/Kemal/NullLogHandler" data-name="kemal::nullloghandler">
       <a href="../Kemal/NullLogHandler.html">NullLogHandler</a>
       
@@ -125,6 +125,11 @@
       
     </li>
   
+  <li class=" " data-id="github.com/kemalcr/kemal/Kemal/WebSocket" data-name="kemal::websocket">
+      <a href="../Kemal/WebSocket.html">WebSocket</a>
+      
+    </li>
+  
   <li class=" " data-id="github.com/kemalcr/kemal/Kemal/WebSocketHandler" data-name="kemal::websockethandler">
       <a href="../Kemal/WebSocketHandler.html">WebSocketHandler</a>
       
@@ -154,9 +159,9 @@
 
   <h2>Overview</h2>
 
-  <p>ParamParser parses the request contents including query_params and body
-and converts them into a params hash which you can within the environment
-context.</p>
+  <p>Parses the request contents including query_params and body
+and converts them into a params hash which you can use within
+the environment context.</p>
 
 
 
@@ -174,7 +179,7 @@ context.</p>
   <h2>Defined in:</h2>
   
     
-      <a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/param_parser.cr#L5" target="_blank">kemal/param_parser.cr</a>
+      <a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/param_parser.cr#L5" target="_blank">kemal/param_parser.cr</a>
     
     <br/>
   
@@ -193,6 +198,11 @@ context.</p>
     
       <dt class="entry-const" id="MULTIPART_FORM">
         <strong>MULTIPART_FORM</strong> = <code><span class="s">&quot;multipart/form-data&quot;</span></code>
+      </dt>
+      
+    
+      <dt class="entry-const" id="PARTS">
+        <strong>PARTS</strong> = <code>[<span class="s">&quot;url&quot;</span>, <span class="s">&quot;query&quot;</span>, <span class="s">&quot;body&quot;</span>, <span class="s">&quot;json&quot;</span>] <span class="k">of</span> <span class="t">::</span><span class="t">String</span></code>
       </dt>
       
     
@@ -280,7 +290,7 @@ context.</p>
 
   <h2>Constructor Detail</h2>
   
-    <div class="entry-detail" id="new&#40;request:HTTP::Request&#41;-class-method">
+    <div class="entry-detail" id="new(request:HTTP::Request)-class-method">
       <div class="signature">
         
         def self.<strong>new</strong>(request : <a href="../HTTP/Request.html">HTTP::Request</a>)
@@ -291,7 +301,7 @@ context.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/param_parser.cr#L13" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/param_parser.cr#L14" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -314,12 +324,12 @@ context.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/param_parser.cr#L31" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/param_parser.cr#L32" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="files:Hash&#40;String,Kemal::FileUpload&#41;-instance-method">
+    <div class="entry-detail" id="files:Hash(String,Kemal::FileUpload)-instance-method">
       <div class="signature">
         
         def <strong>files</strong> : Hash(String, Kemal::FileUpload)
@@ -330,7 +340,7 @@ context.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/param_parser.cr#L11" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/param_parser.cr#L12" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -346,7 +356,7 @@ context.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/param_parser.cr#L31" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/param_parser.cr#L32" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -362,7 +372,7 @@ context.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/param_parser.cr#L31" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/param_parser.cr#L32" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -378,7 +388,7 @@ context.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/param_parser.cr#L31" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/param_parser.cr#L32" target="_blank">View source</a>]
         
       </div>
     </div>

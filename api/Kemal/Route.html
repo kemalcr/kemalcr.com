@@ -40,18 +40,13 @@
       
     </li>
   
-  <li class=" " data-id="github.com/kemalcr/kemal/Kemal/CommonExceptionHandler" data-name="kemal::commonexceptionhandler">
-      <a href="../Kemal/CommonExceptionHandler.html">CommonExceptionHandler</a>
-      
-    </li>
-  
-  <li class=" " data-id="github.com/kemalcr/kemal/Kemal/CommonLogHandler" data-name="kemal::commonloghandler">
-      <a href="../Kemal/CommonLogHandler.html">CommonLogHandler</a>
-      
-    </li>
-  
   <li class=" " data-id="github.com/kemalcr/kemal/Kemal/Config" data-name="kemal::config">
       <a href="../Kemal/Config.html">Config</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/kemalcr/kemal/Kemal/ExceptionHandler" data-name="kemal::exceptionhandler">
+      <a href="../Kemal/ExceptionHandler.html">ExceptionHandler</a>
       
     </li>
   
@@ -90,6 +85,11 @@
       
     </li>
   
+  <li class=" " data-id="github.com/kemalcr/kemal/Kemal/LogHandler" data-name="kemal::loghandler">
+      <a href="../Kemal/LogHandler.html">LogHandler</a>
+      
+    </li>
+  
   <li class=" " data-id="github.com/kemalcr/kemal/Kemal/NullLogHandler" data-name="kemal::nullloghandler">
       <a href="../Kemal/NullLogHandler.html">NullLogHandler</a>
       
@@ -125,6 +125,11 @@
       
     </li>
   
+  <li class=" " data-id="github.com/kemalcr/kemal/Kemal/WebSocket" data-name="kemal::websocket">
+      <a href="../Kemal/WebSocket.html">WebSocket</a>
+      
+    </li>
+  
   <li class=" " data-id="github.com/kemalcr/kemal/Kemal/WebSocketHandler" data-name="kemal::websockethandler">
       <a href="../Kemal/WebSocketHandler.html">WebSocketHandler</a>
       
@@ -154,8 +159,9 @@
 
   <h2>Overview</h2>
 
-  <p>Route is the main building block of Kemal.
-It takes 3 parameters: Method, path and a block to specify
+  <p>Route is the main building block of Kemal.</p>
+
+<p>It takes 3 parameters: http <em>method</em>, <em>path</em> and a <em>handler</em> to specify
 what action to be done if the route is matched.</p>
 
 
@@ -174,7 +180,7 @@ what action to be done if the route is matched.</p>
   <h2>Defined in:</h2>
   
     
-      <a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/route.cr#L5" target="_blank">kemal/route.cr</a>
+      <a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/route.cr#L6" target="_blank">kemal/route.cr</a>
     
     <br/>
   
@@ -258,7 +264,7 @@ what action to be done if the route is matched.</p>
 
   <h2>Constructor Detail</h2>
   
-    <div class="entry-detail" id="new&#40;method:String,path:String,&amp;handler:HTTP::Server::Context-&gt;_&#41;-class-method">
+    <div class="entry-detail" id="new(method:String,path:String,&amp;handler:HTTP::Server::Context-&gt;_)-class-method">
       <div class="signature">
         
         def self.<strong>new</strong>(method : String, path : String, &handler : <a href="../HTTP/Server/Context.html">HTTP::Server::Context</a> -> _)
@@ -269,7 +275,7 @@ what action to be done if the route is matched.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/route.cr#L10" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/route.cr#L10" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -292,7 +298,7 @@ what action to be done if the route is matched.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/route.cr#L6" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/route.cr#L7" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -308,7 +314,7 @@ what action to be done if the route is matched.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/route.cr#L6" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/route.cr#L7" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -324,7 +330,7 @@ what action to be done if the route is matched.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/route.cr#L6" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/route.cr#L7" target="_blank">View source</a>]
         
       </div>
     </div>

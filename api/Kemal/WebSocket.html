@@ -5,7 +5,7 @@
   <meta id="repository-name" content="github.com/kemalcr/kemal">
   <link href="../css/style.css" rel="stylesheet" type="text/css" />
   <script type="text/javascript" src="../js/doc.js"></script>
-  <title>Kemal::InitHandler - github.com/kemalcr/kemal</title>
+  <title>Kemal::WebSocket - github.com/kemalcr/kemal</title>
 </head>
 <body>
 
@@ -80,7 +80,7 @@
       
     </li>
   
-  <li class=" current" data-id="github.com/kemalcr/kemal/Kemal/InitHandler" data-name="kemal::inithandler">
+  <li class=" " data-id="github.com/kemalcr/kemal/Kemal/InitHandler" data-name="kemal::inithandler">
       <a href="../Kemal/InitHandler.html">InitHandler</a>
       
     </li>
@@ -125,7 +125,7 @@
       
     </li>
   
-  <li class=" " data-id="github.com/kemalcr/kemal/Kemal/WebSocket" data-name="kemal::websocket">
+  <li class=" current" data-id="github.com/kemalcr/kemal/Kemal/WebSocket" data-name="kemal::websocket">
       <a href="../Kemal/WebSocket.html">WebSocket</a>
       
     </li>
@@ -147,31 +147,24 @@
 <div id="main-content">
 <h1 class="type-name">
 
-  <span class="kind">class</span> Kemal::InitHandler
+  <span class="kind">class</span> Kemal::WebSocket
 
 </h1>
 
 
-  <ul class="superclass-hierarchy"><li class="superclass"><a href="../Kemal/InitHandler.html">Kemal::InitHandler</a></li><li class="superclass">Reference</li><li class="superclass">Object</li></ul>
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="../Kemal/WebSocket.html">Kemal::WebSocket</a></li><li class="superclass">HTTP::WebSocketHandler</li><li class="superclass">Reference</li><li class="superclass">Object</li></ul>
 
 
 
 
   <h2>Overview</h2>
 
-  <p>Initializes the context with default values, such as
-<em>Content-Type</em> or <em>X-Powered-By</em> headers.</p>
+  <p>Takes 2 parameters: <em>path</em> and a <em>handler</em> to specify
+what action to be done if the route is matched.</p>
 
 
 
 
-
-  <h2>Included Modules</h2>
-  <ul class="other-types-list">
-  
-    <li class="other-type">HTTP::Handler</li>
-  
-  </ul>
 
 
 
@@ -185,26 +178,24 @@
   <h2>Defined in:</h2>
   
     
-      <a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/init_handler.cr#L4" target="_blank">kemal/init_handler.cr</a>
+      <a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/websocket.cr#L4" target="_blank">kemal/websocket.cr</a>
     
     <br/>
   
 
 
 
-  
-    <h2>Constant Summary</h2>
-  
-  <dl>
-    
-      <dt class="entry-const" id="INSTANCE">
-        <strong>INSTANCE</strong> = <code><span class="k">new</span></code>
-      </dt>
-      
-    
-  </dl>
 
 
+  <h2>Constructors</h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#new%28path%3AString%2C%26proc%3AHTTP%3A%3AWebSocket%2CHTTP%3A%3AServer%3A%3AContext-%3EVoid%29-class-method" class="signature"><strong>.new</strong>(path : String, &proc : HTTP::WebSocket, HTTP::Server::Context -> Void)</a>
+        
+      </li>
+    
+  </ul>
 
 
 
@@ -215,6 +206,11 @@
     
       <li class="entry-summary">
         <a href="#call%28context%3AHTTP%3A%3AServer%3A%3AContext%29-instance-method" class="signature"><strong>#call</strong>(context : HTTP::Server::Context)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#proc%3AHTTP%3A%3AWebSocket%2CHTTP%3A%3AServer%3A%3AContext-%3ENil-instance-method" class="signature"><strong>#proc</strong> : HTTP::WebSocket, HTTP::Server::Context -> Nil</a>
         
       </li>
     
@@ -256,8 +252,37 @@
 
 
   
+    
+
+
+    
+
+
+    
+
+
+  
 </div>
 
+
+  <h2>Constructor Detail</h2>
+  
+    <div class="entry-detail" id="new(path:String,&amp;proc:HTTP::WebSocket,HTTP::Server::Context-&gt;Void)-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(path : String, &proc : HTTP::WebSocket, <a href="../HTTP/Server/Context.html">HTTP::Server::Context</a> -> Void)
+
+        <a class="method-permalink" href="#new%28path%3AString%2C%26proc%3AHTTP%3A%3AWebSocket%2CHTTP%3A%3AServer%3A%3AContext-%3EVoid%29-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/websocket.cr#L7" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
 
 
 
@@ -276,7 +301,23 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/init_handler.cr#L8" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/websocket.cr#L10" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="proc:HTTP::WebSocket,HTTP::Server::Context-&gt;Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>proc</strong> : HTTP::WebSocket, <a href="../HTTP/Server/Context.html">HTTP::Server::Context</a> -> Nil
+
+        <a class="method-permalink" href="#proc%3AHTTP%3A%3AWebSocket%2CHTTP%3A%3AServer%3A%3AContext-%3ENil-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/websocket.cr#L5" target="_blank">View source</a>]
         
       </div>
     </div>

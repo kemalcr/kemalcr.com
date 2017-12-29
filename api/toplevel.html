@@ -40,18 +40,13 @@
       
     </li>
   
-  <li class=" " data-id="github.com/kemalcr/kemal/Kemal/CommonExceptionHandler" data-name="kemal::commonexceptionhandler">
-      <a href="Kemal/CommonExceptionHandler.html">CommonExceptionHandler</a>
-      
-    </li>
-  
-  <li class=" " data-id="github.com/kemalcr/kemal/Kemal/CommonLogHandler" data-name="kemal::commonloghandler">
-      <a href="Kemal/CommonLogHandler.html">CommonLogHandler</a>
-      
-    </li>
-  
   <li class=" " data-id="github.com/kemalcr/kemal/Kemal/Config" data-name="kemal::config">
       <a href="Kemal/Config.html">Config</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/kemalcr/kemal/Kemal/ExceptionHandler" data-name="kemal::exceptionhandler">
+      <a href="Kemal/ExceptionHandler.html">ExceptionHandler</a>
       
     </li>
   
@@ -90,6 +85,11 @@
       
     </li>
   
+  <li class=" " data-id="github.com/kemalcr/kemal/Kemal/LogHandler" data-name="kemal::loghandler">
+      <a href="Kemal/LogHandler.html">LogHandler</a>
+      
+    </li>
+  
   <li class=" " data-id="github.com/kemalcr/kemal/Kemal/NullLogHandler" data-name="kemal::nullloghandler">
       <a href="Kemal/NullLogHandler.html">NullLogHandler</a>
       
@@ -122,6 +122,11 @@
   
   <li class=" " data-id="github.com/kemalcr/kemal/Kemal/Utils" data-name="kemal::utils">
       <a href="Kemal/Utils.html">Utils</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/kemalcr/kemal/Kemal/WebSocket" data-name="kemal::websocket">
+      <a href="Kemal/WebSocket.html">WebSocket</a>
       
     </li>
   
@@ -188,8 +193,9 @@
       </dt>
       
       <dd class="entry-const-doc">
-        <p>Kemal DSL is defined here and it's baked into global scope.
-The DSL currently consists of</p>
+        <p>Kemal DSL is defined here and it's baked into global scope.</p>
+
+<p>The DSL currently consists of:</p>
 
 <ul><li>get post put patch delete options</li><li>WebSocket(ws)</li><li>before_*</li><li>error</li></ul>
       </dd>
@@ -207,7 +213,7 @@ The DSL currently consists of</p>
       <li class="entry-summary">
         <a href="#add_handler%28handler%3AHTTP%3A%3AHandler%29-class-method" class="signature"><strong>add_handler</strong>(handler : HTTP::Handler)</a>
         
-          <div class="summary"><p>Adds given Kemal::Handler to handlers chain.</p></div>
+          <div class="summary"><p>Adds given <code><a href="Kemal/Handler.html">Kemal::Handler</a></code> to handlers chain.</p></div>
         
       </li>
     
@@ -325,7 +331,7 @@ The DSL currently consists of</p>
       <li class="entry-summary">
         <a href="#logger%28logger%3AKemal%3A%3ABaseLogHandler%29-class-method" class="signature"><strong>logger</strong>(logger : Kemal::BaseLogHandler)</a>
         
-          <div class="summary"><p>This is used to replace the built-in <code><a href="Kemal/CommonLogHandler.html">Kemal::CommonLogHandler</a></code> with a custom logger.</p></div>
+          <div class="summary"><p>This is used to replace the built-in <code><a href="Kemal/LogHandler.html">Kemal::LogHandler</a></code> with a custom logger.</p></div>
         
       </li>
     
@@ -470,7 +476,7 @@ The DSL currently consists of</p>
 
   <h2>Method Detail</h2>
   
-    <div class="entry-detail" id="add_handler&#40;handler:HTTP::Handler&#41;-class-method">
+    <div class="entry-detail" id="add_handler(handler:HTTP::Handler)-class-method">
       <div class="signature">
         
         def <strong>add_handler</strong>(handler : HTTP::Handler)
@@ -478,21 +484,21 @@ The DSL currently consists of</p>
         <a class="method-permalink" href="#add_handler%28handler%3AHTTP%3A%3AHandler%29-class-method">#</a>
       </div>
       
-        <div class="doc"><p>Adds given Kemal::Handler to handlers chain.
+        <div class="doc"><p>Adds given <code><a href="Kemal/Handler.html">Kemal::Handler</a></code> to handlers chain.
 There are 5 handlers by default and all the custom handlers
 goes between the first 4 and the last <code><a href="Kemal/RouteHandler.html">Kemal::RouteHandler</a></code>.</p>
 
-<ul><li>Kemal::InitHandler</li><li>Kemal::CommonLogHandler</li><li>Kemal::CommonExceptionHandler</li><li>Kemal::StaticFileHandler</li><li>Here goes custom handlers</li><li>Kemal::RouteHandler</li></ul></div>
+<ul><li><code><a href="Kemal/InitHandler.html">Kemal::InitHandler</a></code></li><li><code><a href="Kemal/LogHandler.html">Kemal::LogHandler</a></code></li><li><code><a href="Kemal/ExceptionHandler.html">Kemal::ExceptionHandler</a></code></li><li><code><a href="Kemal/StaticFileHandler.html">Kemal::StaticFileHandler</a></code></li><li>Here goes custom handlers</li><li><code><a href="Kemal/RouteHandler.html">Kemal::RouteHandler</a></code></li></ul></div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/helpers/helpers.cr#L11" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/helpers/helpers.cr#L11" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="add_handler&#40;handler:HTTP::Handler,position:Int32&#41;-class-method">
+    <div class="entry-detail" id="add_handler(handler:HTTP::Handler,position:Int32)-class-method">
       <div class="signature">
         
         def <strong>add_handler</strong>(handler : HTTP::Handler, position : Int32)
@@ -503,12 +509,12 @@ goes between the first 4 and the last <code><a href="Kemal/RouteHandler.html">Ke
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/helpers/helpers.cr#L15" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/helpers/helpers.cr#L15" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="after_all&#40;path:String&#61;&amp;quot;*&amp;quot;,&amp;block:HTTP::Server::Context-&gt;_&#41;-class-method">
+    <div class="entry-detail" id="after_all(path:String=&amp;quot;*&amp;quot;,&amp;block:HTTP::Server::Context-&gt;_)-class-method">
       <div class="signature">
         
         def <strong>after_all</strong>(path : String = <span class="s">&quot;*&quot;</span>, &block : <a href="HTTP/Server/Context.html">HTTP::Server::Context</a> -> _)
@@ -519,12 +525,12 @@ goes between the first 4 and the last <code><a href="Kemal/RouteHandler.html">Ke
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/dsl.cr#L29" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/dsl.cr#L31" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="after_delete&#40;path:String&#61;&amp;quot;*&amp;quot;,&amp;block:HTTP::Server::Context-&gt;_&#41;-class-method">
+    <div class="entry-detail" id="after_delete(path:String=&amp;quot;*&amp;quot;,&amp;block:HTTP::Server::Context-&gt;_)-class-method">
       <div class="signature">
         
         def <strong>after_delete</strong>(path : String = <span class="s">&quot;*&quot;</span>, &block : <a href="HTTP/Server/Context.html">HTTP::Server::Context</a> -> _)
@@ -535,12 +541,12 @@ goes between the first 4 and the last <code><a href="Kemal/RouteHandler.html">Ke
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/dsl.cr#L29" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/dsl.cr#L31" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="after_get&#40;path:String&#61;&amp;quot;*&amp;quot;,&amp;block:HTTP::Server::Context-&gt;_&#41;-class-method">
+    <div class="entry-detail" id="after_get(path:String=&amp;quot;*&amp;quot;,&amp;block:HTTP::Server::Context-&gt;_)-class-method">
       <div class="signature">
         
         def <strong>after_get</strong>(path : String = <span class="s">&quot;*&quot;</span>, &block : <a href="HTTP/Server/Context.html">HTTP::Server::Context</a> -> _)
@@ -551,12 +557,12 @@ goes between the first 4 and the last <code><a href="Kemal/RouteHandler.html">Ke
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/dsl.cr#L29" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/dsl.cr#L31" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="after_options&#40;path:String&#61;&amp;quot;*&amp;quot;,&amp;block:HTTP::Server::Context-&gt;_&#41;-class-method">
+    <div class="entry-detail" id="after_options(path:String=&amp;quot;*&amp;quot;,&amp;block:HTTP::Server::Context-&gt;_)-class-method">
       <div class="signature">
         
         def <strong>after_options</strong>(path : String = <span class="s">&quot;*&quot;</span>, &block : <a href="HTTP/Server/Context.html">HTTP::Server::Context</a> -> _)
@@ -567,12 +573,12 @@ goes between the first 4 and the last <code><a href="Kemal/RouteHandler.html">Ke
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/dsl.cr#L29" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/dsl.cr#L31" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="after_patch&#40;path:String&#61;&amp;quot;*&amp;quot;,&amp;block:HTTP::Server::Context-&gt;_&#41;-class-method">
+    <div class="entry-detail" id="after_patch(path:String=&amp;quot;*&amp;quot;,&amp;block:HTTP::Server::Context-&gt;_)-class-method">
       <div class="signature">
         
         def <strong>after_patch</strong>(path : String = <span class="s">&quot;*&quot;</span>, &block : <a href="HTTP/Server/Context.html">HTTP::Server::Context</a> -> _)
@@ -583,12 +589,12 @@ goes between the first 4 and the last <code><a href="Kemal/RouteHandler.html">Ke
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/dsl.cr#L29" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/dsl.cr#L31" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="after_post&#40;path:String&#61;&amp;quot;*&amp;quot;,&amp;block:HTTP::Server::Context-&gt;_&#41;-class-method">
+    <div class="entry-detail" id="after_post(path:String=&amp;quot;*&amp;quot;,&amp;block:HTTP::Server::Context-&gt;_)-class-method">
       <div class="signature">
         
         def <strong>after_post</strong>(path : String = <span class="s">&quot;*&quot;</span>, &block : <a href="HTTP/Server/Context.html">HTTP::Server::Context</a> -> _)
@@ -599,12 +605,12 @@ goes between the first 4 and the last <code><a href="Kemal/RouteHandler.html">Ke
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/dsl.cr#L29" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/dsl.cr#L31" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="after_put&#40;path:String&#61;&amp;quot;*&amp;quot;,&amp;block:HTTP::Server::Context-&gt;_&#41;-class-method">
+    <div class="entry-detail" id="after_put(path:String=&amp;quot;*&amp;quot;,&amp;block:HTTP::Server::Context-&gt;_)-class-method">
       <div class="signature">
         
         def <strong>after_put</strong>(path : String = <span class="s">&quot;*&quot;</span>, &block : <a href="HTTP/Server/Context.html">HTTP::Server::Context</a> -> _)
@@ -615,12 +621,12 @@ goes between the first 4 and the last <code><a href="Kemal/RouteHandler.html">Ke
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/dsl.cr#L29" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/dsl.cr#L31" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="before_all&#40;path:String&#61;&amp;quot;*&amp;quot;,&amp;block:HTTP::Server::Context-&gt;_&#41;-class-method">
+    <div class="entry-detail" id="before_all(path:String=&amp;quot;*&amp;quot;,&amp;block:HTTP::Server::Context-&gt;_)-class-method">
       <div class="signature">
         
         def <strong>before_all</strong>(path : String = <span class="s">&quot;*&quot;</span>, &block : <a href="HTTP/Server/Context.html">HTTP::Server::Context</a> -> _)
@@ -631,12 +637,12 @@ goes between the first 4 and the last <code><a href="Kemal/RouteHandler.html">Ke
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/dsl.cr#L29" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/dsl.cr#L31" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="before_delete&#40;path:String&#61;&amp;quot;*&amp;quot;,&amp;block:HTTP::Server::Context-&gt;_&#41;-class-method">
+    <div class="entry-detail" id="before_delete(path:String=&amp;quot;*&amp;quot;,&amp;block:HTTP::Server::Context-&gt;_)-class-method">
       <div class="signature">
         
         def <strong>before_delete</strong>(path : String = <span class="s">&quot;*&quot;</span>, &block : <a href="HTTP/Server/Context.html">HTTP::Server::Context</a> -> _)
@@ -647,12 +653,12 @@ goes between the first 4 and the last <code><a href="Kemal/RouteHandler.html">Ke
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/dsl.cr#L29" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/dsl.cr#L31" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="before_get&#40;path:String&#61;&amp;quot;*&amp;quot;,&amp;block:HTTP::Server::Context-&gt;_&#41;-class-method">
+    <div class="entry-detail" id="before_get(path:String=&amp;quot;*&amp;quot;,&amp;block:HTTP::Server::Context-&gt;_)-class-method">
       <div class="signature">
         
         def <strong>before_get</strong>(path : String = <span class="s">&quot;*&quot;</span>, &block : <a href="HTTP/Server/Context.html">HTTP::Server::Context</a> -> _)
@@ -663,12 +669,12 @@ goes between the first 4 and the last <code><a href="Kemal/RouteHandler.html">Ke
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/dsl.cr#L29" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/dsl.cr#L31" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="before_options&#40;path:String&#61;&amp;quot;*&amp;quot;,&amp;block:HTTP::Server::Context-&gt;_&#41;-class-method">
+    <div class="entry-detail" id="before_options(path:String=&amp;quot;*&amp;quot;,&amp;block:HTTP::Server::Context-&gt;_)-class-method">
       <div class="signature">
         
         def <strong>before_options</strong>(path : String = <span class="s">&quot;*&quot;</span>, &block : <a href="HTTP/Server/Context.html">HTTP::Server::Context</a> -> _)
@@ -679,12 +685,12 @@ goes between the first 4 and the last <code><a href="Kemal/RouteHandler.html">Ke
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/dsl.cr#L29" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/dsl.cr#L31" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="before_patch&#40;path:String&#61;&amp;quot;*&amp;quot;,&amp;block:HTTP::Server::Context-&gt;_&#41;-class-method">
+    <div class="entry-detail" id="before_patch(path:String=&amp;quot;*&amp;quot;,&amp;block:HTTP::Server::Context-&gt;_)-class-method">
       <div class="signature">
         
         def <strong>before_patch</strong>(path : String = <span class="s">&quot;*&quot;</span>, &block : <a href="HTTP/Server/Context.html">HTTP::Server::Context</a> -> _)
@@ -695,12 +701,12 @@ goes between the first 4 and the last <code><a href="Kemal/RouteHandler.html">Ke
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/dsl.cr#L29" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/dsl.cr#L31" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="before_post&#40;path:String&#61;&amp;quot;*&amp;quot;,&amp;block:HTTP::Server::Context-&gt;_&#41;-class-method">
+    <div class="entry-detail" id="before_post(path:String=&amp;quot;*&amp;quot;,&amp;block:HTTP::Server::Context-&gt;_)-class-method">
       <div class="signature">
         
         def <strong>before_post</strong>(path : String = <span class="s">&quot;*&quot;</span>, &block : <a href="HTTP/Server/Context.html">HTTP::Server::Context</a> -> _)
@@ -711,12 +717,12 @@ goes between the first 4 and the last <code><a href="Kemal/RouteHandler.html">Ke
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/dsl.cr#L29" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/dsl.cr#L31" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="before_put&#40;path:String&#61;&amp;quot;*&amp;quot;,&amp;block:HTTP::Server::Context-&gt;_&#41;-class-method">
+    <div class="entry-detail" id="before_put(path:String=&amp;quot;*&amp;quot;,&amp;block:HTTP::Server::Context-&gt;_)-class-method">
       <div class="signature">
         
         def <strong>before_put</strong>(path : String = <span class="s">&quot;*&quot;</span>, &block : <a href="HTTP/Server/Context.html">HTTP::Server::Context</a> -> _)
@@ -727,12 +733,12 @@ goes between the first 4 and the last <code><a href="Kemal/RouteHandler.html">Ke
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/dsl.cr#L29" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/dsl.cr#L31" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="delete&#40;path:String,&amp;block:HTTP::Server::Context-&gt;_&#41;-class-method">
+    <div class="entry-detail" id="delete(path:String,&amp;block:HTTP::Server::Context-&gt;_)-class-method">
       <div class="signature">
         
         def <strong>delete</strong>(path : String, &block : <a href="HTTP/Server/Context.html">HTTP::Server::Context</a> -> _)
@@ -743,12 +749,12 @@ goes between the first 4 and the last <code><a href="Kemal/RouteHandler.html">Ke
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/dsl.cr#L10" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/dsl.cr#L12" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="error&#40;status_code:Int32,&amp;block:HTTP::Server::Context,Exception-&gt;_&#41;-class-method">
+    <div class="entry-detail" id="error(status_code:Int32,&amp;block:HTTP::Server::Context,Exception-&gt;_)-class-method">
       <div class="signature">
         
         def <strong>error</strong>(status_code : Int32, &block : <a href="HTTP/Server/Context.html">HTTP::Server::Context</a>, Exception -> _)
@@ -759,12 +765,12 @@ goes between the first 4 and the last <code><a href="Kemal/RouteHandler.html">Ke
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/dsl.cr#L22" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/dsl.cr#L24" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="get&#40;path:String,&amp;block:HTTP::Server::Context-&gt;_&#41;-class-method">
+    <div class="entry-detail" id="get(path:String,&amp;block:HTTP::Server::Context-&gt;_)-class-method">
       <div class="signature">
         
         def <strong>get</strong>(path : String, &block : <a href="HTTP/Server/Context.html">HTTP::Server::Context</a> -> _)
@@ -775,12 +781,12 @@ goes between the first 4 and the last <code><a href="Kemal/RouteHandler.html">Ke
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/dsl.cr#L10" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/dsl.cr#L12" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="gzip&#40;status:Bool&#61;false&#41;-class-method">
+    <div class="entry-detail" id="gzip(status:Bool=false)-class-method">
       <div class="signature">
         
         def <strong>gzip</strong>(status : Bool = <span class="n">false</span>)
@@ -789,18 +795,19 @@ goes between the first 4 and the last <code><a href="Kemal/RouteHandler.html">Ke
       </div>
       
         <div class="doc"><p>Configures an <code><a href="HTTP/Server.html">HTTP::Server</a>::Response</code> to compress the response
-output, either using gzip or deflate, depending on the <code>Accept-Encoding</code> request header.
-It's disabled by default.</p></div>
+output, either using gzip or deflate, depending on the <code>Accept-Encoding</code> request header.</p>
+
+<p>Disabled by default.</p></div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/helpers/helpers.cr#L200" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/helpers/helpers.cr#L223" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="headers&#40;env:HTTP::Server::Context,additional_headers:Hash&#40;String,String&#41;&#41;-class-method">
+    <div class="entry-detail" id="headers(env:HTTP::Server::Context,additional_headers:Hash(String,String))-class-method">
       <div class="signature">
         
         def <strong>headers</strong>(env : <a href="HTTP/Server/Context.html">HTTP::Server::Context</a>, additional_headers : Hash(String, String))
@@ -811,21 +818,19 @@ It's disabled by default.</p></div>
         <div class="doc"><p>Helper for easily modifying response headers.
 This can be used to modify a response header with the given hash.</p>
 
-<p>def call(env)</p>
-
-<pre><code>headers(env, {<span class="s">&quot;custom-header&quot;</span> => <span class="s">&quot;This is a custom value&quot;</span>})</code></pre>
-
-<p>end</p></div>
+<pre><code><span class="k">def</span> <span class="m">call</span>(env)
+  headers(env, {<span class="s">&quot;X-Custom-Header&quot;</span> => <span class="s">&quot;This is a custom value&quot;</span>})
+<span class="k">end</span></code></pre></div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/helpers/helpers.cr#L84" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/helpers/helpers.cr#L96" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="log&#40;message:String&#41;-class-method">
+    <div class="entry-detail" id="log(message:String)-class-method">
       <div class="signature">
         
         def <strong>log</strong>(message : String)
@@ -834,17 +839,17 @@ This can be used to modify a response header with the given hash.</p>
       </div>
       
         <div class="doc"><p>Logs the output via <code><a href="toplevel.html#logger%28logger%3AKemal%3A%3ABaseLogHandler%29-class-method">logger</a></code>.
-This is the built-in <code><a href="Kemal/CommonLogHandler.html">Kemal::CommonLogHandler</a></code> by default which uses STDOUT.</p></div>
+This is the built-in <code><a href="Kemal/LogHandler.html">Kemal::LogHandler</a></code> by default which uses STDOUT.</p></div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/helpers/helpers.cr#L27" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/helpers/helpers.cr#L28" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="logger&#40;logger:Kemal::BaseLogHandler&#41;-class-method">
+    <div class="entry-detail" id="logger(logger:Kemal::BaseLogHandler)-class-method">
       <div class="signature">
         
         def <strong>logger</strong>(logger : <a href="Kemal/BaseLogHandler.html">Kemal::BaseLogHandler</a>)
@@ -852,38 +857,36 @@ This is the built-in <code><a href="Kemal/CommonLogHandler.html">Kemal::CommonLo
         <a class="method-permalink" href="#logger%28logger%3AKemal%3A%3ABaseLogHandler%29-class-method">#</a>
       </div>
       
-        <div class="doc"><p>This is used to replace the built-in <code><a href="Kemal/CommonLogHandler.html">Kemal::CommonLogHandler</a></code> with a custom logger.</p>
+        <div class="doc"><p>This is used to replace the built-in <code><a href="Kemal/LogHandler.html">Kemal::LogHandler</a></code> with a custom logger.</p>
 
 <p>A custom logger must inherit from <code><a href="Kemal/BaseLogHandler.html">Kemal::BaseLogHandler</a></code> and must implement
 <code>call(env)</code>, <code>write(message)</code> methods.</p>
 
-<p>class MyCustomLogger &lt; Kemal::BaseLogHandler</p>
+<pre><code><span class="k">class</span> <span class="t">MyCustomLogger</span> <span class="o"><</span> <span class="t">Kemal</span><span class="t">::</span><span class="t">BaseLogHandler</span>
+  <span class="k">def</span> <span class="m">call</span>(env)
+    puts <span class="s">&quot;I&#39;m logging some custom stuff here.&quot;</span>
+    call_next(env) <span class="c"># =&gt; This calls the next handler</span>
+  <span class="k">end</span>
 
-<pre><code><span class="k">def</span> <span class="m">call</span>(env)
-  puts <span class="s">&quot;I&#39;m logging some custom stuff here.&quot;</span>
-  call_next(env) <span class="c"># &#61;&gt; This calls the next handler</span>
-<span class="k">end</span>
-
-<span class="c"># This is used from &#96;log&#96; method.</span>
-<span class="k">def</span> <span class="m">write</span>(message)
-  <span class="t">STDERR</span>.puts message <span class="c"># &#61;&gt; Logs the output to STDERR</span>
+  <span class="c"># This is used from `log` method.</span>
+  <span class="k">def</span> <span class="m">write</span>(message)
+    <span class="t">STDERR</span>.puts message <span class="c"># =&gt; Logs the output to STDERR</span>
+  <span class="k">end</span>
 <span class="k">end</span></code></pre>
-
-<p>end</p>
 
 <p>Now that we have a custom logger here's how we use it</p>
 
-<p>logger MyCustomLogger.new</p></div>
+<pre><code>logger <span class="t">MyCustomLogger</span>.<span class="k">new</span></code></pre></div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/helpers/helpers.cr#L60" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/helpers/helpers.cr#L66" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="logging&#40;status:Bool&#41;-class-method">
+    <div class="entry-detail" id="logging(status:Bool)-class-method">
       <div class="signature">
         
         def <strong>logging</strong>(status : Bool)
@@ -894,17 +897,17 @@ This is the built-in <code><a href="Kemal/CommonLogHandler.html">Kemal::CommonLo
         <div class="doc"><p>Enables / Disables logging.
 This is enabled by default.</p>
 
-<p>logging false</p></div>
+<pre><code>logging <span class="n">false</span></code></pre></div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/helpers/helpers.cr#L35" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/helpers/helpers.cr#L38" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="options&#40;path:String,&amp;block:HTTP::Server::Context-&gt;_&#41;-class-method">
+    <div class="entry-detail" id="options(path:String,&amp;block:HTTP::Server::Context-&gt;_)-class-method">
       <div class="signature">
         
         def <strong>options</strong>(path : String, &block : <a href="HTTP/Server/Context.html">HTTP::Server::Context</a> -> _)
@@ -915,12 +918,12 @@ This is enabled by default.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/dsl.cr#L10" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/dsl.cr#L12" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="patch&#40;path:String,&amp;block:HTTP::Server::Context-&gt;_&#41;-class-method">
+    <div class="entry-detail" id="patch(path:String,&amp;block:HTTP::Server::Context-&gt;_)-class-method">
       <div class="signature">
         
         def <strong>patch</strong>(path : String, &block : <a href="HTTP/Server/Context.html">HTTP::Server::Context</a> -> _)
@@ -931,12 +934,12 @@ This is enabled by default.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/dsl.cr#L10" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/dsl.cr#L12" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="post&#40;path:String,&amp;block:HTTP::Server::Context-&gt;_&#41;-class-method">
+    <div class="entry-detail" id="post(path:String,&amp;block:HTTP::Server::Context-&gt;_)-class-method">
       <div class="signature">
         
         def <strong>post</strong>(path : String, &block : <a href="HTTP/Server/Context.html">HTTP::Server::Context</a> -> _)
@@ -947,12 +950,12 @@ This is enabled by default.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/dsl.cr#L10" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/dsl.cr#L12" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="public_folder&#40;path:String&#41;-class-method">
+    <div class="entry-detail" id="public_folder(path:String)-class-method">
       <div class="signature">
         
         def <strong>public_folder</strong>(path : String)
@@ -960,18 +963,19 @@ This is enabled by default.</p>
         <a class="method-permalink" href="#public_folder%28path%3AString%29-class-method">#</a>
       </div>
       
-        <div class="doc"><p>Sets public folder from which the static assets will be served.
-By default this is <code>/public</code> not <code>src/public</code>.</p></div>
+        <div class="doc"><p>Sets public folder from which the static assets will be served.</p>
+
+<p>By default this is <code>/public</code> not <code>src/public</code>.</p></div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/helpers/helpers.cr#L21" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/helpers/helpers.cr#L22" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="put&#40;path:String,&amp;block:HTTP::Server::Context-&gt;_&#41;-class-method">
+    <div class="entry-detail" id="put(path:String,&amp;block:HTTP::Server::Context-&gt;_)-class-method">
       <div class="signature">
         
         def <strong>put</strong>(path : String, &block : <a href="HTTP/Server/Context.html">HTTP::Server::Context</a> -> _)
@@ -982,7 +986,7 @@ By default this is <code>/public</code> not <code>src/public</code>.</p></div>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/dsl.cr#L10" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/dsl.cr#L12" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -998,12 +1002,12 @@ By default this is <code>/public</code> not <code>src/public</code>.</p></div>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/helpers/templates.cr#L4" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/helpers/templates.cr#L4" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="render_500&#40;context,backtrace,verbosity&#41;-class-method">
+    <div class="entry-detail" id="render_500(context,backtrace,verbosity)-class-method">
       <div class="signature">
         
         def <strong>render_500</strong>(context, backtrace, verbosity)
@@ -1014,12 +1018,12 @@ By default this is <code>/public</code> not <code>src/public</code>.</p></div>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/helpers/templates.cr#L24" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/helpers/templates.cr#L24" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="send_file&#40;env:HTTP::Server::Context,path:String,mime_type:String?&#61;nil&#41;-class-method">
+    <div class="entry-detail" id="send_file(env:HTTP::Server::Context,path:String,mime_type:String?=nil)-class-method">
       <div class="signature">
         
         def <strong>send_file</strong>(env : <a href="HTTP/Server/Context.html">HTTP::Server::Context</a>, path : String, mime_type : String? = <span class="n">nil</span>)
@@ -1030,21 +1034,21 @@ By default this is <code>/public</code> not <code>src/public</code>.</p></div>
         <div class="doc"><p>Send a file with given path and base the mime-type on the file extension
 or default <code>application/octet-stream</code> mime_type.</p>
 
-<p>send_file env, "./path/to/file"</p>
+<pre><code>send_file env, <span class="s">&quot;./path/to/file&quot;</span></code></pre>
 
 <p>Optionally you can override the mime_type</p>
 
-<p>send_file env, "./path/to/file", "image/jpeg"</p></div>
+<pre><code>send_file env, <span class="s">&quot;./path/to/file&quot;</span>, <span class="s">&quot;image/jpeg&quot;</span></code></pre></div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/helpers/helpers.cr#L96" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/helpers/helpers.cr#L112" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="send_file&#40;env:HTTP::Server::Context,data:Slice&#40;UInt8&#41;,mime_type:String?&#61;nil&#41;-class-method">
+    <div class="entry-detail" id="send_file(env:HTTP::Server::Context,data:Slice(UInt8),mime_type:String?=nil)-class-method">
       <div class="signature">
         
         def <strong>send_file</strong>(env : <a href="HTTP/Server/Context.html">HTTP::Server::Context</a>, data : Slice(UInt8), mime_type : String? = <span class="n">nil</span>)
@@ -1054,21 +1058,21 @@ or default <code>application/octet-stream</code> mime_type.</p>
       
         <div class="doc"><p>Send a file with given data and default <code>application/octet-stream</code> mime_type.</p>
 
-<p>send_file env, data_slice</p>
+<pre><code>send_file env, data_slice</code></pre>
 
 <p>Optionally you can override the mime_type</p>
 
-<p>send_file env, data_slice, "image/jpeg"</p></div>
+<pre><code>send_file env, data_slice, <span class="s">&quot;image/jpeg&quot;</span></code></pre></div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/helpers/helpers.cr#L190" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/helpers/helpers.cr#L212" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="serve_static&#40;status:Bool|Hash&#41;-class-method">
+    <div class="entry-detail" id="serve_static(status:Bool|Hash)-class-method">
       <div class="signature">
         
         def <strong>serve_static</strong>(status : Bool | Hash)
@@ -1079,22 +1083,22 @@ or default <code>application/octet-stream</code> mime_type.</p>
         <div class="doc"><p>Enables / Disables static file serving.
 This is enabled by default.</p>
 
-<p>serve_static false</p>
+<pre><code>serve_static <span class="n">false</span></code></pre>
 
 <p>Static server also have some advanced customization options like <code>dir_listing</code> and
 <code><a href="toplevel.html#gzip%28status%3ABool%3Dfalse%29-class-method">gzip</a></code>.</p>
 
-<p>serve_static {"gzip" => true, "dir_listing" => false}</p></div>
+<pre><code>serve_static {<span class="s">&quot;gzip&quot;</span> => <span class="n">true</span>, <span class="s">&quot;dir_listing&quot;</span> => <span class="n">false</span>}</code></pre></div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/helpers/helpers.cr#L74" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/helpers/helpers.cr#L84" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="static_headers&#40;&amp;headers:HTTP::Server::Response,String,File::Stat-&gt;Void&#41;-class-method">
+    <div class="entry-detail" id="static_headers(&amp;headers:HTTP::Server::Response,String,File::Stat-&gt;Void)-class-method">
       <div class="signature">
         
         def <strong>static_headers</strong>(&headers : <a href="HTTP/Server/Response.html">HTTP::Server::Response</a>, String, File::Stat -> Void)
@@ -1104,22 +1108,22 @@ This is enabled by default.</p>
       
         <div class="doc"><p>Adds headers to <code><a href="Kemal/StaticFileHandler.html">Kemal::StaticFileHandler</a></code>. This is especially useful for <code>CORS</code>.</p>
 
-<pre><code class='language-ruby'>static_headers do |response, filepath, filestat|
-  if filepath =~ /\.html$/
-    response.headers.add("Access-Control-Allow-Origin", "*")
-  end
-  response.headers.add("Content-Size", filestat.size.to_s)
-end</code></pre></div>
+<pre><code>static_headers <span class="k">do</span> <span class="o">|</span>response, filepath, filestat<span class="o">|</span>
+  <span class="k">if</span> filepath <span class="o">=~</span> <span class="s">/\.html$/</span>
+    response.headers.add(<span class="s">&quot;Access-Control-Allow-Origin&quot;</span>, <span class="s">&quot;*&quot;</span>)
+  <span class="k">end</span>
+  response.headers.add(<span class="s">&quot;Content-Size&quot;</span>, filestat.size.to_s)
+<span class="k">end</span></code></pre></div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/helpers/helpers.cr#L214" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/helpers/helpers.cr#L237" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="ws&#40;path:String,&amp;block:HTTP::WebSocket,HTTP::Server::Context-&gt;Void&#41;-class-method">
+    <div class="entry-detail" id="ws(path:String,&amp;block:HTTP::WebSocket,HTTP::Server::Context-&gt;Void)-class-method">
       <div class="signature">
         
         def <strong>ws</strong>(path : String, &block : HTTP::WebSocket, <a href="HTTP/Server/Context.html">HTTP::Server::Context</a> -> Void)
@@ -1130,7 +1134,7 @@ end</code></pre></div>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/dsl.cr#L17" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/dsl.cr#L19" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1142,7 +1146,7 @@ end</code></pre></div>
 
   <h2>Macro Detail</h2>
   
-    <div class="entry-detail" id="add_context_storage_type&#40;type&#41;-macro">
+    <div class="entry-detail" id="add_context_storage_type(type)-macro">
       <div class="signature">
         
         macro <strong>add_context_storage_type</strong>(type)
@@ -1152,21 +1156,21 @@ end</code></pre></div>
       
         <div class="doc"><p>Extends context storage with user defined types.</p>
 
-<p>class User
+<pre><code><span class="k">class</span> <span class="t">User</span>
   property name
-end</p>
+<span class="k">end</span>
 
-<p>add_context_storage_type(User)</p></div>
+add_context_storage_type(<span class="t">User</span>)</code></pre></div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/helpers/macros.cr#L88" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/helpers/macros.cr#L96" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="content_for&#40;key,file&#61;__FILE__&#41;-macro">
+    <div class="entry-detail" id="content_for(key,file=__FILE__)-macro">
       <div class="signature">
         
         macro <strong>content_for</strong>(key, file = __FILE__)
@@ -1188,7 +1192,7 @@ giving it an identifier:</p>
 <pre><code><span class="c"># index.ecr</span>
 <span class="o"><</span><span class="o">%</span> content_for <span class="s">&quot;some_key&quot;</span> <span class="k">do</span> <span class="o">%</span><span class="o">></span>
   <span class="o"><</span>chunk <span class="k">of</span><span class="o">=</span><span class="s">&quot;html&quot;</span><span class="o">></span>...<span class="o"><</span><span class="s">/chunk&gt;
-&lt;&#37; end &#37;&gt;</code></pre>
+&lt;% end %&gt;</code></pre>
 
 <p>Then, you call <code><a href="toplevel.html#yield_content%28key%29-macro">yield_content</a></code> with that identifier, generally from a
 layout, to render the captured block:</p>
@@ -1207,12 +1211,12 @@ setting the appropriate set of tags that should be added to the layout.</p></div
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/helpers/macros.cr#L34" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/helpers/macros.cr#L38" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="halt&#40;env,status_code&#61;200,response&#61;&quot;&quot;&#41;-macro">
+    <div class="entry-detail" id="halt(env,status_code=200,response=&quot;&quot;)-macro">
       <div class="signature">
         
         macro <strong>halt</strong>(env, status_code = 200, response = "")
@@ -1223,17 +1227,17 @@ setting the appropriate set of tags that should be added to the layout.</p></div
         <div class="doc"><p>Halt execution with the current context.
 Returns 200 and an empty response by default.</p>
 
-<p>halt env, status_code: 403, response: "Forbidden"</p></div>
+<pre><code>halt env, status_code: <span class="n">403</span>, response: <span class="s">&quot;Forbidden&quot;</span></code></pre></div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/helpers/macros.cr#L73" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/helpers/macros.cr#L80" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="render&#40;filename,layout&#41;-macro">
+    <div class="entry-detail" id="render(filename,layout)-macro">
       <div class="signature">
         
         macro <strong>render</strong>(filename, layout)
@@ -1243,17 +1247,17 @@ Returns 200 and an empty response by default.</p>
       
         <div class="doc"><p>Render view with a layout as the superview.</p>
 
-<p>render "src/views/index.ecr", "src/views/layout.ecr"</p></div>
+<pre><code>render <span class="s">&quot;src/views/index.ecr&quot;</span>, <span class="s">&quot;src/views/layout.ecr&quot;</span></code></pre></div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/helpers/macros.cr#L58" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/helpers/macros.cr#L63" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="render&#40;filename&#41;-macro">
+    <div class="entry-detail" id="render(filename)-macro">
       <div class="signature">
         
         macro <strong>render</strong>(filename)
@@ -1266,12 +1270,12 @@ Returns 200 and an empty response by default.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/helpers/macros.cr#L65" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/helpers/macros.cr#L70" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="yield_content&#40;key&#41;-macro">
+    <div class="entry-detail" id="yield_content(key)-macro">
       <div class="signature">
         
         macro <strong>yield_content</strong>(key)
@@ -1284,7 +1288,7 @@ Returns 200 and an empty response by default.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/79e324efafbfa1dab241c6a6671e4708cb95800c/src/kemal/helpers/macros.cr#L46" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/helpers/macros.cr#L50" target="_blank">View source</a>]
         
       </div>
     </div>
