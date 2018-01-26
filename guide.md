@@ -279,7 +279,7 @@ before_get "/foo" do |env|
 end
 
 get "/foo" do |env|
-  puts env.response.content_type # => "application/json"
+  puts env.response.headers["Content-Type"] # => "application/json"
   {"name": "Kemal"}.to_json
 end
 ```
@@ -293,17 +293,17 @@ before_all "/foo" do |env|
 end
 
 get "/foo" do |env|
-  puts env.response.content_type # => "application/json"
+  puts env.response.headers["Content-Type"] # => "application/json"
   {"name": "Kemal"}.to_json
 end
 
 put "/foo" do |env|
-  puts env.response.content_type # => "application/json"
+  puts env.response.headers["Content-Type"] # => "application/json"
   {"name": "Kemal"}.to_json
 end
 
 post "/foo" do |env|
-  puts env.response.content_type # => "application/json"
+  puts env.response.headers["Content-Type"] # => "application/json"
   {"name": "Kemal"}.to_json
 end
 
