@@ -620,7 +620,15 @@ get "/" do |env|
 end
 ```
 
-This renders `Kemal cool = true` when a request is made to `/` :)
+This renders `Kemal cool = true` when a request is made to `/`.
+
+If you prefer a safer version use `env.get?` which won't raise when the key doesn't exist and will return `nil` instead.
+
+```ruby
+get "/" do |env|
+  non_existent_key = env.get?("non_existent_key") # => nil
+end
+```
 
 ### Request Properties
 
