@@ -1,6 +1,6 @@
 ---
 layout: doc
-title: JSON API Recipe
+title: JSON Mapping Recipe
 ---
 
 ```ruby
