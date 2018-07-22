@@ -9,9 +9,10 @@ post "/upload" do |env|
     else
       file_path = ::File.join [Kemal.config.public_folder, "uploads/", filename]
       File.open(file_path, "w") do |f|
-      IO.copy(file.tmpfile, f)
-    end
-    "Upload OK"
+        IO.copy(file.tmpfile, f)
+      end
+      "Upload OK"
+    end 
   end
 end
 
