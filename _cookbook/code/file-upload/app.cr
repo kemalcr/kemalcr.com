@@ -1,7 +1,7 @@
 require "kemal"
 
 post "/upload" do |env|
-  env.params.files.each do |file|
+  env.params.files.each do |(_, file)|
     filename = file.filename
 
     if !filename.is_a?(String)
