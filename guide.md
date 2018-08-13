@@ -711,6 +711,14 @@ You should ***only*** use `MemoryEngine` for development and testing purposes.
 
 See [kemal-session](https://github.com/kemalcr/kemal-session) for usage and compatible storage engines.
 
+## Accessing the CSRF token
+
+To access the CSRF token of the active session you can do the following in your form:
+
+```erb
+<input type="hidden" name="_csrf" value="<%= env.session.string("csrf") %>">
+```
+
 # [WebSockets](#websockets)
 
 Using *Websockets* with Kemal is super easy!
