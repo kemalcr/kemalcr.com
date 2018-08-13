@@ -1,7 +1,7 @@
 require "kemal"
 
 get "/" do
-  "Running on multiple proccesses"
+  "Reusing port 3000"
 end
 
 Kemal.run do |config|
