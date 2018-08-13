@@ -684,7 +684,7 @@ You can test this with below `curl` command.
 
 `curl -F "image1=@/Users/serdar/Downloads/kemal.png" http://localhost:3000/upload`
 
-# Sessions
+# [Sessions](#sessions)
 
 Kemal supports Sessions with [kemal-session](https://github.com/kemalcr/kemal-session).
 
