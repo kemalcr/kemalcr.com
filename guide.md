@@ -630,6 +630,26 @@ get "/" do |env|
 end
 ```
 
+Context storage also supports custom types. You can register and use a custom type as the following:
+
+```ruby
+class User
+ property name
+end
+
+add_context_storage_type(User)
+
+before "/" do |env|
+  env.set "user", User.new(name: "dummy-user")
+end
+
+get "/" do
+  user = env.get "user"
+end
+```
+
+Be aware that you have to declare the custom type before trying to add with `add_context_storage_type`.
+
 ### Request Properties
 
 Some common request information is available at `env.request.*`:
