@@ -203,7 +203,7 @@ You can capture blocks inside views to be rendered later during the request
 with the `content_for` helper. The most common use is to populate different
 parts of your layout from your view.
 
-Supported engines include `ecr` and `slang`.
+Supported engines include `ecr` and [`slang`](https://github.com/jeromegn/slang "Slim-inspired templating language for Crystal").
 
 #### Usage
 
