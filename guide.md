@@ -669,11 +669,12 @@ Some common request information is available at `env.request.*`:
 
 # [File Upload](#file-upload)
 
-File uploads can be accessed from request `params` like `env.params.files["filename"]`.
+File uploads can be accessed from request but you need to parse it like `HTTP::FormData.parse(env.request) do |upload|  end`
 
 It has the following methods
 
-- `tmpfile`: This is temporary file for file upload. Useful for saving the upload file.
+- `name`: The name of the key
+- `body`: This is the file for file upload. Useful for saving the upload file.
 - `filename`: File name of the file upload. (logo.png, images.zip, etc.)
 - `headers`: Headers for the file upload.
 - `creation_time`: Creation time of the file upload.
@@ -681,7 +682,7 @@ It has the following methods
 - `read_time`: Read time of the file upload.
 - `size`: Size of the file upload.
 
-Here's a fully working sample for reading an image file upload with key `image1` and saving it under `public/uploads`.
+Here's a fully working sample for reading all the files uploaded and saving it under `public/uploads`.
 
 ```ruby
 post "/upload" do |env|
