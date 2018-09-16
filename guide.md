@@ -99,7 +99,7 @@ end
 Any **string** returned from a route will be output to the browser.
 Routes are matched in the order they are defined. The first route that matches the request is invoked.
 
-# Static Files
+# [Static Files](#static-files)
 
 Any files you add to the `public` directory will be served automatically by Kemal.
 
@@ -142,6 +142,19 @@ If you don't need static file serving at all(for example an API doesn't need sta
 
 ```ruby
 serve_static false
+```
+
+### Static Headers
+
+Adds headers to `Kemal::StaticFileHandler`. This is especially useful for stuff like `CORS` or caching.
+
+```ruby
+static_headers do |response, filepath, filestat|
+  if filepath =~ /\.html$/
+    response.headers.add("Access-Control-Allow-Origin", "*")
+  end
+  response.headers.add("Content-Size", filestat.size.to_s)
+end
 ```
 
 ### Modifying Other Options
