@@ -1,24 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Crystal Docs 0.26.1">
+
+
+<link href="../css/style.css" rel="stylesheet" type="text/css">
+
+<script type="text/javascript" src="../js/doc.js"></script>
+<script type="text/javascript">
+  CrystalDoc.base_path = "../";
+</script>
+
   <meta id="repository-name" content="github.com/kemalcr/kemal">
-  <link href="../css/style.css" rel="stylesheet" type="text/css" />
-  <script type="text/javascript" src="../js/doc.js"></script>
   <title>Kemal::ParamParser - github.com/kemalcr/kemal</title>
 </head>
 <body>
 
-<div id="types-list">
-  <div id="search-box">
-    <input type="search" id="search-input" placeholder="Search...">
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="repository-links">
+      <a href="../index.html">README</a>
+    </div>
   </div>
 
-  <ul>
-    <li><a href="../index.html">README</a></li>
-  </ul>
+  <div class="search-results" class="hidden">
+    <ul class="search-list"></ul>
+  </div>
 
-  <ul>
+  <div class="types-list">
+    <ul>
   
   <li class=" " data-id="github.com/kemalcr/kemal/toplevel" data-name="top level namespace">
       <a href="../toplevel.html">Top Level Namespace</a>
@@ -50,6 +66,11 @@
       
     </li>
   
+  <li class=" " data-id="github.com/kemalcr/kemal/Kemal/ExceptionPage" data-name="kemal::exceptionpage">
+      <a href="../Kemal/ExceptionPage.html">ExceptionPage</a>
+      
+    </li>
+  
   <li class="parent " data-id="github.com/kemalcr/kemal/Kemal/Exceptions" data-name="kemal::exceptions">
       <a href="../Kemal/Exceptions.html">Exceptions</a>
       
@@ -72,6 +93,11 @@
   
 </ul>
 
+      
+    </li>
+  
+  <li class=" " data-id="github.com/kemalcr/kemal/Kemal/FileUpload" data-name="kemal::fileupload">
+      <a href="../Kemal/FileUpload.html">FileUpload</a>
       
     </li>
   
@@ -142,9 +168,11 @@
   
 </ul>
 
+  </div>
 </div>
 
-<div id="main-content">
+
+<div class="main-content">
 <h1 class="type-name">
 
   <span class="kind">class</span> Kemal::ParamParser
@@ -179,7 +207,9 @@ the environment context.</p>
   <h2>Defined in:</h2>
   
     
-      <a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/param_parser.cr#L5" target="_blank">kemal/param_parser.cr</a>
+      <a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/param_parser.cr#L5" target="_blank">
+        kemal/param_parser.cr
+      </a>
     
     <br/>
   
@@ -202,7 +232,7 @@ the environment context.</p>
       
     
       <dt class="entry-const" id="PARTS">
-        <strong>PARTS</strong> = <code>[<span class="s">&quot;url&quot;</span>, <span class="s">&quot;query&quot;</span>, <span class="s">&quot;body&quot;</span>, <span class="s">&quot;json&quot;</span>] <span class="k">of</span> <span class="t">::</span><span class="t">String</span></code>
+        <strong>PARTS</strong> = <code>[<span class="s">&quot;url&quot;</span>, <span class="s">&quot;query&quot;</span>, <span class="s">&quot;body&quot;</span>, <span class="s">&quot;json&quot;</span>, <span class="s">&quot;files&quot;</span>] <span class="k">of</span> <span class="t">::</span><span class="t">String</span></code>
       </dt>
       
     
@@ -219,7 +249,7 @@ the environment context.</p>
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#new%28request%3AHTTP%3A%3ARequest%29-class-method" class="signature"><strong>.new</strong>(request : HTTP::Request)</a>
+        <a href="#new%28request%3AHTTP%3A%3ARequest%2Curl%3AHash%28String%2CString%29%3D%7B%7DofString%3D%3EString%29-class-method" class="signature"><strong>.new</strong>(request : HTTP::Request, url : Hash(String, String) = {} <span class="k">of</span> <span class="t">String</span> => <span class="t">String</span>)</a>
         
       </li>
     
@@ -234,6 +264,11 @@ the environment context.</p>
     
       <li class="entry-summary">
         <a href="#body-instance-method" class="signature"><strong>#body</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#files-instance-method" class="signature"><strong>#files</strong></a>
         
       </li>
     
@@ -285,18 +320,18 @@ the environment context.</p>
 
   <h2>Constructor Detail</h2>
   
-    <div class="entry-detail" id="new(request:HTTP::Request)-class-method">
+    <div class="entry-detail" id="new(request:HTTP::Request,url:Hash(String,String)={}ofString=&gt;String)-class-method">
       <div class="signature">
         
-        def self.<strong>new</strong>(request : <a href="../HTTP/Request.html">HTTP::Request</a>)
+        def self.<strong>new</strong>(request : HTTP::Request, url : Hash(String, String) = {} <span class="k">of</span> <span class="t">String</span> => <span class="t">String</span>)
 
-        <a class="method-permalink" href="#new%28request%3AHTTP%3A%3ARequest%29-class-method">#</a>
+        <a class="method-permalink" href="#new%28request%3AHTTP%3A%3ARequest%2Curl%3AHash%28String%2CString%29%3D%7B%7DofString%3D%3EString%29-class-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/param_parser.cr#L14" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/param_parser.cr#L14" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -319,7 +354,23 @@ the environment context.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/param_parser.cr#L32" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/param_parser.cr#L32" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="files-instance-method">
+      <div class="signature">
+        
+        def <strong>files</strong>
+
+        <a class="method-permalink" href="#files-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/param_parser.cr#L32" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -335,7 +386,7 @@ the environment context.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/param_parser.cr#L32" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/param_parser.cr#L32" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -351,7 +402,7 @@ the environment context.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/param_parser.cr#L32" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/param_parser.cr#L32" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -367,7 +418,7 @@ the environment context.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/param_parser.cr#L32" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/param_parser.cr#L32" target="_blank">View source</a>]
         
       </div>
     </div>

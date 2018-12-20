@@ -14,7 +14,7 @@
 </script>
 
   <meta id="repository-name" content="github.com/kemalcr/kemal">
-  <title>Kemal::BaseLogHandler - github.com/kemalcr/kemal</title>
+  <title>Kemal::FileUpload - github.com/kemalcr/kemal</title>
 </head>
 <body>
 
@@ -46,7 +46,7 @@
       
         <ul>
   
-  <li class=" current" data-id="github.com/kemalcr/kemal/Kemal/BaseLogHandler" data-name="kemal::baseloghandler">
+  <li class=" " data-id="github.com/kemalcr/kemal/Kemal/BaseLogHandler" data-name="kemal::baseloghandler">
       <a href="../Kemal/BaseLogHandler.html">BaseLogHandler</a>
       
     </li>
@@ -96,7 +96,7 @@
       
     </li>
   
-  <li class=" " data-id="github.com/kemalcr/kemal/Kemal/FileUpload" data-name="kemal::fileupload">
+  <li class=" current" data-id="github.com/kemalcr/kemal/Kemal/FileUpload" data-name="kemal::fileupload">
       <a href="../Kemal/FileUpload.html">FileUpload</a>
       
     </li>
@@ -175,43 +175,23 @@
 <div class="main-content">
 <h1 class="type-name">
 
-  <span class="kind">abstract class</span> Kemal::BaseLogHandler
+  <span class="kind">struct</span> Kemal::FileUpload
 
 </h1>
 
 
-  <ul class="superclass-hierarchy"><li class="superclass"><a href="../Kemal/BaseLogHandler.html">Kemal::BaseLogHandler</a></li><li class="superclass">Reference</li><li class="superclass">Object</li></ul>
-
-
-
-
-  <h2>Overview</h2>
-
-  <p>All loggers must inherit from <code><a href="../Kemal/BaseLogHandler.html">Kemal::BaseLogHandler</a></code>.</p>
+  <ul class="superclass-hierarchy"><li class="superclass"><a href="../Kemal/FileUpload.html">Kemal::FileUpload</a></li><li class="superclass">Struct</li><li class="superclass">Value</li><li class="superclass">Object</li></ul>
 
 
 
 
 
-  <h2>Included Modules</h2>
-  <ul class="other-types-list">
-  
-    <li class="other-type">HTTP::Handler</li>
-  
-  </ul>
 
 
 
 
 
-  <h2>Direct Known Subclasses</h2>
-  <ul class="other-types-list">
-  
-    <li class="other-type"><a href="../Kemal/LogHandler.html">Kemal::LogHandler</a></li>
-  
-    <li class="other-type"><a href="../Kemal/NullLogHandler.html">Kemal::NullLogHandler</a></li>
-  
-  </ul>
+
 
 
 
@@ -221,8 +201,8 @@
   <h2>Defined in:</h2>
   
     
-      <a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/base_log_handler.cr#L3" target="_blank">
-        kemal/base_log_handler.cr
+      <a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/file_upload.cr#L2" target="_blank">
+        kemal/file_upload.cr
       </a>
     
     <br/>
@@ -232,6 +212,16 @@
 
 
 
+  <h2>Constructors</h2>
+  <ul class="list-summary">
+    
+      <li class="entry-summary">
+        <a href="#new%28upload%29-class-method" class="signature"><strong>.new</strong>(upload)</a>
+        
+      </li>
+    
+  </ul>
+
 
 
 
@@ -240,12 +230,37 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
-        <a href="#call%28context%3AHTTP%3A%3AServer%3A%3AContext%29-instance-method" class="signature"><strong>#call</strong>(context : HTTP::Server::Context)</a>
+        <a href="#creation_time%3ATime%3F-instance-method" class="signature"><strong>#creation_time</strong> : Time?</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#write%28message%3AString%29-instance-method" class="signature"><strong>#write</strong>(message : String)</a>
+        <a href="#filename%3AString%3F-instance-method" class="signature"><strong>#filename</strong> : String?</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#headers%3AHTTP%3A%3AHeaders-instance-method" class="signature"><strong>#headers</strong> : HTTP::Headers</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#modification_time%3ATime%3F-instance-method" class="signature"><strong>#modification_time</strong> : Time?</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#read_time%3ATime%3F-instance-method" class="signature"><strong>#read_time</strong> : Time?</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#size%3AUInt64%3F-instance-method" class="signature"><strong>#size</strong> : UInt64?</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#tempfile%3AFile-instance-method" class="signature"><strong>#tempfile</strong> : File</a>
         
       </li>
     
@@ -290,40 +305,139 @@
 </div>
 
 
+  <h2>Constructor Detail</h2>
+  
+    <div class="entry-detail" id="new(upload)-class-method">
+      <div class="signature">
+        
+        def self.<strong>new</strong>(upload)
+
+        <a class="method-permalink" href="#new%28upload%29-class-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/file_upload.cr#L11" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+
 
 
 
 
   <h2>Instance Method Detail</h2>
   
-    <div class="entry-detail" id="call(context:HTTP::Server::Context)-instance-method">
+    <div class="entry-detail" id="creation_time:Time?-instance-method">
       <div class="signature">
-        abstract 
-        def <strong>call</strong>(context : <a href="../HTTP/Server/Context.html">HTTP::Server::Context</a>)
+        
+        def <strong>creation_time</strong> : Time?
 
-        <a class="method-permalink" href="#call%28context%3AHTTP%3A%3AServer%3A%3AContext%29-instance-method">#</a>
+        <a class="method-permalink" href="#creation_time%3ATime%3F-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/base_log_handler.cr#L6" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/file_upload.cr#L6" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="write(message:String)-instance-method">
+    <div class="entry-detail" id="filename:String?-instance-method">
       <div class="signature">
-        abstract 
-        def <strong>write</strong>(message : String)
+        
+        def <strong>filename</strong> : String?
 
-        <a class="method-permalink" href="#write%28message%3AString%29-instance-method">#</a>
+        <a class="method-permalink" href="#filename%3AString%3F-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/base_log_handler.cr#L7" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/file_upload.cr#L4" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="headers:HTTP::Headers-instance-method">
+      <div class="signature">
+        
+        def <strong>headers</strong> : HTTP::Headers
+
+        <a class="method-permalink" href="#headers%3AHTTP%3A%3AHeaders-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/file_upload.cr#L5" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="modification_time:Time?-instance-method">
+      <div class="signature">
+        
+        def <strong>modification_time</strong> : Time?
+
+        <a class="method-permalink" href="#modification_time%3ATime%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/file_upload.cr#L7" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="read_time:Time?-instance-method">
+      <div class="signature">
+        
+        def <strong>read_time</strong> : Time?
+
+        <a class="method-permalink" href="#read_time%3ATime%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/file_upload.cr#L8" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="size:UInt64?-instance-method">
+      <div class="signature">
+        
+        def <strong>size</strong> : UInt64?
+
+        <a class="method-permalink" href="#size%3AUInt64%3F-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/file_upload.cr#L9" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="tempfile:File-instance-method">
+      <div class="signature">
+        
+        def <strong>tempfile</strong> : File
+
+        <a class="method-permalink" href="#tempfile%3AFile-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/file_upload.cr#L3" target="_blank">View source</a>]
         
       </div>
     </div>

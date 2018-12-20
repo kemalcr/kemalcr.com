@@ -1,24 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Crystal Docs 0.26.1">
+
+
+<link href="css/style.css" rel="stylesheet" type="text/css">
+
+<script type="text/javascript" src="js/doc.js"></script>
+<script type="text/javascript">
+  CrystalDoc.base_path = "";
+</script>
+
   <meta id="repository-name" content="github.com/kemalcr/kemal">
-  <link href="css/style.css" rel="stylesheet" type="text/css" />
-  <script type="text/javascript" src="js/doc.js"></script>
   <title>README - github.com/kemalcr/kemal</title>
 </head>
 <body>
 
-<div id="types-list">
-  <div id="search-box">
-    <input type="search" id="search-input" placeholder="Search...">
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="repository-links">
+      <a href="index.html">README</a>
+    </div>
   </div>
 
-  <ul>
-    <li class="current"><a href="index.html">README</a></li>
-  </ul>
+  <div class="search-results" class="hidden">
+    <ul class="search-list"></ul>
+  </div>
 
-  <ul>
+  <div class="types-list">
+    <ul>
   
   <li class=" " data-id="github.com/kemalcr/kemal/toplevel" data-name="top level namespace">
       <a href="toplevel.html">Top Level Namespace</a>
@@ -50,6 +66,11 @@
       
     </li>
   
+  <li class=" " data-id="github.com/kemalcr/kemal/Kemal/ExceptionPage" data-name="kemal::exceptionpage">
+      <a href="Kemal/ExceptionPage.html">ExceptionPage</a>
+      
+    </li>
+  
   <li class="parent " data-id="github.com/kemalcr/kemal/Kemal/Exceptions" data-name="kemal::exceptions">
       <a href="Kemal/Exceptions.html">Exceptions</a>
       
@@ -72,6 +93,11 @@
   
 </ul>
 
+      
+    </li>
+  
+  <li class=" " data-id="github.com/kemalcr/kemal/Kemal/FileUpload" data-name="kemal::fileupload">
+      <a href="Kemal/FileUpload.html">FileUpload</a>
       
     </li>
   
@@ -142,9 +168,11 @@
   
 </ul>
 
+  </div>
 </div>
 
-<div id="main-content">
+
+<div class="main-content">
 <p><a href="http://kemalcr.com" target="_blank"><img src="https://avatars3.githubusercontent.com/u/15321198?v=3&s=200" alt="Kemal"/></a></p>
 
 <h1>Kemal</h1>
@@ -156,7 +184,7 @@
 
 <h1>Super Simple ⚡️</h1>
 
-<pre><code class='language-ruby'>require "kemal"
+<pre><code class="language-ruby">require "kemal"
 
 # Matches GET "http://host:port/"
 get "/" do
@@ -183,9 +211,11 @@ Kemal.run</code></pre>
 
 <p>Add this to your application's <code>shard.yml</code>:</p>
 
-<pre><code class='language-yaml'>dependencies:
+<pre><code class="language-yaml">dependencies:
   kemal:
     github: kemalcr/kemal</code></pre>
+
+<p>See also <a href="http://kemalcr.com/guide/" target="_blank">Getting Started</a>.</p>
 
 <h1>Features</h1>
 

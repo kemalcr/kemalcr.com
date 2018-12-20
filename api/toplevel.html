@@ -1,24 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Crystal Docs 0.26.1">
+
+
+<link href="css/style.css" rel="stylesheet" type="text/css">
+
+<script type="text/javascript" src="js/doc.js"></script>
+<script type="text/javascript">
+  CrystalDoc.base_path = "";
+</script>
+
   <meta id="repository-name" content="github.com/kemalcr/kemal">
-  <link href="css/style.css" rel="stylesheet" type="text/css" />
-  <script type="text/javascript" src="js/doc.js"></script>
   <title>Top Level Namespace - github.com/kemalcr/kemal</title>
 </head>
 <body>
 
-<div id="types-list">
-  <div id="search-box">
-    <input type="search" id="search-input" placeholder="Search...">
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="repository-links">
+      <a href="index.html">README</a>
+    </div>
   </div>
 
-  <ul>
-    <li><a href="index.html">README</a></li>
-  </ul>
+  <div class="search-results" class="hidden">
+    <ul class="search-list"></ul>
+  </div>
 
-  <ul>
+  <div class="types-list">
+    <ul>
   
   <li class=" current" data-id="github.com/kemalcr/kemal/toplevel" data-name="top level namespace">
       <a href="toplevel.html">Top Level Namespace</a>
@@ -50,6 +66,11 @@
       
     </li>
   
+  <li class=" " data-id="github.com/kemalcr/kemal/Kemal/ExceptionPage" data-name="kemal::exceptionpage">
+      <a href="Kemal/ExceptionPage.html">ExceptionPage</a>
+      
+    </li>
+  
   <li class="parent " data-id="github.com/kemalcr/kemal/Kemal/Exceptions" data-name="kemal::exceptions">
       <a href="Kemal/Exceptions.html">Exceptions</a>
       
@@ -72,6 +93,11 @@
   
 </ul>
 
+      
+    </li>
+  
+  <li class=" " data-id="github.com/kemalcr/kemal/Kemal/FileUpload" data-name="kemal::fileupload">
+      <a href="Kemal/FileUpload.html">FileUpload</a>
       
     </li>
   
@@ -142,9 +168,11 @@
   
 </ul>
 
+  </div>
 </div>
 
-<div id="main-content">
+
+<div class="main-content">
 <h1 class="type-name">
 
   Top Level Namespace
@@ -310,7 +338,7 @@
       <li class="entry-summary">
         <a href="#gzip%28status%3ABool%3Dfalse%29-class-method" class="signature"><strong>gzip</strong>(status : Bool = <span class="n">false</span>)</a>
         
-          <div class="summary"><p>Configures an <code><a href="HTTP/Server.html">HTTP::Server</a>::Response</code> to compress the response output, either using gzip or deflate, depending on the <code>Accept-Encoding</code> request header.</p></div>
+          <div class="summary"><p>Configures an <code><a href="HTTP/Server/Response.html">HTTP::Server::Response</a></code> to compress the response output, either using gzip or deflate, depending on the <code>Accept-Encoding</code> request header.</p></div>
         
       </li>
     
@@ -375,7 +403,7 @@
       </li>
     
       <li class="entry-summary">
-        <a href="#render_500%28context%2Cbacktrace%2Cverbosity%29-class-method" class="signature"><strong>render_500</strong>(context, backtrace, verbosity)</a>
+        <a href="#render_500%28context%2Cexception%2Cverbosity%29-class-method" class="signature"><strong>render_500</strong>(context, exception, verbosity)</a>
         
       </li>
     
@@ -401,7 +429,7 @@
       </li>
     
       <li class="entry-summary">
-        <a href="#static_headers%28%26headers%3AHTTP%3A%3AServer%3A%3AResponse%2CString%2CFile%3A%3AStat-%3EVoid%29-class-method" class="signature"><strong>static_headers</strong>(&headers : HTTP::Server::Response, String, File::Stat -> Void)</a>
+        <a href="#static_headers%28%26headers%3AHTTP%3A%3AServer%3A%3AResponse%2CString%2CFile%3A%3AInfo-%3EVoid%29-class-method" class="signature"><strong>static_headers</strong>(&headers : HTTP::Server::Response, String, File::Info -> Void)</a>
         
           <div class="summary"><p>Adds headers to <code><a href="Kemal/StaticFileHandler.html">Kemal::StaticFileHandler</a></code>.</p></div>
         
@@ -493,7 +521,7 @@ goes between the first 4 and the last <code><a href="Kemal/RouteHandler.html">Ke
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/helpers/helpers.cr#L11" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/helpers/helpers.cr#L11" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -509,7 +537,7 @@ goes between the first 4 and the last <code><a href="Kemal/RouteHandler.html">Ke
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/helpers/helpers.cr#L15" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/helpers/helpers.cr#L15" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -525,7 +553,7 @@ goes between the first 4 and the last <code><a href="Kemal/RouteHandler.html">Ke
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/dsl.cr#L31" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/dsl.cr#L31" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -541,7 +569,7 @@ goes between the first 4 and the last <code><a href="Kemal/RouteHandler.html">Ke
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/dsl.cr#L31" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/dsl.cr#L31" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -557,7 +585,7 @@ goes between the first 4 and the last <code><a href="Kemal/RouteHandler.html">Ke
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/dsl.cr#L31" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/dsl.cr#L31" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -573,7 +601,7 @@ goes between the first 4 and the last <code><a href="Kemal/RouteHandler.html">Ke
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/dsl.cr#L31" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/dsl.cr#L31" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -589,7 +617,7 @@ goes between the first 4 and the last <code><a href="Kemal/RouteHandler.html">Ke
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/dsl.cr#L31" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/dsl.cr#L31" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -605,7 +633,7 @@ goes between the first 4 and the last <code><a href="Kemal/RouteHandler.html">Ke
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/dsl.cr#L31" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/dsl.cr#L31" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -621,7 +649,7 @@ goes between the first 4 and the last <code><a href="Kemal/RouteHandler.html">Ke
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/dsl.cr#L31" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/dsl.cr#L31" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -637,7 +665,7 @@ goes between the first 4 and the last <code><a href="Kemal/RouteHandler.html">Ke
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/dsl.cr#L31" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/dsl.cr#L31" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -653,7 +681,7 @@ goes between the first 4 and the last <code><a href="Kemal/RouteHandler.html">Ke
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/dsl.cr#L31" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/dsl.cr#L31" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -669,7 +697,7 @@ goes between the first 4 and the last <code><a href="Kemal/RouteHandler.html">Ke
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/dsl.cr#L31" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/dsl.cr#L31" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -685,7 +713,7 @@ goes between the first 4 and the last <code><a href="Kemal/RouteHandler.html">Ke
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/dsl.cr#L31" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/dsl.cr#L31" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -701,7 +729,7 @@ goes between the first 4 and the last <code><a href="Kemal/RouteHandler.html">Ke
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/dsl.cr#L31" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/dsl.cr#L31" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -717,7 +745,7 @@ goes between the first 4 and the last <code><a href="Kemal/RouteHandler.html">Ke
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/dsl.cr#L31" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/dsl.cr#L31" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -733,7 +761,7 @@ goes between the first 4 and the last <code><a href="Kemal/RouteHandler.html">Ke
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/dsl.cr#L31" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/dsl.cr#L31" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -749,7 +777,7 @@ goes between the first 4 and the last <code><a href="Kemal/RouteHandler.html">Ke
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/dsl.cr#L12" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/dsl.cr#L12" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -765,7 +793,7 @@ goes between the first 4 and the last <code><a href="Kemal/RouteHandler.html">Ke
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/dsl.cr#L24" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/dsl.cr#L24" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -781,7 +809,7 @@ goes between the first 4 and the last <code><a href="Kemal/RouteHandler.html">Ke
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/dsl.cr#L12" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/dsl.cr#L12" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -794,7 +822,7 @@ goes between the first 4 and the last <code><a href="Kemal/RouteHandler.html">Ke
         <a class="method-permalink" href="#gzip%28status%3ABool%3Dfalse%29-class-method">#</a>
       </div>
       
-        <div class="doc"><p>Configures an <code><a href="HTTP/Server.html">HTTP::Server</a>::Response</code> to compress the response
+        <div class="doc"><p>Configures an <code><a href="HTTP/Server/Response.html">HTTP::Server::Response</a></code> to compress the response
 output, either using gzip or deflate, depending on the <code>Accept-Encoding</code> request header.</p>
 
 <p>Disabled by default.</p></div>
@@ -802,7 +830,7 @@ output, either using gzip or deflate, depending on the <code>Accept-Encoding</co
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/helpers/helpers.cr#L223" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/helpers/helpers.cr#L213" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -825,7 +853,7 @@ This can be used to modify a response header with the given hash.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/helpers/helpers.cr#L96" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/helpers/helpers.cr#L96" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -844,7 +872,7 @@ This is the built-in <code><a href="Kemal/LogHandler.html">Kemal::LogHandler</a>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/helpers/helpers.cr#L28" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/helpers/helpers.cr#L28" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -862,7 +890,7 @@ This is the built-in <code><a href="Kemal/LogHandler.html">Kemal::LogHandler</a>
 <p>A custom logger must inherit from <code><a href="Kemal/BaseLogHandler.html">Kemal::BaseLogHandler</a></code> and must implement
 <code>call(env)</code>, <code>write(message)</code> methods.</p>
 
-<pre><code><span class="k">class</span> <span class="t">MyCustomLogger</span> <span class="o"><</span> <span class="t">Kemal</span><span class="t">::</span><span class="t">BaseLogHandler</span>
+<pre><code><span class="k">class</span> <span class="t">MyCustomLogger</span> <span class="o">&lt;</span> <span class="t">Kemal</span><span class="t">::</span><span class="t">BaseLogHandler</span>
   <span class="k">def</span> <span class="m">call</span>(env)
     puts <span class="s">&quot;I&#39;m logging some custom stuff here.&quot;</span>
     call_next(env) <span class="c"># =&gt; This calls the next handler</span>
@@ -881,7 +909,7 @@ This is the built-in <code><a href="Kemal/LogHandler.html">Kemal::LogHandler</a>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/helpers/helpers.cr#L66" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/helpers/helpers.cr#L66" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -902,7 +930,7 @@ This is enabled by default.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/helpers/helpers.cr#L38" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/helpers/helpers.cr#L38" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -918,7 +946,7 @@ This is enabled by default.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/dsl.cr#L12" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/dsl.cr#L12" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -934,7 +962,7 @@ This is enabled by default.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/dsl.cr#L12" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/dsl.cr#L12" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -950,7 +978,7 @@ This is enabled by default.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/dsl.cr#L12" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/dsl.cr#L12" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -970,7 +998,7 @@ This is enabled by default.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/helpers/helpers.cr#L22" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/helpers/helpers.cr#L22" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -986,7 +1014,7 @@ This is enabled by default.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/dsl.cr#L12" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/dsl.cr#L12" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1002,23 +1030,23 @@ This is enabled by default.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/helpers/templates.cr#L4" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/helpers/templates.cr#L4" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="render_500(context,backtrace,verbosity)-class-method">
+    <div class="entry-detail" id="render_500(context,exception,verbosity)-class-method">
       <div class="signature">
         
-        def <strong>render_500</strong>(context, backtrace, verbosity)
+        def <strong>render_500</strong>(context, exception, verbosity)
 
-        <a class="method-permalink" href="#render_500%28context%2Cbacktrace%2Cverbosity%29-class-method">#</a>
+        <a class="method-permalink" href="#render_500%28context%2Cexception%2Cverbosity%29-class-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/helpers/templates.cr#L24" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/helpers/templates.cr#L24" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1043,7 +1071,7 @@ or default <code>application/octet-stream</code> mime_type.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/helpers/helpers.cr#L112" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/helpers/helpers.cr#L112" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1067,7 +1095,7 @@ or default <code>application/octet-stream</code> mime_type.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/helpers/helpers.cr#L212" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/helpers/helpers.cr#L202" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1093,17 +1121,17 @@ This is enabled by default.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/helpers/helpers.cr#L84" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/helpers/helpers.cr#L84" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="static_headers(&amp;headers:HTTP::Server::Response,String,File::Stat-&gt;Void)-class-method">
+    <div class="entry-detail" id="static_headers(&amp;headers:HTTP::Server::Response,String,File::Info-&gt;Void)-class-method">
       <div class="signature">
         
-        def <strong>static_headers</strong>(&headers : <a href="HTTP/Server/Response.html">HTTP::Server::Response</a>, String, File::Stat -> Void)
+        def <strong>static_headers</strong>(&headers : <a href="HTTP/Server/Response.html">HTTP::Server::Response</a>, String, File::Info -> Void)
 
-        <a class="method-permalink" href="#static_headers%28%26headers%3AHTTP%3A%3AServer%3A%3AResponse%2CString%2CFile%3A%3AStat-%3EVoid%29-class-method">#</a>
+        <a class="method-permalink" href="#static_headers%28%26headers%3AHTTP%3A%3AServer%3A%3AResponse%2CString%2CFile%3A%3AInfo-%3EVoid%29-class-method">#</a>
       </div>
       
         <div class="doc"><p>Adds headers to <code><a href="Kemal/StaticFileHandler.html">Kemal::StaticFileHandler</a></code>. This is especially useful for <code>CORS</code>.</p>
@@ -1118,7 +1146,7 @@ This is enabled by default.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/helpers/helpers.cr#L237" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/helpers/helpers.cr#L227" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1134,7 +1162,7 @@ This is enabled by default.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/dsl.cr#L19" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/dsl.cr#L19" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1165,7 +1193,7 @@ add_context_storage_type(<span class="t">User</span>)</code></pre></div>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/helpers/macros.cr#L96" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/helpers/macros.cr#L96" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1190,15 +1218,15 @@ common use is to populate different parts of your layout from your view.</p>
 giving it an identifier:</p>
 
 <pre><code><span class="c"># index.ecr</span>
-<span class="o"><</span><span class="o">%</span> content_for <span class="s">&quot;some_key&quot;</span> <span class="k">do</span> <span class="o">%</span><span class="o">></span>
-  <span class="o"><</span>chunk <span class="k">of</span><span class="o">=</span><span class="s">&quot;html&quot;</span><span class="o">></span>...<span class="o"><</span><span class="s">/chunk&gt;
+<span class="o">&lt;</span><span class="o">%</span> content_for <span class="s">&quot;some_key&quot;</span> <span class="k">do</span> <span class="o">%</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span>chunk <span class="k">of</span><span class="o">=</span><span class="s">&quot;html&quot;</span><span class="o">&gt;</span>...<span class="o">&lt;</span><span class="s">/chunk&gt;
 &lt;% end %&gt;</code></pre>
 
 <p>Then, you call <code><a href="toplevel.html#yield_content%28key%29-macro">yield_content</a></code> with that identifier, generally from a
 layout, to render the captured block:</p>
 
 <pre><code><span class="c"># layout.ecr</span>
-<span class="o"><</span>%= yield_content <span class="s">&quot;some_key&quot;</span> <span class="o">%</span><span class="o">></span></code></pre>
+<span class="o">&lt;</span>%= yield_content <span class="s">&quot;some_key&quot;</span> <span class="o">%</span><span class="o">&gt;</span></code></pre>
 
 <h2>And How Is This Useful?</h2>
 
@@ -1211,7 +1239,7 @@ setting the appropriate set of tags that should be added to the layout.</p></div
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/helpers/macros.cr#L38" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/helpers/macros.cr#L38" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1232,7 +1260,7 @@ Returns 200 and an empty response by default.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/helpers/macros.cr#L80" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/helpers/macros.cr#L80" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1252,7 +1280,7 @@ Returns 200 and an empty response by default.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/helpers/macros.cr#L63" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/helpers/macros.cr#L63" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1270,7 +1298,7 @@ Returns 200 and an empty response by default.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/helpers/macros.cr#L70" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/helpers/macros.cr#L70" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1288,7 +1316,7 @@ Returns 200 and an empty response by default.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/helpers/macros.cr#L50" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/helpers/macros.cr#L50" target="_blank">View source</a>]
         
       </div>
     </div>

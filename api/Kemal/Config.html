@@ -1,24 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Crystal Docs 0.26.1">
+
+
+<link href="../css/style.css" rel="stylesheet" type="text/css">
+
+<script type="text/javascript" src="../js/doc.js"></script>
+<script type="text/javascript">
+  CrystalDoc.base_path = "../";
+</script>
+
   <meta id="repository-name" content="github.com/kemalcr/kemal">
-  <link href="../css/style.css" rel="stylesheet" type="text/css" />
-  <script type="text/javascript" src="../js/doc.js"></script>
   <title>Kemal::Config - github.com/kemalcr/kemal</title>
 </head>
 <body>
 
-<div id="types-list">
-  <div id="search-box">
-    <input type="search" id="search-input" placeholder="Search...">
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="repository-links">
+      <a href="../index.html">README</a>
+    </div>
   </div>
 
-  <ul>
-    <li><a href="../index.html">README</a></li>
-  </ul>
+  <div class="search-results" class="hidden">
+    <ul class="search-list"></ul>
+  </div>
 
-  <ul>
+  <div class="types-list">
+    <ul>
   
   <li class=" " data-id="github.com/kemalcr/kemal/toplevel" data-name="top level namespace">
       <a href="../toplevel.html">Top Level Namespace</a>
@@ -50,6 +66,11 @@
       
     </li>
   
+  <li class=" " data-id="github.com/kemalcr/kemal/Kemal/ExceptionPage" data-name="kemal::exceptionpage">
+      <a href="../Kemal/ExceptionPage.html">ExceptionPage</a>
+      
+    </li>
+  
   <li class="parent " data-id="github.com/kemalcr/kemal/Kemal/Exceptions" data-name="kemal::exceptions">
       <a href="../Kemal/Exceptions.html">Exceptions</a>
       
@@ -72,6 +93,11 @@
   
 </ul>
 
+      
+    </li>
+  
+  <li class=" " data-id="github.com/kemalcr/kemal/Kemal/FileUpload" data-name="kemal::fileupload">
+      <a href="../Kemal/FileUpload.html">FileUpload</a>
       
     </li>
   
@@ -142,9 +168,11 @@
   
 </ul>
 
+  </div>
 </div>
 
-<div id="main-content">
+
+<div class="main-content">
 <h1 class="type-name">
 
   <span class="kind">class</span> Kemal::Config
@@ -180,7 +208,9 @@ It's a singleton and you can access it like.</p>
   <h2>Defined in:</h2>
   
     
-      <a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/config.cr#L8" target="_blank">kemal/config.cr</a>
+      <a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/config.cr#L10" target="_blank">
+        kemal/config.cr
+      </a>
     
     <br/>
   
@@ -274,11 +304,6 @@ It's a singleton and you can access it like.</p>
       </li>
     
       <li class="entry-summary">
-        <a href="#custom_handler_position-instance-method" class="signature"><strong>#custom_handler_position</strong></a>
-        
-      </li>
-    
-      <li class="entry-summary">
         <a href="#env%3AString-instance-method" class="signature"><strong>#env</strong> : String</a>
         
       </li>
@@ -359,6 +384,16 @@ It's a singleton and you can access it like.</p>
       </li>
     
       <li class="entry-summary">
+        <a href="#powered_by_header%3ABool-instance-method" class="signature"><strong>#powered_by_header</strong> : Bool</a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#powered_by_header%3D%28powered_by_header%3ABool%29-instance-method" class="signature"><strong>#powered_by_header=</strong>(powered_by_header : Bool)</a>
+        
+      </li>
+    
+      <li class="entry-summary">
         <a href="#public_folder%3AString-instance-method" class="signature"><strong>#public_folder</strong> : String</a>
         
       </li>
@@ -429,12 +464,12 @@ It's a singleton and you can access it like.</p>
       </li>
     
       <li class="entry-summary">
-        <a href="#static_headers%3AHTTP%3A%3AServer%3A%3AResponse%2CString%2CFile%3A%3AStat-%3EVoid%3F-instance-method" class="signature"><strong>#static_headers</strong> : HTTP::Server::Response, String, File::Stat -> Void?</a>
+        <a href="#static_headers%3AHTTP%3A%3AServer%3A%3AResponse%2CString%2CFile%3A%3AInfo-%3EVoid%3F-instance-method" class="signature"><strong>#static_headers</strong> : HTTP::Server::Response, String, File::Info -> Void?</a>
         
       </li>
     
       <li class="entry-summary">
-        <a href="#static_headers%3D%28static_headers%3AHTTP%3A%3AServer%3A%3AResponse%2CString%2CFile%3A%3AStat-%3EVoid%3F%29-instance-method" class="signature"><strong>#static_headers=</strong>(static_headers : HTTP::Server::Response, String, File::Stat -> Void?)</a>
+        <a href="#static_headers%3D%28static_headers%3AHTTP%3A%3AServer%3A%3AResponse%2CString%2CFile%3A%3AInfo-%3EVoid%3F%29-instance-method" class="signature"><strong>#static_headers=</strong>(static_headers : HTTP::Server::Response, String, File::Info -> Void?)</a>
         
       </li>
     
@@ -482,7 +517,7 @@ It's a singleton and you can access it like.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/config.cr#L27" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/config.cr#L29" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -505,7 +540,7 @@ It's a singleton and you can access it like.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/config.cr#L91" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/config.cr#L94" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -521,7 +556,7 @@ It's a singleton and you can access it like.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/config.cr#L83" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/config.cr#L86" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -537,7 +572,7 @@ It's a singleton and you can access it like.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/config.cr#L75" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/config.cr#L78" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -553,7 +588,7 @@ It's a singleton and you can access it like.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/config.cr#L79" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/config.cr#L82" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -569,7 +604,7 @@ It's a singleton and you can access it like.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/config.cr#L23" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/config.cr#L24" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -585,7 +620,7 @@ It's a singleton and you can access it like.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/config.cr#L23" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/config.cr#L24" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -601,23 +636,7 @@ It's a singleton and you can access it like.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/config.cr#L56" target="_blank">View source</a>]
-        
-      </div>
-    </div>
-  
-    <div class="entry-detail" id="custom_handler_position-instance-method">
-      <div class="signature">
-        
-        def <strong>custom_handler_position</strong>
-
-        <a class="method-permalink" href="#custom_handler_position-instance-method">#</a>
-      </div>
-      
-      <br/>
-      <div>
-        
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/config.cr#L21" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/config.cr#L58" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -633,7 +652,7 @@ It's a singleton and you can access it like.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/config.cr#L22" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/config.cr#L23" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -649,7 +668,7 @@ It's a singleton and you can access it like.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/config.cr#L22" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/config.cr#L23" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -665,7 +684,7 @@ It's a singleton and you can access it like.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/config.cr#L87" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/config.cr#L90" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -681,7 +700,7 @@ It's a singleton and you can access it like.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/config.cr#L95" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/config.cr#L98" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -697,7 +716,7 @@ It's a singleton and you can access it like.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/config.cr#L23" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/config.cr#L24" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -713,7 +732,7 @@ It's a singleton and you can access it like.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/config.cr#L23" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/config.cr#L24" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -729,7 +748,7 @@ It's a singleton and you can access it like.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/config.cr#L66" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/config.cr#L69" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -745,7 +764,7 @@ It's a singleton and you can access it like.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/config.cr#L70" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/config.cr#L73" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -761,7 +780,7 @@ It's a singleton and you can access it like.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/config.cr#L22" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/config.cr#L23" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -777,7 +796,7 @@ It's a singleton and you can access it like.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/config.cr#L22" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/config.cr#L23" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -793,7 +812,7 @@ It's a singleton and you can access it like.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/config.cr#L44" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/config.cr#L46" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -809,7 +828,7 @@ It's a singleton and you can access it like.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/config.cr#L48" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/config.cr#L50" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -825,7 +844,7 @@ It's a singleton and you can access it like.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/config.cr#L22" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/config.cr#L23" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -841,7 +860,7 @@ It's a singleton and you can access it like.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/config.cr#L22" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/config.cr#L23" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -857,7 +876,7 @@ It's a singleton and you can access it like.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/config.cr#L22" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/config.cr#L23" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -873,7 +892,39 @@ It's a singleton and you can access it like.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/config.cr#L22" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/config.cr#L23" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="powered_by_header:Bool-instance-method">
+      <div class="signature">
+        
+        def <strong>powered_by_header</strong> : Bool
+
+        <a class="method-permalink" href="#powered_by_header%3ABool-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/config.cr#L27" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="powered_by_header=(powered_by_header:Bool)-instance-method">
+      <div class="signature">
+        
+        def <strong>powered_by_header=</strong>(powered_by_header : Bool)
+
+        <a class="method-permalink" href="#powered_by_header%3D%28powered_by_header%3ABool%29-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/config.cr#L27" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -889,7 +940,7 @@ It's a singleton and you can access it like.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/config.cr#L22" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/config.cr#L23" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -905,7 +956,7 @@ It's a singleton and you can access it like.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/config.cr#L22" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/config.cr#L23" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -921,7 +972,7 @@ It's a singleton and you can access it like.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/config.cr#L22" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/config.cr#L23" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -937,7 +988,7 @@ It's a singleton and you can access it like.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/config.cr#L22" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/config.cr#L23" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -953,7 +1004,7 @@ It's a singleton and you can access it like.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/config.cr#L52" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/config.cr#L54" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -969,7 +1020,7 @@ It's a singleton and you can access it like.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/config.cr#L24" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/config.cr#L25" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -985,7 +1036,7 @@ It's a singleton and you can access it like.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/config.cr#L24" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/config.cr#L25" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1001,7 +1052,7 @@ It's a singleton and you can access it like.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/config.cr#L23" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/config.cr#L24" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1017,7 +1068,7 @@ It's a singleton and you can access it like.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/config.cr#L23" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/config.cr#L24" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1033,7 +1084,7 @@ It's a singleton and you can access it like.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/config.cr#L98" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/config.cr#L101" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1049,7 +1100,7 @@ It's a singleton and you can access it like.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/config.cr#L23" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/config.cr#L24" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1065,7 +1116,7 @@ It's a singleton and you can access it like.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/config.cr#L23" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/config.cr#L24" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1081,7 +1132,7 @@ It's a singleton and you can access it like.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/config.cr#L22" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/config.cr#L23" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -1097,39 +1148,39 @@ It's a singleton and you can access it like.</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/config.cr#L22" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/config.cr#L23" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="static_headers:HTTP::Server::Response,String,File::Stat-&gt;Void?-instance-method">
+    <div class="entry-detail" id="static_headers:HTTP::Server::Response,String,File::Info-&gt;Void?-instance-method">
       <div class="signature">
         
-        def <strong>static_headers</strong> : <a href="../HTTP/Server/Response.html">HTTP::Server::Response</a>, String, File::Stat -> Void?
+        def <strong>static_headers</strong> : <a href="../HTTP/Server/Response.html">HTTP::Server::Response</a>, String, File::Info -> Void?
 
-        <a class="method-permalink" href="#static_headers%3AHTTP%3A%3AServer%3A%3AResponse%2CString%2CFile%3A%3AStat-%3EVoid%3F-instance-method">#</a>
+        <a class="method-permalink" href="#static_headers%3AHTTP%3A%3AServer%3A%3AResponse%2CString%2CFile%3A%3AInfo-%3EVoid%3F-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/config.cr#L25" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/config.cr#L26" target="_blank">View source</a>]
         
       </div>
     </div>
   
-    <div class="entry-detail" id="static_headers=(static_headers:HTTP::Server::Response,String,File::Stat-&gt;Void?)-instance-method">
+    <div class="entry-detail" id="static_headers=(static_headers:HTTP::Server::Response,String,File::Info-&gt;Void?)-instance-method">
       <div class="signature">
         
-        def <strong>static_headers=</strong>(static_headers : <a href="../HTTP/Server/Response.html">HTTP::Server::Response</a>, String, File::Stat -> Void?)
+        def <strong>static_headers=</strong>(static_headers : <a href="../HTTP/Server/Response.html">HTTP::Server::Response</a>, String, File::Info -> Void?)
 
-        <a class="method-permalink" href="#static_headers%3D%28static_headers%3AHTTP%3A%3AServer%3A%3AResponse%2CString%2CFile%3A%3AStat-%3EVoid%3F%29-instance-method">#</a>
+        <a class="method-permalink" href="#static_headers%3D%28static_headers%3AHTTP%3A%3AServer%3A%3AResponse%2CString%2CFile%3A%3AInfo-%3EVoid%3F%29-instance-method">#</a>
       </div>
       
       <br/>
       <div>
         
-          [<a href="https://github.com/kemalcr/kemal/blob/17bd3dce3724b092fd1151cad126f5973da00204/src/kemal/config.cr#L25" target="_blank">View source</a>]
+          [<a href="https://github.com/kemalcr/kemal/blob/a5d8df73822a7421f3318682910d3fe3b6a33dcc/src/kemal/config.cr#L26" target="_blank">View source</a>]
         
       </div>
     </div>
