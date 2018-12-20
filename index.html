@@ -71,12 +71,9 @@ Kemal.run
       <div class="col-sm-6">
         <canvas id="request" class="item"></canvas>
       </div>
-      <div class="col-sm-6">
-        <canvas id="response-time" class="item"></canvas>
-      </div>
     </div>
     <div class="u-mr-top-20">
-      <small>These results were achieved with <strong>wrk</strong> on a Macbook Pro Late 2013. <strong>(2GHz i7 8GB Ram OS X Yosemite)</strong></small>
+      <small>These results were achieved with <a href="https://github.com/sdogruyol/kemal-github-api)" target="_blank">kemal-github-api benchmark suite</a> </strong></small>
     </div>
   </div>
 </div>
@@ -113,40 +110,14 @@ Kemal.run
             lineTension: 0.1,
             borderColor: '#ff4f4f',
             backgroundColor: '#ff4f4f',
-            data: ['100238']
+            data: ['46085.09']
           }, {
             label: 'Sinatra',
             fill: false,
             lineTension: 0.1,
             borderColor: '#aca38f',
             backgroundColor: '#aca38f',
-            data: ['2274']
-          }
-        ]
-      }
-    });
-
-    ctx = document.getElementById("response-time");
-
-    scatterChart = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: ["Avg. Response Time(in milliseconds)"],
-        datasets: [
-          {
-            label: 'Kemal',
-            fill: false,
-            lineTension: 0.1,
-            borderColor: '#ff4f4f',
-            backgroundColor: '#ff4f4f',
-            data: ['0.395']
-          }, {
-            label: 'Sinatra',
-            fill: false,
-            lineTension: 0.1,
-            borderColor: '#aca38f',
-            backgroundColor: '#aca38f',
-            data: ['43.82']
+            data: ['3954']
           }
         ]
       }
