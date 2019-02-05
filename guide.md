@@ -414,9 +414,13 @@ send_file env, "./path/to/file.exe", "image/jpeg"
 
 For both given examples file will be sent with `image/jpeg` MIME type.
 
-MIME type detection is based on [MIME](https://crystal-lang.org/api/0.27.1/MIME.html) registry from Crystal standard library which uses OS-provided MIME database. In case of its absence, it'll use containg basic type list [MIME::DEFAULT_TYPES](https://crystal-lang.org/api/0.27.1/MIME.html#DEFAULT_TYPES) as a fallback.
+MIME type detection is based on [MIME](https://crystal-lang.org/api/0.27.1/MIME.html) registry from Crystal standard library which uses OS-provided MIME database. In case of its absence, it'll use containing basic type list [MIME::DEFAULT_TYPES](https://crystal-lang.org/api/0.27.1/MIME.html#DEFAULT_TYPES) as a fallback.
 
 You can always extend registered type list by calling `MIME.register` method with an extension and its desired type.
+
+```ruby
+MIME.register ".cr", "text/crystal"
+```
 
 # [Middleware](#middleware)
 
