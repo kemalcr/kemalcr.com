@@ -399,18 +399,24 @@ end
 
 ### Send File
 
-Send a file with given path and base the mime-type on the file extension
+Send a file with given path and base the MIME type on the file extension
 or default `application/octet-stream` mime_type.
 
 ```ruby
-send_file env, "./path/to/file"
+send_file env, "./path/to/file.jpg"
 ```
 
-Optionally you can override the mime_type
+Optionally you can override the MIME type
 
 ```ruby
-send_file env, "./path/to/file", "image/jpeg"
+send_file env, "./path/to/file.exe", "image/jpeg"
 ```
+
+For both given examples file will be sent with `image/jpeg` MIME type.
+
+MIME type detection is based on [MIME](https://crystal-lang.org/api/0.27.1/MIME.html) registry from Crystal standard library which uses OS-provided MIME database. In case of its absence, it'll use containg basic type list [MIME::DEFAULT_TYPES](https://crystal-lang.org/api/0.27.1/MIME.html#DEFAULT_TYPES) as a fallback.
+
+You can always extend registered type list by calling `MIME.register` method with an extension and its desired type.
 
 # [Middleware](#middleware)
 
