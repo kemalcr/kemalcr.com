@@ -801,6 +801,16 @@ ws "/" do |socket|
 end
 ```
 
+`ws` yields a second parameter which lets you access the `HTTP::Server::Context` which lets you use the underlying `request` and `response`.
+
+```ruby
+ws "/" do |socket, context|
+  headers = context.request.headers
+
+  socket.send headers["Content-Type"]?
+end
+```
+
 # [Testing](#testing)
 
 You can test your Kemal application using [spec-kemal](https://github.com/kemalcr/spec-kemal).
