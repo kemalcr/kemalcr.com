@@ -811,6 +811,14 @@ ws "/" do |socket, context|
 end
 ```
 
+### Accessing Dynamic Url Params
+
+```ruby
+ws "/:id" do |socket, context|
+  id = context.ws_route_lookup.params["id"]
+end
+```
+
 # [Testing](#testing)
 
 You can test your Kemal application using [spec-kemal](https://github.com/kemalcr/spec-kemal).
