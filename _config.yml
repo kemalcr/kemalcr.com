@@ -27,6 +27,8 @@ nav_bars:
     url: "/blog"
   - title: "Community"
     url: "/community"
+  - title: "Users"
+    url: "https://github.com/kemalcr/kemal/wiki/Kemal-Users"
   - title: "Github"
     url: "https://github.com/kemalcr/kemal"
 
