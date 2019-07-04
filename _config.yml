@@ -1,7 +1,7 @@
 # Site settings
 title:            Kemal
 email:            dogruyolserdar@gmail.com
-description:      'Lightning Fast, Super Simple web framework for Crystal. Inspired by Sinatra'
+description:      'Lightning Fast, Super Simple web framework for Crystal'
 baseurl:          "" # the subpath of your site, e.g. /blog
 url:              "http://kemalcr.com" # the base hostname & protocol for your site
 twitter_username: sdogruyol
