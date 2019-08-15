@@ -2,7 +2,7 @@ require "kemal"
 
 static_headers do |response, filepath, filestat|
   if filepath =~ /\.html$/
-    response.headers.add("Access-Control-Allow-Origin", "*")
+    response.headers.add("Access-Control-Allow-Origin", "example.com")
   end
   response.headers.add("Content-Size", filestat.size.to_s)
 end
