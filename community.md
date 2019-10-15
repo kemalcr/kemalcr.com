@@ -15,10 +15,18 @@ There are a number of places to connect with community members at all experience
 
 ## Videos
 
+- [Crystal and Kemal: Simply Fast](https://www.youtube.com/watch?v=OkM42UKhjsk)
+
 - [Kemal - Building Lightning Fast Web Applications with Simplicity](https://www.youtube.com/watch?v=KJB-nAoRSr8)
 
 - [Building Web Applications with Crystal and Kemal](https://www.youtube.com/watch?v=XPLsQ88XOiQ)
 
-- [Aprende a desarrollar aplicaciones en tiempo real con Crystal y React](https://www.youtube.com/watch?v=KAre3vRCU3U)
+- [Web Server Optimized: Kemal](https://www.youtube.com/watch?v=0OFiLfXXodg)
+
+- [(ES) Crystal en Español: Kemal](https://www.youtube.com/watch?v=DT7gRIaKQqg)
+
+- [The ROCKY STACK: React Over Crystal Kemal and Yarn](https://www.youtube.com/watch?v=szz1QFZPCrA&list=PL_ZUs2eBjBit8P2r3jntJMtw2hOHuXE1w)
 
 - [Todo App Demo Developed With Crystal, React and PostgreSQL](https://www.youtube.com/watch?v=6KzPGp87YCw)
+
+- [(TR) Crystal Lang ve Kemal](https://www.youtube.com/watch?v=LOAahRnsIpk)
