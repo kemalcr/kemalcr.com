@@ -3,10 +3,9 @@ require "json"
 
 # You can use JSON.mapping to directly create an object from JSON
 class User
-  JSON.mapping(
-    username: String,
-    password: String,
-  )
+  include JSON::Serializable
+
+  property username : String, password : String
 end
 
 post "/" do |env|
