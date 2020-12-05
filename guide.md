@@ -761,7 +761,7 @@ See [kemal-session](https://github.com/kemalcr/kemal-session) for usage and comp
 To access the CSRF token of the active session you can do the following in your form:
 
 ```erb
-<input type="hidden" name="_csrf" value="<%= env.session.string("csrf") %>">
+<input type="hidden" name="authenticity_token" value="<%= env.session.string("csrf") %>">
 ```
 
 # [WebSockets](#websockets)
