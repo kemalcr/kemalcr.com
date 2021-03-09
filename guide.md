@@ -5,7 +5,7 @@ title: Kemal - Guide
 
 # [Getting Started](#getting-started)
 
-This guide assumes that you already have Crystal installed. If not, check out the [Crystal installation methods](https://crystal-lang.org/docs/installation/) and come back when you're done.
+This guide assumes that you already have Crystal installed. If not, check out the [Crystal installation methods](https://crystal-lang.org/install/) and come back when you're done.
 
 ### Installing Kemal
 
