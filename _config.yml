@@ -1,5 +1,5 @@
 # Site settings
-title:            Kemal
+title:            Kemal - Lightning Fast, Super Simple Web Framework for Crystal
 email:            dogruyolserdar@gmail.com
 description:      'Lightning Fast, Super Simple web framework for Crystal'
 baseurl:          "" # the subpath of your site, e.g. /blog
