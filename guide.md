@@ -865,12 +865,8 @@ Kemal.run
 
 Now you can easily test your `Kemal` application in your `spec`s.
 
-```
-KEMAL_ENV=test crystal spec
-```
-
 ```ruby
-# spec/your-kemal-app-spec.cr
+# spec/your-kemal-app_spec.cr
 
 describe "Your::Kemal::App" do
 
@@ -881,6 +877,12 @@ describe "Your::Kemal::App" do
   end
 
 end
+```
+
+Run the tests:
+
+```
+KEMAL_ENV=test crystal spec
 ```
 
 # [SSL](#ssl)
