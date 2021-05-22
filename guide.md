@@ -823,7 +823,21 @@ end
 
 You can test your Kemal application using [spec-kemal](https://github.com/kemalcr/spec-kemal).
 
-First add it to your `shard.yml`
+Your Kemal application
+
+```ruby
+# src/your-kemal-app.cr
+
+require "kemal"
+
+get "/" do
+  "Hello World!"
+end
+
+Kemal.run
+```
+
+First add `spec-kemal` to your `shard.yml`
 
 ```yaml
 name: your-kemal-app
@@ -842,35 +856,18 @@ Install dependencies
 shards install
 ```
 
-Just require it before your files in your `spec/spec_helper.cr`
+Require it before your files in your `spec/spec_helper.cr`
 
 ```ruby
 require "spec-kemal"
 require "../src/your-kemal-app"
 ```
 
-Your Kemal application
-
-```ruby
-# src/your-kemal-app.cr
-
-require "kemal"
-
-get "/" do
-  "Hello World!"
-end
-
-Kemal.run
-```
-
 Now you can easily test your `Kemal` application in your `spec`s.
-
-```
-KEMAL_ENV=test crystal spec
-```
+Create a file called `spec/your-kemal-app_spec.cr`:
 
 ```ruby
-# spec/your-kemal-app-spec.cr
+require "./spec_helper"
 
 describe "Your::Kemal::App" do
 
@@ -881,6 +878,12 @@ describe "Your::Kemal::App" do
   end
 
 end
+```
+
+Run the tests:
+
+```
+KEMAL_ENV=test crystal spec
 ```
 
 # [SSL](#ssl)
