@@ -369,7 +369,16 @@ public_folder "path/to/your/folder"
 
 ### Logging
 
-Kemal enables logging by default. You can easily disable this like so:
+Kemal enables logging by default.
+
+You can add logging statements to your code:
+
+```ruby
+Log.info { "Log message with or without embedded #{variables}" }
+```
+
+
+You can easily disable logging this like so:
 
 ```ruby
 logging false
