@@ -8,11 +8,15 @@
             {% if my_page.title %}
             <a href="{{ my_page.url }}" class="Header_menu_item">
             {% if my_page.title == "Github" %}
-            <svg class="icon" title="Kemal on Github">
-              <use xlink:href="#icon-github"></use>
-            </svg>
+              <svg class="icon" title="Kemal on Github">
+                <use xlink:href="#icon-github"></use>
+              </svg>
+            {% elsif my_page.title == "Twitter" %}
+              <svg class="icon" title="Kemal on Twitter">
+                <use xlink:href="#icon-twitter"></use>
+              </svg>
             {% else %}
-            {{ my_page.title }}
+              {{ my_page.title }}
             {% endif %}
             </a>
             {% endif %}
