@@ -554,6 +554,12 @@ get "/users/:id" do |env|
   id = env.params.url["id"]
   "Found user #{id}"
 end
+
+# Matches /dir/and/anything/after
+get "/dir/*all" do |env|
+  all = env.params.url["all"]
+  "Found path #{all}"
+end
 ```
 
 ### Query Parameters
