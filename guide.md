@@ -390,6 +390,8 @@ Halt execution with the current context. Returns 200 and an empty response by de
 halt env, status_code: 403, response: "Forbidden"
 ```
 
+*Note:* Halt can only be used inside routes.
+
 ### Custom Errors
 
 You can customize the built-in error pages or even add your own with `error`.
