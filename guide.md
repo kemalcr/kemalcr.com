@@ -940,6 +940,10 @@ If you prefer to do this from within your application, use:
 Kemal.config.env = "production"
 ```
 
+When the `KEMAL_ENV` environment variable is not set to `production`, e.g. `development`, an exception page is rendered when an exception is raised which provides a lot of useful information for debugging. However, if the environment variable is set to `production` a standard error page is rendered (see [source](https://github.com/kemalcr/kemal/blob/master/src/kemal/helpers/exception_page.cr#L16)).
+
+*Note:* `KEMAL_ENV` should ***always*** be set to `production` in an production environment for security reasons.
+
 ### Improve this guide
 
 Please help us improve this guide with pull requests to [this website repository](https://github.com/kemalcr/kemalcr.com).
