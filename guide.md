@@ -639,6 +639,11 @@ get "/headers" do |env|
   env.response.headers["Accept-Language"] = "tr"
   env.response.headers["Authorization"] = "Token 12345"
 end
+
+# Set response status code
+get "/status-code" do |env|
+  env.response.status_code = 404
+end
 ```
 
 ### Context Storage
