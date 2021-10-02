@@ -8,3 +8,5 @@ class CustomAuthHandler < Kemal::BasicAuth::Handler
     super
   end
 end
+
+Kemal.config.auth_handler = CustomAuthHandler
