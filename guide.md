@@ -906,6 +906,18 @@ Run the tests:
 KEMAL_ENV=test crystal spec
 ```
 
+# [CLI](#cli)
+
+A Kemal application accepts a few optional command-line flags:
+
+| Short flag | Long flag              | Description                                   |
+|------------| -----------------------| --------------------------------------------- |
+| `-b HOST`  | `--bind HOST`          | Host to bind (default: 0.0.0.0)               |
+| `-p PORT`  | `--port PORT`          | Port to listen for connection (default: 3000) |
+| `-s`       | `--ssl`                | Enables SSL                                   |
+|            | `--ssl-key-file FILE`  | SSL key file                                  |
+{:.mbtablestyle}
+
 # [SSL](#ssl)
 
 Kemal has built-in and easy to use SSL support.
