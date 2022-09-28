@@ -250,9 +250,11 @@ Since Crystal does not allow using variables in macro literals, you need to gene
 another *helper macro* to make the code easier to read and write.
 
 ```ruby
+{% raw %}
 macro my_renderer(filename)
-  render "my/app/view/base/path/#{{{filename}}}.ecr", "my/app/view/base/path/layouts/layout.ecr"
+  render "my/app/view/base/path/#{ {{filename}} }.ecr", "my/app/view/base/path/layouts/layout.ecr"
 end
+{% endraw %}
 ```
 
 And now you can use your new renderer.
