@@ -42,7 +42,7 @@ That's it! You're now ready to use Kemal in your application.
 
 ### Using Kemal
 
-You can do some awesome stuff with Kemal. Let's start with a simple example.
+You can do awesome stuff with Kemal. Let's start with a simple example.
 
 ```ruby
 require "kemal"
@@ -62,14 +62,14 @@ Starting your application is easy. Simply run:
 crystal run src/your_app.cr
 ```
 
-If everything went well, you should see a message saying that Kemal is running.
+If everything goes well, you should see a message saying that Kemal is running.
 
 ```
 [development] Kemal is ready to lead at http://0.0.0.0:3000
 2015-12-01 13:47:48 +0200 | 200 | GET / - (666µs)
 ```
 
-Congrats on your first Kemal application! This is just the beginning. Keep reading to learn how to do more with Kemal.
+Congratulations on your first Kemal application! This is just the beginning. Keep reading to learn how to do more with Kemal.
 
 # [Routes](#routes)
 
@@ -96,7 +96,7 @@ delete "/" do
 .. annihilate something ..
 end
 ```
-Any **string** returned from a route will be output to the browser.
+Any **string** returned from a route will output to the browser.
 Routes are matched in the order they are defined. The first route that matches the request is invoked.
 
 # [Static Files](#static-files)
