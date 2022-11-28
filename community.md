@@ -15,6 +15,8 @@ There are a number of places to connect with community members at all experience
 
 ## Videos
 
+- [Build a RESTful API in 5 minutes with Kemal](https://youtu.be/6CHdjlgnE5U)
+
 - [Crystal and Kemal: Simply Fast](https://www.youtube.com/watch?v=OkM42UKhjsk)
 
 - [Kemal - Building Lightning Fast Web Applications with Simplicity](https://www.youtube.com/watch?v=KJB-nAoRSr8)
