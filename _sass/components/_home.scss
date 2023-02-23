@@ -116,6 +116,39 @@
   }
 }
 
+.companies {
+  display: flex;
+  align-items: center;
+  flex-flow: row wrap;
+
+  div{
+    flex: 1;
+    text-align: center;
+    padding: 0 20px 20px;
+    flex-basis: 50%;
+
+    @media screen and (min-width: 500px){
+      flex-basis: 25%;
+    }
+  }
+
+  img{
+    max-width: 2000px;
+    max-height: 100px;
+    margin: 10px 20px;
+
+    @media screen and (min-width: 500px){
+      max-width: 85px;
+      max-height: 50px;
+    }
+
+    @media screen and (min-width: $screen-sm-min){
+      max-width: 130px;
+      max-height: 70px;
+    }
+  }
+}
+
 
 .Kemal-users{
   display: flex;
