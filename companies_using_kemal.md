@@ -3,7 +3,7 @@ layout: default
 title: Companies using Kemal in Production
 ---
 
-# Companies using Kemal in Production
+<h3> Companies using Kemal in Production </h3>
 
 <div class="container">
   <div class="Block">
