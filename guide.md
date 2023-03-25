@@ -406,6 +406,22 @@ error 403 do
 end
 ```
 
+To use a custom `error` you must set the `response.status_code` and then raise a `Kemal::Exceptions::CustomException`.
+
+```ruby
+get "/" do |env|
+  if some_condition
+    env.response.status_code = 403
+    raise Kemal::Exceptions::CustomException.new env
+  end
+  {"message": "Hello Kemal"}.to_json
+end
+
+error 403 do
+  "Access denied"
+end
+```
+
 ### Send File
 
 Send a file with given path and base the MIME type on the file extension
