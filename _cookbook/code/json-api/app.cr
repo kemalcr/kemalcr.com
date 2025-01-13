@@ -1,11 +1,16 @@
 require "kemal"
 require "json"
 
-# You can easily access the context and set content_type like 'application/json'.
-# Look how easy to build a JSON serving API.
+# Define a route for the root path "/"
 get "/" do |env|
+  # Set response content type to JSON
+  # This tells clients to expect JSON data
   env.response.content_type = "application/json"
+
+  # Create a simple hash and convert it to JSON
+  # Returns a JSON string: {"name": "Serdar", "age": 27}
   {name: "Serdar", age: 27}.to_json
 end
 
+# Start the Kemal web server
 Kemal.run
