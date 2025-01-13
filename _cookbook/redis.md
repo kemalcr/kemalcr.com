@@ -8,7 +8,7 @@ Add the `redis` shard to your `shard.yml` file.
 ```yaml
 dependencies:
   redis:
-    github: crystal-lang/crystal-redis
+    github: stefanwille/crystal-redis
 ```
 
 ```ruby
