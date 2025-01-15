@@ -4,10 +4,13 @@ require "mysql"
 
 # Initialize a single DB connection
 DB_URL = "mysql://root:password@localhost:3306/mydb"
-DB = DB.open(DB_URL)
+DBC = DB.open(DB_URL)
 
 # Example User model
 class User
+  include JSON::Serializable  # To render json in HTTP::Response
+  include DB::Serializable    # To serialize from DB::ResultSet
+
   property id : Int32
   property name : String
   property email : String
@@ -21,18 +24,8 @@ get "/users" do |env|
   # Initialize empty array to store User objects
   users = [] of User
   
-  # Query database for all users
-  DB.query "SELECT * FROM users" do |rs|
-    # For each row in result set
-    rs.each do
-      # Create new User object from row data and add to array
-      users << User.new(
-        id: rs.read(Int32),    # Read id column as Integer
-        name: rs.read(String), # Read name column as String 
-        email: rs.read(String) # Read email column as String
-      )
-    end
-  end
+  # Serialize ResultSet
+  users = User.from_rs(DBC.query("SELECT * FROM users"))
 
   # Return users array as JSON response
   users.to_json
@@ -43,11 +36,9 @@ post "/users" do |env|
   name = env.params.json["name"].as(String)
   email = env.params.json["email"].as(String)
   
-  user_id = DB.exec "INSERT INTO users (name, email) VALUES (?, ?) RETURNING id", name, email do |rs|
-    rs.each { return rs.read(Int32) }
-  end
+  user = User.from_rs(DBC.query("INSERT INTO users (name, email) VALUES ($1, $2) RETURNING id, name, email", name, email)).first
   
-  {message: "User created with id: #{user_id}"}.to_json
+  {message: "User created with id: #{user.id}"}.to_json
 end
 
 # Delete a user
