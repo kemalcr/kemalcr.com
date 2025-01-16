@@ -7,6 +7,7 @@ This is the repo for the official [Kemal](http://kemalcr.com) site.
 * `git clone git@github.com:kemalcr/kemalcr.com.git`
 * `cd kemalcr.com`
 * `gem install jekyll` requires [rubygems](http://rubygems.org)
+* `bundle install` installs all the necessary gems
 * `jekyll serve` boots website locally
 
 Now open up `http://locahost:4000` to view the site locally.

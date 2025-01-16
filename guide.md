@@ -42,7 +42,7 @@ That's it! You're now ready to use Kemal in your application.
 
 ### Using Kemal
 
-You can do awesome stuff with Kemal. Let's start with a simple example.
+You can do awesome stuff with Kemal. Let's start with a simple example. Just change the content of `src/your_app.cr` to:
 
 ```ruby
 require "kemal"
@@ -63,10 +63,11 @@ crystal run src/your_app.cr
 ```
 
 If everything goes well, you should see a message saying that Kemal is running.
+If you are using Windows, use `http://localhost:3000` or `http://127.0.0.1:3000` instead of `http://0.0.0.0:3000`.
 
 ```
 [development] Kemal is ready to lead at http://0.0.0.0:3000
-2015-12-01 13:47:48 +0200 | 200 | GET / - (666µs)
+2015-12-01 13:47:48 UTC 200 GET / 666µs
 ```
 
 Congratulations on your first Kemal application! This is just the beginning. Keep reading to learn how to do more with Kemal.
