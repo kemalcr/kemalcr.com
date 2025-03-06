@@ -406,21 +406,43 @@ error 403 do
 end
 ```
 
-To use a custom `error` you must set the `response.status_code` and then raise a `Kemal::Exceptions::CustomException`.
+To handle a custom error based on a raised exception, you pass the exception to `error`
 
 ```ruby
 get "/" do |env|
   if some_condition
-    env.response.status_code = 403
-    raise Kemal::Exceptions::CustomException.new env
+    raise ValueError.new
   end
   {"message": "Hello Kemal"}.to_json
 end
 
-error 403 do
-  "Access denied"
+error ValueError do
+  "Something has gone wrong"
 end
 ```
+
+**NOTE** Exception handlers are resolved based on definition order first, and inheritance order second. For example:
+
+```ruby
+
+class GrandParentException < Exception; end
+class ParentException < GrandParentException; end
+class ChildException < ParentException; end
+
+error GrandParentException do
+  "Grandparent exception"
+end
+
+error ParentException do
+  "Parent exception"
+end
+
+get "/" do
+  raise ChildException.new()
+end
+```
+
+Will resolve to the handler for `GrandParentException` rather than `ParentException`
 
 ### Send File
 
