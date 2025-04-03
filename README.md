@@ -6,15 +6,12 @@ This is the repo for the official [Kemal](http://kemalcr.com) site.
 
 * `git clone git@github.com:kemalcr/kemalcr.com.git`
 * `cd kemalcr.com`
-* `gem install jekyll` requires [rubygems](http://rubygems.org)
 * `bundle install` installs all the necessary gems
-* `jekyll serve` boots website locally
+* `bundle exec jekyll serve` boots website locally
 
 Now open up `http://locahost:4000` to view the site locally.
 
 ## Contributing
-
-[![Join the chat at https://gitter.im/sdogruyol/kemal](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/sdogruyol/kemal?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 1. Fork the repo
 2. Make updates
