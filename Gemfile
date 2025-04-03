@@ -23,4 +23,4 @@ gem "wdm", "~> 0.1.0" if Gem.win_platform?
 group :jekyll_plugins do
   gem "jemoji"
 end
-gem "webrick", "~> 1.7"
+gem "webrick", "~> 1.8"
