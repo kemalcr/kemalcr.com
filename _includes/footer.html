@@ -1,15 +1,44 @@
 <footer class="Footer">
   <div class="container">
     <div class="row">
-      <div class="col-sm-12 Footer_copyright">
-        <p>Kemal is developed and maintained by <a href="http://twitter.com/sdogruyol" target="_blank">Serdar Doğruyol</a></p>
+      <div class="col-sm-6">
+        <p>Documentation</p>
+        <nav>
+          <ul>
+            {% for doc in site.footer_docs %}
+            <li>
+              <a href="{{ doc.url | prepend: site.baseurl }}"
+                >{{ doc.title }}</a
+              >
+            </li>
+            {% endfor %}
+          </ul>
+        </nav>
+      </div>
+      <div class="col-sm-6 Footer_copyright">
+        <p>
+          Kemal is developed and maintained by
+          <a href="http://twitter.com/sdogruyol" target="_blank"
+            >Serdar Doğruyol</a
+          >
+        </p>
         <div>
-          <small>Design by <a href="http://twitter.com/askngdk" target="_blank">Aşkın Gedik</a> and <a href="http://twitter.com/SinanMtl" target="_blank">Sinan Mutlu</a></small>
+          <small
+            >Design by
+            <a href="http://twitter.com/askngdk" target="_blank">Aşkın Gedik</a>
+            and
+            <a href="http://twitter.com/SinanMtl" target="_blank"
+              >Sinan Mutlu</a
+            ></small
+          >
         </div>
       </div>
     </div>
   </div>
 </footer>
 {% for js in site.jsarr %}
-<script type="text/javascript" src="{{ js.name | prepend: site.baseurl }}"></script>
+<script
+  type="text/javascript"
+  src="{{ js.name | prepend: site.baseurl }}"
+></script>
 {% endfor %}

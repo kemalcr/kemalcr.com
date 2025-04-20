@@ -1,23 +1,32 @@
-
 /*
 * Footer
 */
 
-.Footer{
+.Footer {
   padding: 20px 0;
   border-top: 1px solid #e8e8e8;
   font-size: 14px;
   color: #828282;
   text-align: center;
 
-  a{color: #2a7ae2;}
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
 
-  &_copyright{padding-top: 20px;}
+  &_copyright {
+    padding-top: 20px;
 
-  @media screen and (min-width: $screen-sm-min){
+    a {
+      color: #2a7ae2;
+    }
+  }
+
+  @media screen and (min-width: $screen-sm-min) {
     text-align: left;
 
-    &_copyright{
+    &_copyright {
       padding-top: 0;
       text-align: right;
     }
