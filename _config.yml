@@ -42,3 +42,9 @@ jsarr:
 
 plugins:
   - jemoji
+
+footer_docs:
+  - title: "Getting Started"
+    url: "/guide/#getting-started"
+  - title: "Media"
+    url: "/media"
