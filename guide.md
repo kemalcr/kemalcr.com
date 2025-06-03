@@ -444,31 +444,34 @@ end
 ```
 
 Will resolve to the handler for `GrandParentException` rather than `ParentException`
-
 ### Send File
 
-Send a file with given path and base the MIME type on the file extension
-or default `application/octet-stream` mime_type.
+Send a file with the given path and base the MIME type on the file extension or default to `application/octet-stream`.
 
 ```ruby
 send_file env, "./path/to/file.jpg"
 ```
 
-Optionally you can override the MIME type
+Optionally, you can override the MIME type:
 
 ```ruby
 send_file env, "./path/to/file.exe", "image/jpeg"
 ```
 
-For both given examples file will be sent with `image/jpeg` MIME type.
+For both examples, the file will be sent with the `image/jpeg` MIME type.
 
-MIME type detection is based on [MIME](https://crystal-lang.org/api/0.27.1/MIME.html) registry from Crystal standard library which uses OS-provided MIME database. In case of its absence, it'll use containing basic type list [MIME::DEFAULT_TYPES](https://crystal-lang.org/api/0.27.1/MIME.html#DEFAULT_TYPES) as a fallback.
+MIME type detection is based on the [MIME](https://crystal-lang.org/api/0.27.1/MIME.html) registry from the Crystal standard library, which uses the OS-provided MIME database. If unavailable, it falls back to a basic type list ([MIME::DEFAULT_TYPES](https://crystal-lang.org/api/0.27.1/MIME.html#DEFAULT_TYPES)).
 
-You can always extend registered type list by calling `MIME.register` method with an extension and its desired type.
+You can extend the registered type list by calling `MIME.register` with an extension and its desired type:
 
 ```ruby
 MIME.register ".cr", "text/crystal"
 ```
+
+> **Security Notice:**  
+> When using `send_file` with dynamic file paths (such as those based on user input), always **sanitize and validate** the path to prevent directory traversal and unauthorized file access. Never pass unchecked user input directly to `send_file`.  
+> For example, ensure the path is within an allowed directory and does not contain sequences like `../` that could escape the intended folder.  
+> See [kemalcr/kemal#718](https://github.com/kemalcr/kemal/issues/718) for more details.
 
 # [Middleware](#middleware)
 
