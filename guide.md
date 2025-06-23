@@ -825,12 +825,64 @@ The uploaded file object has the following properties:
 - `size`: Size of the uploaded file in bytes
 - `headers`: HTTP headers associated with the file upload
 
+## Multiple File Upload
+
+Kemal also supports uploading multiple files using array notation in form field names:
+
+```crystal
+post "/upload-multiple" do |env|
+  uploaded_file_names = [] of String
+  
+  # Get all files from the images[] field
+  if env.params.files.has_key?("images[]")
+    # env.params.files["images[]"] returns an array of uploaded files
+    env.params.files["images[]"].each do |uploaded_file|
+      # Validate each file
+      max_size = 5 * 1024 * 1024
+      if uploaded_file.size > max_size
+        next # Skip files that are too large
+      end
+      
+      # Validate file type
+      allowed_extensions = [".jpg", ".jpeg", ".png", ".gif"]
+      file_extension = File.extname(uploaded_file.filename || "").downcase
+      unless allowed_extensions.includes?(file_extension)
+        next # Skip invalid file types
+      end
+      
+      # Generate unique filename
+      unique_filename = "#{Time.utc.to_unix}_#{Random.rand(1000)}_#{uploaded_file.filename}"
+      file_path = ::File.join [Kemal.config.public_folder, "uploads/", unique_filename]
+      
+      # Save the file
+      File.open(file_path, "w") do |f|
+        IO.copy(uploaded_file.tempfile, f)
+      end
+      
+      uploaded_file_names << unique_filename
+    end
+  end
+  
+  if uploaded_file_names.empty?
+    "No valid files were uploaded"
+  else
+    "Successfully uploaded #{uploaded_file_names.size} files: #{uploaded_file_names.join(", ")}"
+  end
+end
+```
+
 ## Testing File Upload
 
-You can test file uploads using `curl`:
+You can test single file uploads using `curl`:
 
 ```bash
 curl -F "image=@/path/to/your/file.png" http://localhost:3000/upload
+```
+
+For multiple file uploads:
+
+```bash
+curl -F "images[]=@/path/to/file1.png" -F "images[]=@/path/to/file2.jpg" http://localhost:3000/upload-multiple
 ```
 
 # [Sessions](#sessions)
