@@ -754,42 +754,84 @@ Some common request information is available at `env.request.*`:
 
 # [File Upload](#file-upload)
 
-File uploads can be accessed from request but you need to parse it like `HTTP::FormData.parse(env.request) do |upload|  end`
+Kemal provides easy access to uploaded files through `env.params.files`. When a file is uploaded via a form, it's automatically stored in a temporary location and accessible through the parameter name.
 
-It has the following methods
+## Basic File Upload
 
-- `name`: The name of the key
-- `body`: This is the file for file upload. Useful for saving the upload file.
-- `filename`: File name of the file upload. (logo.png, images.zip, etc.)
-- `headers`: Headers for the file upload.
-- `creation_time`: Creation time of the file upload.
-- `modification_time`: Last Modification time of the file upload.
-- `read_time`: Read time of the file upload.
-- `size`: Size of the file upload.
+Here's a simple example of handling file uploads:
 
-Here's a fully working sample for reading all the files uploaded and saving it under `public/uploads`.
-
-```ruby
+```crystal
 post "/upload" do |env|
-  HTTP::FormData.parse(env.request) do |upload|
-    filename = upload.filename
-  # Be sure to check if file.filename is not empty otherwise it'll raise a compile time error
-    if !filename.is_a?(String)
-      p "No filename included in upload"
-    else
-      file_path = ::File.join [Kemal.config.public_folder, "uploads/", filename]
-      File.open(file_path, "w") do |f|
-        IO.copy(upload.body, f)
-      end
-      "Upload ok"
-    end
+  # Get the uploaded file from the form field named "image"
+  file = env.params.files["image"].tempfile
+  
+  # Create the destination path
+  file_path = ::File.join [Kemal.config.public_folder, "uploads/", File.basename(file.path)]
+  
+  # Copy the uploaded file to the destination
+  File.open(file_path, "w") do |f|
+    IO.copy(file, f)
   end
+  
+  "Upload successful!"
 end
 ```
 
-You can test this with below `curl` command.
+## Advanced File Upload with Validation
 
-`curl -F "image1=@/Users/serdar/Downloads/kemal.png" http://localhost:3000/upload`
+For production applications, you should validate uploaded files:
+
+```crystal
+post "/upload" do |env|
+  # Check if file was uploaded
+  unless env.params.files.has_key?("image")
+    halt env, status_code: 400, response: "No file uploaded"
+  end
+  
+  uploaded_file = env.params.files["image"]
+  
+  # Validate file size (e.g., max 5MB)
+  max_size = 5 * 1024 * 1024
+  if uploaded_file.size > max_size
+    halt env, status_code: 400, response: "File too large"
+  end
+  
+  # Validate file type by extension
+  allowed_extensions = [".jpg", ".jpeg", ".png", ".gif"]
+  file_extension = File.extname(uploaded_file.filename || "").downcase
+  unless allowed_extensions.includes?(file_extension)
+    halt env, status_code: 400, response: "Invalid file type"
+  end
+  
+  # Generate a unique filename to prevent conflicts
+  unique_filename = "#{Time.utc.to_unix}_#{uploaded_file.filename}"
+  file_path = ::File.join [Kemal.config.public_folder, "uploads/", unique_filename]
+  
+  # Save the file
+  File.open(file_path, "w") do |f|
+    IO.copy(uploaded_file.tempfile, f)
+  end
+  
+  "File uploaded successfully as: #{unique_filename}"
+end
+```
+
+## File Upload Properties
+
+The uploaded file object has the following properties:
+
+- `filename`: Original filename of the uploaded file
+- `tempfile`: Temporary file object containing the uploaded data
+- `size`: Size of the uploaded file in bytes
+- `headers`: HTTP headers associated with the file upload
+
+## Testing File Upload
+
+You can test file uploads using `curl`:
+
+```bash
+curl -F "image=@/path/to/your/file.png" http://localhost:3000/upload
+```
 
 # [Sessions](#sessions)
 
