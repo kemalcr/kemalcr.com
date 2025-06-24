@@ -14,9 +14,9 @@ get "/" do |env|
   visit_count = session.int?("visit_count") || 0
   visit_count += 1
   session.int("visit_count", visit_count)
-  
+
   username = session.string?("username")
-  
+
   html = <<-HTML
   <h1>Kemal Session Example</h1>
   <p>Your visit count: #{visit_count}</p>
@@ -28,7 +28,7 @@ get "/" do |env|
   <a href="/logout">Logout</a> | 
   <a href="/profile">Profile</a>
   HTML
-  
+
   html
 end
 
@@ -37,9 +37,9 @@ get "/login" do
   <<-HTML
   <h2>Login</h2>
   <form method="post" action="/login">
-      <input type="text" name="username" placeholder="Username" required>
-      <input type="password" name="password" placeholder="Password" required>
-      <button type="submit">Login</button>
+    <input type="text" name="username" placeholder="Username" required>
+    <input type="password" name="password" placeholder="Password" required>
+    <button type="submit">Login</button>
   </form>
   <a href="/">Home</a>
   HTML
@@ -49,14 +49,14 @@ end
 post "/login" do |env|
   username = env.params.body["username"].as(String)
   password = env.params.body["password"].as(String)
-  
+
   # Simple authentication (use database in real applications)
   if username == "admin" && password == "123456"
-      env.session.string("username", username)
-      env.session.string("role", "admin")
-      env.redirect "/"
+    env.session.string("username", username)
+    env.session.string("role", "admin")
+    env.redirect "/"
   else
-      "Invalid username or password! <a href='/login'>Try again</a>"
+    "Invalid username or password! <a href='/login'>Try again</a>"
   end
 end
 
@@ -69,18 +69,18 @@ end
 # Profile page (login required)
 get "/profile" do |env|
   username = env.session.string?("username")
-  
+
   if username
-      role = env.session.string?("role") || "user"
-      <<-HTML
-      <h2>Profile Page</h2>
-      <p>User: #{username}</p>
-      <p>Role: #{role}</p>
-      <p>Session ID: #{env.session.id}</p>
-      <a href="/">Home</a>
-      HTML
+    role = env.session.string?("role") || "user"
+    <<-HTML
+    <h2>Profile Page</h2>
+    <p>User: #{username}</p>
+    <p>Role: #{role}</p>
+    <p>Session ID: #{env.session.id}</p>
+    <a href="/">Home</a>
+    HTML
   else
-      env.redirect "/login"
+    env.redirect "/login"
   end
 end
 
@@ -88,10 +88,9 @@ end
 get "/session/info" do |env|
   env.response.content_type = "application/json"
   {
-      session_id: env.session.id,
-      visit_count: env.session.int?("visit_count"),
-      username: env.session.string?("username"),
-      cart_size: (env.session.object("cart") as Array(String)? || [] of String).size
+    session_id:  env.session.id,
+    visit_count: env.session.int?("visit_count"),
+    username:    env.session.string?("username"),
   }.to_json
 end
 
