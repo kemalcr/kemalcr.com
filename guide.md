@@ -1052,6 +1052,7 @@ A Kemal application accepts a few optional command-line flags:
 | `-p PORT`  | `--port PORT`          | Port to listen for connection (default: 3000) |
 | `-s`       | `--ssl`                | Enables SSL                                   |
 |            | `--ssl-key-file FILE`  | SSL key file                                  |
+|            | `--ssl-cert-file FILE` | SSL certificate file                          |
 {:.mbtablestyle}
 
 # [SSL](#ssl)
