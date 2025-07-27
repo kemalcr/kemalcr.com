@@ -6,7 +6,7 @@ post "/upload" do |env|
   
   # Get all files from the images[] field
   if env.params.files.has_key?("images[]")
-    # env.params.files["images[]"] returns an array of uploaded files
+    # env.params.all_files["images[]"] returns an array of uploaded files
     env.params.all_files["images[]"].each do |uploaded_file|
       
       # Validate each file
