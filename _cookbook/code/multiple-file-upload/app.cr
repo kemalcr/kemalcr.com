@@ -7,11 +7,13 @@ post "/upload" do |env|
   # Get all files from the images[] field
   if env.params.files.has_key?("images[]")
     # env.params.files["images[]"] returns an array of uploaded files
-    env.params.files["images[]"].each do |uploaded_file|
+    env.params.all_files["images[]"].each do |uploaded_file|
+      
       # Validate each file
       max_size = 5 * 1024 * 1024
-      if uploaded_file.size > max_size
-        next # Skip files that are too large
+      
+      if uploaded_file.size.not_nil! > max_size
+        next # Skip all_files that are too large
       end
       
       # Validate file type

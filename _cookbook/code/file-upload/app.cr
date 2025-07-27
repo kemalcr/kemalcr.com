@@ -6,7 +6,8 @@ post "/upload" do |env|
   
   # Validate file size (e.g., max 5MB)
   max_size = 5 * 1024 * 1024
-  if uploaded_file.size > max_size
+
+  if uploaded_file.size.not_nil! > max_size
     halt env, status_code: 400, response: "File too large"
   end
   
