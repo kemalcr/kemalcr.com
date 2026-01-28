@@ -3,13 +3,29 @@ layout: default
 title: Kemal - Blog
 ---
 
-<h1>Blog</h1>
+<div class="Blog-header">
+  <h1 class="Blog-title">Blog</h1>
+  <p class="Blog-subtitle">Latest news, updates and articles about Kemal</p>
+</div>
 
-<div class="Blog">
+<div class="Blog-container">
   {% for post in site.posts %}
-    <div class="Blog_item">
-      <div><small class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</small></div>
-      <a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
-    </div>
+    <article class="Blog-card">
+      <div class="Blog-card-content">
+        <h2 class="Blog-card-title">
+          <a href="{{ post.url | prepend: site.baseurl }}" class="Blog-card-link">
+            {{ post.title }}
+          </a>
+        </h2>
+        {% if post.excerpt %}
+          <p class="Blog-card-excerpt">{{ post.excerpt | strip_html | truncatewords: 30 }}</p>
+        {% endif %}
+      </div>
+      <div class="Blog-card-footer">
+        <a href="{{ post.url | prepend: site.baseurl }}" class="Blog-card-readmore">
+          Read more →
+        </a>
+      </div>
+    </article>
   {% endfor %}
 </div>
