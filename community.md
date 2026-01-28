@@ -1,16 +1,13 @@
 ---
 layout: page
-title: Kemal - Community
+title: Community
 ---
 
 <section class="Section">
   <div class="container">
-    <header class="Section_header">
-      <h1 class="Section_title">Community</h1>
-      <p class="Section_subtitle">
-        Kemal is nice, so we are nice. Join the community, ask questions, and share what you build.
-      </p>
-    </header>
+    <p class="Section_subtitle" style="text-align: center; margin-bottom: 40px; font-size: 1.2em;">
+      Kemal is nice, so we are nice. Join the community, ask questions, and share what you build.
+    </p>
 
     <div class="row">
       <div class="col-sm-6">
@@ -54,6 +51,7 @@ title: Kemal - Community
           <ul>
             <li><a href="https://youtu.be/6CHdjlgnE5U">Build a RESTful API in 5 minutes with Kemal</a></li>
             <li><a href="https://www.youtube.com/watch?v=OkM42UKhjsk">Crystal and Kemal: Simply Fast</a></li>
+            <li><a href="https://www.youtube.com/watch?v=6KzPGp87YCw">Todo App Demo with Crystal, React and PostgreSQL</a></li>
           </ul>
         </article>
 
@@ -70,8 +68,6 @@ title: Kemal - Community
           <h3 class="ShowcaseCard_title">In other languages</h3>
           <ul>
             <li><a href="https://www.youtube.com/watch?v=DT7gRIaKQqg">(ES) Crystal en Español: Kemal</a></li>
-            <li><a href="https://www.youtube.com/watch?v=szz1QFZPCrA&list=PL_ZUs2eBjBit8P2r3jntJMtw2hOHuXE1w">The ROCKY STACK: React Over Crystal Kemal and Yarn</a></li>
-            <li><a href="https://www.youtube.com/watch?v=6KzPGp87YCw">Todo App Demo with Crystal, React and PostgreSQL</a></li>
             <li><a href="https://www.youtube.com/watch?v=LOAahRnsIpk">(TR) Crystal Lang ve Kemal</a></li>
           </ul>
         </article>
