@@ -2,8 +2,12 @@
 layout: default
 ---
 
-<div class="row">
-  <article class="col-md-9">
+<div class="DocsLayout">
+  <aside class="DocsLayout_sidebar">
+    {% include doc-sidebar.md %}
+  </aside>
+
+  <main class="DocsLayout_content" role="main">
     <header class="doc-header">
       <h1 class="doc-title">{{ page.title }}</h1>
     </header>
@@ -11,9 +15,10 @@ layout: default
     <div class="doc-content">
       {{ content }}
     </div>
-  </article>
+  </main>
 
-  <div class="col-md-3">
-    {% include doc-sidebar.md %}
-  </div>
+  <nav class="DocsLayout_toc" aria-label="On this page">
+    <!-- Reserved for a generated table of contents -->
+  </nav>
 </div>
+
