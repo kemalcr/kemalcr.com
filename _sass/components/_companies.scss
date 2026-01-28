@@ -4,7 +4,7 @@
 
 .companies-page {
   padding: 40px 0 80px;
-  background: linear-gradient(to bottom, #ffffff 0%, #f8f9fa 100%);
+  background: linear-gradient(to bottom, #ffffff 0%, #fafafa 100%);
   min-height: calc(100vh - 200px);
 }
 
@@ -93,7 +93,7 @@
     left: 0;
     right: 0;
     height: 3px;
-    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(90deg, #f52b31 0%, #15a2ab 100%);
     transform: scaleX(0);
     transform-origin: left;
     transition: transform 0.3s ease;
@@ -102,7 +102,7 @@
   &:hover {
     transform: translateY(-8px);
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
-    border-color: #667eea;
+    border-color: #f52b31;
     
     &::before {
       transform: scaleX(1);
@@ -113,7 +113,7 @@
     }
     
     .company-name {
-      color: #667eea;
+      color: #f52b31;
     }
   }
   
@@ -173,11 +173,11 @@
 }
 
 .cta-card {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #f52b31 0%, #15a2ab 100%);
   border-radius: 16px;
   padding: 48px 32px;
   text-align: center;
-  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 8px 24px rgba(245, 43, 49, 0.3);
   max-width: 700px;
   margin: 0 auto;
   
@@ -220,7 +220,7 @@
 .cta-button {
   display: inline-block;
   background: #ffffff;
-  color: #667eea;
+  color: #f52b31;
   padding: 14px 32px;
   border-radius: 8px;
   font-size: 16px;
@@ -237,9 +237,9 @@
   &:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
-    color: #667eea;
+    color: #f52b31;
     text-decoration: none;
-    background: #f8f9ff;
+    background: #fff5f5;
   }
   
   &:active {

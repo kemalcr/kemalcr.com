@@ -268,11 +268,12 @@ title: Media
 }
 
 .contact-card {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #f52b31 0%, #15a2ab 100%);
   color: white;
   padding: 2.5rem;
   border-radius: 12px;
   text-align: center;
+  box-shadow: 0 8px 24px rgba(245, 43, 49, 0.3);
 }
 
 .contact-card h3 {
