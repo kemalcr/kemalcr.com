@@ -1080,6 +1080,205 @@ You can use [capistrano-kemal](https://github.com/sdogruyol/capistrano-kemal) to
 
 You can cross-compile a Kemal app by using this [guide](http://crystal-lang.org/docs/syntax_and_semantics/cross-compilation.html).
 
+# [Configuration](#configuration)
+
+Kemal provides a powerful configuration system through `Kemal.config` that allows you to customize various aspects of your application. Here are all the available public configuration options:
+
+## Server Configuration
+
+### Host and Port
+
+Configure the host address and port your application listens on:
+
+```ruby
+Kemal.config.host_binding = "127.0.0.1"  # Default: "0.0.0.0"
+Kemal.config.port = 8080                  # Default: 3000
+```
+
+You can also set these via command line flags:
+
+```bash
+./your_app --bind 127.0.0.1 --port 8080
+```
+
+### Max Request Body Size
+
+Limit the maximum size of HTTP request bodies to prevent potential memory exhaustion or DoS attacks:
+
+```ruby
+Kemal.config.max_request_body_size = 1024 * 1024 * 10  # 10 MB (in bytes)
+# Default: nil (no limit)
+```
+
+When a request exceeds this limit, Kemal will reject it with a `413 Payload Too Large` response. This is particularly useful for:
+
+- **File uploads**: Prevent users from uploading excessively large files
+- **API endpoints**: Protect against malicious payloads
+- **Memory management**: Avoid memory exhaustion from large requests
+
+Example with different limits for different purposes:
+
+```ruby
+# For API with JSON payloads
+Kemal.config.max_request_body_size = 1024 * 100  # 100 KB
+
+# For file upload applications
+Kemal.config.max_request_body_size = 1024 * 1024 * 50  # 50 MB
+
+# No limit (use with caution in production)
+Kemal.config.max_request_body_size = nil
+```
+
+**Note:** Setting this value too low may prevent legitimate large requests from being processed. Choose a value that balances security with your application's requirements.
+
+## Static Files Configuration
+
+### Public Folder
+
+Set the directory for serving static files:
+
+```ruby
+Kemal.config.public_folder = "./assets"  # Default: "./public"
+```
+
+### Serve Static Files
+
+Enable or disable static file serving:
+
+```ruby
+Kemal.config.serve_static = false  # Default: true
+```
+
+You can also pass options for gzip compression and directory listing:
+
+```ruby
+Kemal.config.serve_static = {"gzip" => true, "dir_listing" => false}
+```
+
+## SSL Configuration
+
+Configure SSL/TLS for HTTPS:
+
+```ruby
+Kemal.config.ssl = true
+Kemal.config.ssl_certificate_file = "/path/to/cert.pem"
+Kemal.config.ssl_key_file = "/path/to/key.pem"
+```
+
+Or use command line flags:
+
+```bash
+./your_app --ssl --ssl-cert-file cert.pem --ssl-key-file key.pem
+```
+
+## Error Handling
+
+### Powered By Header
+
+Hide or customize the "X-Powered-By" header:
+
+```ruby
+Kemal.config.powered_by_header = false       # Disable header
+Kemal.config.powered_by_header = "MyApp"     # Custom value
+# Default: "Kemal"
+```
+
+### Always Rescue
+
+Control whether Kemal should rescue all exceptions:
+
+```ruby
+Kemal.config.always_rescue = false  # Default: true
+```
+
+When set to `false`, exceptions will not be caught by Kemal's exception handler and will propagate up.
+
+## Handler Configuration
+
+### Add Custom Handlers
+
+Add custom middleware/handlers to your application:
+
+```ruby
+Kemal.config.add_handler MyCustomHandler.new
+```
+
+Handlers are added in the order they're called and will be executed in that order for each request.
+
+### Extra Options
+
+Store custom application-wide configuration:
+
+```ruby
+Kemal.config.extra_options do |parser|
+  parser.on("-c CONFIG", "--config CONFIG", "Load configuration from file") do |config_file|
+    # Your custom logic here
+  end
+end
+```
+
+## Server Instance Configuration
+
+### Customize HTTP Server
+
+Access and configure the underlying `HTTP::Server` instance:
+
+```ruby
+Kemal.config.server.not_nil!.bind_tcp "0.0.0.0", 3000, reuse_port: true
+```
+
+### Shutdown Timeout
+
+Configure graceful shutdown timeout:
+
+```ruby
+Kemal.config.shutdown_timeout = 10.seconds  # Default: nil (no timeout)
+```
+
+## Complete Configuration Example
+
+Here's a comprehensive example showing multiple configuration options:
+
+```ruby
+require "kemal"
+
+# Server settings
+Kemal.config.host_binding = "0.0.0.0"
+Kemal.config.port = 3000
+Kemal.config.env = "production"
+Kemal.config.max_request_body_size = 1024 * 1024 * 10  # 10 MB limit
+
+# Static files
+Kemal.config.public_folder = "./public"
+Kemal.config.serve_static = {"gzip" => true, "dir_listing" => false}
+
+# Logging
+Kemal.config.logging = true
+
+# SSL
+Kemal.config.ssl = true
+Kemal.config.ssl_certificate_file = "./ssl/cert.pem"
+Kemal.config.ssl_key_file = "./ssl/key.pem"
+
+# Headers
+Kemal.config.powered_by_header = "MyApp/1.0"
+
+# Error handling
+Kemal.config.always_rescue = true
+
+# Add custom handler
+Kemal.config.add_handler MyAuthHandler.new
+```
+
+## Configuration Priority
+
+Configuration values are resolved in the following order (highest to lowest priority):
+
+1. Command-line arguments (`--port`, `--bind`, etc.)
+2. Code configuration (`Kemal.config.port = 3000`)
+3. Environment variables (`KEMAL_ENV`)
+4. Default values
+
 # [Environment](#environment)
 
 Kemal respects the `KEMAL_ENV` environment variable and `Kemal.config.env`. It is set to `development` by default.
