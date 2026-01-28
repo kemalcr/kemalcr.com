@@ -18,7 +18,6 @@ title: Community
           </p>
           <ul>
             <li><a href="https://discord.gg/prSVAZJEpz">Discord Channel</a> – live discussion and support</li>
-            <li><a href="https://gitter.im/sdogruyol/kemal">Gitter Channel</a> – archives and async chat</li>
           </ul>
         </div>
       </div>
