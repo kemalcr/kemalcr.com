@@ -186,10 +186,6 @@
   grid-template-columns: 260px minmax(0, 1fr);
   gap: 32px;
 
-  @media screen and (min-width: $screen-lg-min) {
-    grid-template-columns: 260px minmax(0, 1fr) 220px;
-  }
-
   @media screen and (max-width: $screen-sm-max) {
     display: block;
   }
@@ -208,15 +204,4 @@
 
 .DocsLayout_content {
   min-width: 0;
-}
-
-.DocsLayout_toc {
-  display: none;
-
-  @media screen and (min-width: $screen-lg-min) {
-    display: block;
-    position: sticky;
-    top: 80px;
-    font-size: $font-size-small;
-  }
 }
