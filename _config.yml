@@ -39,6 +39,7 @@ examples:
 
 jsarr:
   - name: "/js/browser.js"
+  - name: "/js/copy-code.js"
 
 plugins:
   - jemoji
