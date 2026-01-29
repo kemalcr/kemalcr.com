@@ -84,7 +84,7 @@ You should see something like this:
 ```
 $ shards install
 Updating https://github.com/kemalcr/kemal.git
-Installing kemal (0.21.0)
+Installing kemal (1.9.0)
 ```
 
 That's it! You're now ready to use Kemal in your application.
