@@ -3,6 +3,55 @@ layout: default
 title: Kemal - Guide
 ---
 
+## Table of Contents
+
+1. [Getting Started](#getting-started)
+   - Installing Kemal
+   - Using Kemal
+   - Running Kemal
+2. [Routes](#routes)
+3. [HTTP Parameters](#http-parameters)
+   - URL Parameters
+   - Query Parameters
+   - POST / Form Parameters
+4. [HTTP Request / Response Context](#context)
+   - Context Storage
+   - Request Properties
+5. [Views / Templates](#views-templates)
+   - Using Layouts
+   - content_for and yield_content
+   - Using Common Paths
+6. [Filters](#filters)
+7. [Helpers](#helpers)
+   - Browser Redirect
+   - Halt
+   - Custom Errors
+   - Send File
+8. [Middleware](#middleware)
+   - Creating your own middleware
+   - Conditional Middleware Execution
+   - Creating a custom Logger middleware
+   - Kemal Middleware
+9. [File Upload](#file-upload)
+   - Basic File Upload
+   - Advanced File Upload with Validation
+   - Multiple File Upload
+10. [Sessions](#sessions)
+11. [WebSockets](#websockets)
+12. [Testing](#testing)
+13. [Static Files](#static-files)
+14. [Configuration](#configuration)
+    - Server Configuration
+    - Static Files Configuration
+    - Logging Configuration
+    - SSL Configuration
+    - Environment Configuration
+    - Error Handling
+    - Handler Configuration
+15. [CLI](#cli)
+16. [SSL](#ssl)
+17. [Deployment](#deployment)
+
 # [Getting Started](#getting-started)
 
 This guide assumes that you already have Crystal installed. If not, check out the [Crystal installation methods](https://crystal-lang.org/install/) and come back when you're done.
@@ -77,369 +126,213 @@ Congratulations on your first Kemal application! This is just the beginning. Kee
 You can handle HTTP methods as easy as writing method names and the route with a code block. Kemal will handle all the hard work.
 
 ```ruby
+# GET - Retrieve data, list resources, show pages
+# Use for: Reading data, displaying pages, listing items
 get "/" do
-.. show something ..
-end
-
-post "/" do
-.. create something ..
-end
-
-put "/" do
-.. replace something ..
-end
-
-patch "/" do
-.. modify something ..
-end
-
-delete "/" do
-.. annihilate something ..
-end
-```
-Any **string** returned from a route will output to the browser.
-Routes are matched in the order they are defined. The first route that matches the request is invoked.
-
-# [Configuration](#configuration)
-
-Kemal provides a powerful configuration system through `Kemal.config` that allows you to customize various aspects of your application. Here are all the available public configuration options:
-
-## Server Configuration
-
-### Host and Port
-
-Configure the host address and port your application listens on:
-
-```ruby
-Kemal.config.host_binding = "127.0.0.1"  # Default: "0.0.0.0"
-Kemal.config.port = 8080                  # Default: 3000
-```
-
-You can also set these via command line flags:
-
-```bash
-./your_app --bind 127.0.0.1 --port 8080
-```
-
-### Max Request Body Size
-
-Limit the maximum size of HTTP request bodies to prevent potential memory exhaustion or DoS attacks:
-
-```ruby
-Kemal.config.max_request_body_size = 1024 * 1024 * 10  # 10 MB (in bytes)
-# Default: 8 MB
-```
-
-When a request exceeds this limit, Kemal will reject it with a `413 Payload Too Large` response. This is particularly useful for:
-
-- **File uploads**: Prevent users from uploading excessively large files
-- **API endpoints**: Protect against malicious payloads
-- **Memory management**: Avoid memory exhaustion from large requests
-
-Example with different limits for different purposes:
-
-```ruby
-# For API with JSON payloads
-Kemal.config.max_request_body_size = 1024 * 100  # 100 KB
-
-# For file upload applications
-Kemal.config.max_request_body_size = 1024 * 1024 * 50  # 50 MB
-
-# No limit (use with caution in production)
-Kemal.config.max_request_body_size = nil
-```
-
-**Note:** Setting this value too low may prevent legitimate large requests from being processed. Choose a value that balances security with your application's requirements.
-
-## Static Files Configuration
-
-### Public Folder
-
-Set the directory for serving static files:
-
-```ruby
-Kemal.config.public_folder = "./assets"  # Default: "./public"
-```
-
-### Serve Static Files
-
-Enable or disable static file serving:
-
-```ruby
-Kemal.config.serve_static = false  # Default: true
-```
-
-You can also pass options for gzip compression and directory listing:
-
-```ruby
-Kemal.config.serve_static = {"gzip" => true, "dir_listing" => false}
-```
-
-By default `Kemal` gzips most files, skipping only very small files, or those which don't benefit from gzipping. If you are running `Kemal` behind a proxy, you may wish to disable this feature.
-
-### Static Headers
-
-Add custom headers to static files served by `Kemal::StaticFileHandler`. This is especially useful for CORS or caching:
-
-```ruby
-static_headers do |response, filepath, filestat|
-  if filepath =~ /\.html$/
-    response.headers.add("Access-Control-Allow-Origin", "*")
-  end
-  response.headers.add("Content-Size", filestat.size.to_s)
-end
-```
-
-## Logging Configuration
-
-### Enable/Disable Logging
-
-Kemal enables logging by default. You can easily disable it:
-
-```ruby
-Kemal.config.logging = false  # Default: true
-```
-
-You can add logging statements to your code:
-
-```ruby
-Log.info { "Log message with or without embedded #{variables}" }
-```
-
-### Custom Logger
-
-You can easily replace the built-in logger of `Kemal`. Your logger must inherit from `Kemal::BaseLogHandler`:
-
-```ruby
-class MyCustomLogger < Kemal::BaseLogHandler
-  # This is run for each request. You can access the request/response context with `context`.
-  def call(context)
-    puts "Custom logger is in action."
-    # Be sure to `call_next`.
-    call_next context
-  end
-
-  def write(message)
-  end
-end
-```
-
-Register your custom logger with the `logger` config property:
-
-```ruby
-require "kemal"
-
-Kemal.config.logger = MyCustomLogger.new
-```
-
-## SSL Configuration
-
-Configure SSL/TLS for HTTPS:
-
-```ruby
-Kemal.config.ssl = true
-Kemal.config.ssl_certificate_file = "/path/to/cert.pem"
-Kemal.config.ssl_key_file = "/path/to/key.pem"
-```
-
-Or use command line flags:
-
-```bash
-./your_app --ssl --ssl-cert-file cert.pem --ssl-key-file key.pem
-```
-
-## Environment Configuration
-
-Kemal respects the `KEMAL_ENV` environment variable and `Kemal.config.env`. It is set to `development` by default.
-
-To change this value to `production`, for example, use:
-
-```bash
-$ export KEMAL_ENV=production
-```
-
-If you prefer to do this from within your application, use:
-
-```ruby
-Kemal.config.env = "production"
-```
-
-When the `KEMAL_ENV` environment variable is not set to `production`, e.g. `development`, an exception page is rendered when an exception is raised which provides a lot of useful information for debugging. However, if the environment variable is set to `production` a standard error page is rendered (see [source](https://github.com/kemalcr/kemal/blob/master/src/kemal/helpers/exception_page.cr#L16)).
-
-**Note:** `KEMAL_ENV` should ***always*** be set to `production` in a production environment for security reasons.
-
-## Error Handling
-
-### Powered By Header
-
-Hide or customize the "X-Powered-By" header:
-
-```ruby
-Kemal.config.powered_by_header = false       # Disable header
-Kemal.config.powered_by_header = "MyApp"     # Custom value
-# Default: "Kemal"
-```
-
-### Always Rescue
-
-Control whether Kemal should rescue all exceptions:
-
-```ruby
-Kemal.config.always_rescue = false  # Default: true
-```
-
-When set to `false`, exceptions will not be caught by Kemal's exception handler and will propagate up.
-
-## Handler Configuration
-
-### Add Custom Handlers
-
-Add custom middleware/handlers to your application:
-
-```ruby
-Kemal.config.add_handler MyCustomHandler.new
-```
-
-Handlers are added in the order they're called and will be executed in that order for each request.
-
-### Extra Options
-
-Store custom application-wide configuration:
-
-```ruby
-Kemal.config.extra_options do |parser|
-  parser.on("-c CONFIG", "--config CONFIG", "Load configuration from file") do |config_file|
-    # Your custom logic here
-  end
-end
-```
-
-## Server Instance Configuration
-
-### Customize HTTP Server
-
-Access and configure the underlying `HTTP::Server` instance:
-
-```ruby
-Kemal.config.server.not_nil!.bind_tcp "0.0.0.0", 3000, reuse_port: true
-```
-
-### Shutdown Timeout
-
-Configure graceful shutdown timeout:
-
-```ruby
-Kemal.config.shutdown_timeout = 10.seconds  # Default: nil (no timeout)
-```
-
-## Complete Configuration Example
-
-Here's a comprehensive example showing multiple configuration options:
-
-```ruby
-require "kemal"
-
-# Server settings
-Kemal.config.host_binding = "0.0.0.0"
-Kemal.config.port = 3000
-Kemal.config.env = "production"
-Kemal.config.max_request_body_size = 1024 * 1024 * 10  # 10 MB limit
-
-# Static files
-Kemal.config.public_folder = "./public"
-Kemal.config.serve_static = {"gzip" => true, "dir_listing" => false}
-
-# Logging
-Kemal.config.logging = true
-
-# SSL
-Kemal.config.ssl = true
-Kemal.config.ssl_certificate_file = "./ssl/cert.pem"
-Kemal.config.ssl_key_file = "./ssl/key.pem"
-
-# Headers
-Kemal.config.powered_by_header = "MyApp/1.0"
-
-# Error handling
-Kemal.config.always_rescue = true
-
-# Add custom handler
-Kemal.config.add_handler MyAuthHandler.new
-
-# Your routes go here
-get "/" do
+  # Example: Show homepage, list users, display a blog post
   "Hello World!"
 end
 
-Kemal.run
+# POST - Create new resources
+# Use for: Creating new records, form submissions, user registration
+post "/" do
+  # Example: Create new user, submit contact form, add item to cart
+end
+
+# PUT - Replace entire resource
+# Use for: Complete resource updates, replacing all fields
+put "/" do
+  # Example: Update entire user profile, replace configuration
+end
+
+# PATCH - Partially update resource
+# Use for: Updating specific fields without replacing the entire resource
+patch "/" do
+  # Example: Update only user's email, change post status
+end
+
+# DELETE - Remove resources
+# Use for: Deleting records, removing items, user logout
+delete "/" do
+  # Example: Delete user account, remove blog post, clear cache
+end
 ```
 
-## Configuration Priority
+Any **string** returned from a route will output to the browser.
+Routes are matched in the order they are defined. The first route that matches the request is invoked.
 
-Configuration values are resolved in the following order (highest to lowest priority):
+# [HTTP Parameters](#http-parameters)
 
-1. Command-line arguments (`--port`, `--bind`, etc.)
-2. Code configuration (`Kemal.config.port = 3000`)
-3. Environment variables (`KEMAL_ENV`)
-4. Default values
+When passing data through an HTTP request, you will often need to use query parameters, or post parameters depending on which HTTP method you're using.
 
-## Helper Methods vs Config Methods
-
-Kemal provides two equivalent ways to configure most options:
-
-**Helper methods (shorthand):**
+### URL Parameters
+Kemal allows you to use variables in your route path as placeholders for passing data. To access URL parameters, you use `env.params.url`.
 
 ```ruby
-logging false
-public_folder "./assets"
-serve_static false
+# Matches /hello/kemal
+get "/hello/:name" do |env|
+  name = env.params.url["name"]
+  "Hello back to #{name}"
+end
+
+# Matches /users/1
+get "/users/:id" do |env|
+  id = env.params.url["id"]
+  "Found user #{id}"
+end
+
+# Matches /dir/and/anything/after
+get "/dir/*all" do |env|
+  all = env.params.url["all"]
+  "Found path #{all}"
+end
 ```
 
-**Config object (explicit):**
+### Query Parameters
+To access query parameters, you use `env.params.query`.
 
 ```ruby
-Kemal.config.logging = false
-Kemal.config.public_folder = "./assets"
-Kemal.config.serve_static = false
+# Matches /resize?width=200&height=200
+get "/resize" do |env|
+  width = env.params.query["width"]
+  height = env.params.query["height"]
+end
 ```
 
-Both approaches are valid and produce the same result. Use whichever style fits your preference.
+### POST / Form Parameters
+Kemal has a few options for accessing post parameters. You can easily access JSON payload from the parameters, or through the standard post body.
 
-# [Static Files](#static-files)
+For JSON parameters, use `env.params.json`.
+For body parameters, use `env.params.body`.
 
-Any files you add to the `public` directory will be served automatically by Kemal.
+```ruby
+# The request content type needs to be application/json
+# The payload
+# {"name": "Serdar", "likes": ["Ruby", "Crystal"]}
+post "/json_params" do |env|
+  name = env.params.json["name"].as(String)
+  likes = env.params.json["likes"].as(Array)
+  "#{name} likes #{likes.join(",")}"
+end
 
-```
-app/
-  src/
-    your_app.cr
-  public/
-    js/
-      jquery.js
-      your_app.js
-    css/
-      your_app.css
-    index.html
-```
-
-For example, your index.html may look like this:
-
-```html
-<html>
- <head>
-   <script src="/js/jquery.js"></script>
-   <script src="/js/your_app.js"></script>
-   <link rel="stylesheet" href="/css/your_app.css"/>
- </head>
- <body>
-   ...
- </body>
-</html>
+# Using a standard post body
+# name=Serdar&likes=Ruby&likes=Crystal
+post "/body_params" do |env|
+  name = env.params.body["name"].as(String)
+  likes = env.params.body["likes"].as(Array)
+  "#{name} likes #{likes.join(",")}"
+end
 ```
 
-Kemal will serve the files in the `public` directory without having to write routes for them.
+**NOTE:** For Array or Hash like parameters, Kemal will group like keys for you. Alternatively, you can use the square bracket notation `likes[]=ruby&likes[]=crystal`. Be sure to access the param name exactly how it was passed. (i.e. `env.params.body["likes[]"]`).
 
-**Note:** For configuration options like changing the public folder, disabling static files, adding custom headers, or configuring gzip and directory listing, see the [Static Files Configuration](#static-files-configuration) section.
+# [HTTP Request / Response Context](#context)
+
+Accessing the HTTP request/response context (query paremeters, body, content_type, headers, status_code) is super easy. You can use the context returned from the block:
+
+```ruby
+# Matches /hello/kemal
+get "/hello/:name" do |env|
+  name = env.params.url["name"]
+  "Hello back to #{name}"
+end
+
+# Matches /resize?width=200&height=200
+get "/resize" do |env|
+  width = env.params.query["width"]
+  height = env.params.query["height"]
+end
+
+# Easily access JSON payload from the parameters.
+# The request content type needs to be application/json
+# The payload
+# {"name": "Serdar", "likes": ["Ruby", "Crystal"]}
+post "/json_params" do |env|
+  name = env.params.json["name"].as(String)
+  likes = env.params.json["likes"].as(Array)
+  "#{name} likes #{likes.each.join(',')}"
+end
+
+# Set the content as application/json and return JSON
+get "/user.json" do |env|
+  user = {name: "Kemal", language: "Crystal"}.to_json
+  env.response.content_type = "application/json"
+  user
+end
+
+# Add headers to your response
+get "/headers" do |env|
+  env.response.headers["Accept-Language"] = "tr"
+  env.response.headers["Authorization"] = "Token 12345"
+end
+
+# Set response status code
+get "/status-code" do |env|
+  env.response.status_code = 404
+end
+```
+
+### Context Storage
+
+Contexts are useful for sharing states between filters and middleware. You can use `context` to store some variables and access them later at some point. Each stored value only exist in the lifetime of request / response cycle.
+
+```ruby
+before_get "/" do |env|
+  env.set "is_kemal_cool", true
+end
+
+get "/" do |env|
+  is_kemal_cool = env.get "is_kemal_cool"
+  "Kemal cool = #{is_kemal_cool}"
+end
+```
+
+This renders `Kemal cool = true` when a request is made to `/`.
+
+If you prefer a safer version use `env.get?` which won't raise when the key doesn't exist and will return `nil` instead.
+
+```ruby
+get "/" do |env|
+  non_existent_key = env.get?("non_existent_key") # => nil
+end
+```
+
+Context storage also supports custom types. You can register and use a custom type as the following:
+
+```ruby
+class User
+ property name
+end
+
+add_context_storage_type(User)
+
+before "/" do |env|
+  env.set "user", User.new(name: "dummy-user")
+end
+
+get "/" do
+  user = env.get "user"
+end
+```
+
+Be aware that you have to declare the custom type before trying to add with `add_context_storage_type`.
+
+### Request Properties
+
+Some common request information is available at `env.request.*`:
+
+- **method** - the HTTP method
+  - e.g. `GET`, `POST`, ...
+- **headers** - a hash containing relevant request header information
+- **body** - the request body
+- **version** - the HTTP version
+  - e.g. `HTTP/1.1`
+- **path** - the uri path
+  - e.g. `http://kemalcr.com/docs/context?lang=cr` => `/docs/context`
+- **resource** - the uri path and query parameters
+  - e.g. `http://kemalcr.com/docs/context?lang=cr` => `/docs/context?lang=cr`
+- **cookies**
+  - e.g. `env.request.cookies["cookie_name"].value`
 
 # [Views / Templates](#views-templates)
 
@@ -826,179 +719,6 @@ The Kemal organization has a variety of useful middleware.
 - [kemal-basic-auth](https://github.com/kemalcr/kemal-basic-auth): Add HTTP Basic Authorization to your Kemal application.
 - [kemal-hmac](https://github.com/kemalcr/kemal-hmac): HMAC middleware for Kemal
 
-# [HTTP Parameters](#http-parameters)
-
-When passing data through an HTTP request, you will often need to use query parameters, or post parameters depending on which HTTP method you're using.
-
-### URL Parameters
-Kemal allows you to use variables in your route path as placeholders for passing data. To access URL parameters, you use `env.params.url`.
-
-```ruby
-# Matches /hello/kemal
-get "/hello/:name" do |env|
-  name = env.params.url["name"]
-  "Hello back to #{name}"
-end
-
-# Matches /users/1
-get "/users/:id" do |env|
-  id = env.params.url["id"]
-  "Found user #{id}"
-end
-
-# Matches /dir/and/anything/after
-get "/dir/*all" do |env|
-  all = env.params.url["all"]
-  "Found path #{all}"
-end
-```
-
-### Query Parameters
-To access query parameters, you use `env.params.query`.
-
-```ruby
-# Matches /resize?width=200&height=200
-get "/resize" do |env|
-  width = env.params.query["width"]
-  height = env.params.query["height"]
-end
-```
-
-### POST / Form Parameters
-Kemal has a few options for accessing post parameters. You can easily access JSON payload from the parameters, or through the standard post body.
-
-For JSON parameters, use `env.params.json`.
-For body parameters, use `env.params.body`.
-
-```ruby
-# The request content type needs to be application/json
-# The payload
-# {"name": "Serdar", "likes": ["Ruby", "Crystal"]}
-post "/json_params" do |env|
-  name = env.params.json["name"].as(String)
-  likes = env.params.json["likes"].as(Array)
-  "#{name} likes #{likes.join(",")}"
-end
-
-# Using a standard post body
-# name=Serdar&likes=Ruby&likes=Crystal
-post "/body_params" do |env|
-  name = env.params.body["name"].as(String)
-  likes = env.params.body["likes"].as(Array)
-  "#{name} likes #{likes.join(",")}"
-end
-```
-
-**NOTE:** For Array or Hash like parameters, Kemal will group like keys for you. Alternatively, you can use the square bracket notation `likes[]=ruby&likes[]=crystal`. Be sure to access the param name exactly how it was passed. (i.e. `env.params.body["likes[]"]`).
-
-# [HTTP Request / Response Context](#context)
-
-Accessing the HTTP request/response context (query paremeters, body, content_type, headers, status_code) is super easy. You can use the context returned from the block:
-
-```ruby
-# Matches /hello/kemal
-get "/hello/:name" do |env|
-  name = env.params.url["name"]
-  "Hello back to #{name}"
-end
-
-# Matches /resize?width=200&height=200
-get "/resize" do |env|
-  width = env.params.query["width"]
-  height = env.params.query["height"]
-end
-
-# Easily access JSON payload from the parameters.
-# The request content type needs to be application/json
-# The payload
-# {"name": "Serdar", "likes": ["Ruby", "Crystal"]}
-post "/json_params" do |env|
-  name = env.params.json["name"].as(String)
-  likes = env.params.json["likes"].as(Array)
-  "#{name} likes #{likes.each.join(',')}"
-end
-
-# Set the content as application/json and return JSON
-get "/user.json" do |env|
-  user = {name: "Kemal", language: "Crystal"}.to_json
-  env.response.content_type = "application/json"
-  user
-end
-
-# Add headers to your response
-get "/headers" do |env|
-  env.response.headers["Accept-Language"] = "tr"
-  env.response.headers["Authorization"] = "Token 12345"
-end
-
-# Set response status code
-get "/status-code" do |env|
-  env.response.status_code = 404
-end
-```
-
-### Context Storage
-
-Contexts are useful for sharing states between filters and middleware. You can use `context` to store some variables and access them later at some point. Each stored value only exist in the lifetime of request / response cycle.
-
-```ruby
-before_get "/" do |env|
-  env.set "is_kemal_cool", true
-end
-
-get "/" do |env|
-  is_kemal_cool = env.get "is_kemal_cool"
-  "Kemal cool = #{is_kemal_cool}"
-end
-```
-
-This renders `Kemal cool = true` when a request is made to `/`.
-
-If you prefer a safer version use `env.get?` which won't raise when the key doesn't exist and will return `nil` instead.
-
-```ruby
-get "/" do |env|
-  non_existent_key = env.get?("non_existent_key") # => nil
-end
-```
-
-Context storage also supports custom types. You can register and use a custom type as the following:
-
-```ruby
-class User
- property name
-end
-
-add_context_storage_type(User)
-
-before "/" do |env|
-  env.set "user", User.new(name: "dummy-user")
-end
-
-get "/" do
-  user = env.get "user"
-end
-```
-
-Be aware that you have to declare the custom type before trying to add with `add_context_storage_type`.
-
-### Request Properties
-
-Some common request information is available at `env.request.*`:
-
-- **method** - the HTTP method
-  - e.g. `GET`, `POST`, ...
-- **headers** - a hash containing relevant request header information
-- **body** - the request body
-- **version** - the HTTP version
-  - e.g. `HTTP/1.1`
-- **path** - the uri path
-  - e.g. `http://kemalcr.com/docs/context?lang=cr` => `/docs/context`
-- **resource** - the uri path and query parameters
-  - e.g. `http://kemalcr.com/docs/context?lang=cr` => `/docs/context?lang=cr`
-- **cookies**
-  - e.g. `env.request.cookies["cookie_name"].value`
-
 # [File Upload](#file-upload)
 
 Kemal provides easy access to uploaded files through `env.params.files`. When a file is uploaded via a form, it's automatically stored in a temporary location and accessible through the parameter name.
@@ -1288,6 +1008,347 @@ Run the tests:
 ```
 KEMAL_ENV=test crystal spec
 ```
+
+# [Static Files](#static-files)
+
+Any files you add to the `public` directory will be served automatically by Kemal.
+
+```
+app/
+  src/
+    your_app.cr
+  public/
+    js/
+      jquery.js
+      your_app.js
+    css/
+      your_app.css
+    index.html
+```
+
+For example, your index.html may look like this:
+
+```html
+<html>
+ <head>
+   <script src="/js/jquery.js"></script>
+   <script src="/js/your_app.js"></script>
+   <link rel="stylesheet" href="/css/your_app.css"/>
+ </head>
+ <body>
+   ...
+ </body>
+</html>
+```
+
+Kemal will serve the files in the `public` directory without having to write routes for them.
+
+**Note:** For configuration options like changing the public folder, disabling static files, adding custom headers, or configuring gzip and directory listing, see the [Static Files Configuration](#static-files-configuration) section.
+
+# [Configuration](#configuration)
+
+Kemal provides a powerful configuration system through `Kemal.config` that allows you to customize various aspects of your application. Here are all the available public configuration options:
+
+## Server Configuration
+
+### Host and Port
+
+Configure the host address and port your application listens on:
+
+```ruby
+Kemal.config.host_binding = "127.0.0.1"  # Default: "0.0.0.0"
+Kemal.config.port = 8080                  # Default: 3000
+```
+
+You can also set these via command line flags:
+
+```bash
+./your_app --bind 127.0.0.1 --port 8080
+```
+
+### Max Request Body Size
+
+Limit the maximum size of HTTP request bodies to prevent potential memory exhaustion or DoS attacks:
+
+```ruby
+Kemal.config.max_request_body_size = 1024 * 1024 * 10  # 10 MB (in bytes)
+# Default: 8 MB
+```
+
+When a request exceeds this limit, Kemal will reject it with a `413 Payload Too Large` response. This is particularly useful for:
+
+- **File uploads**: Prevent users from uploading excessively large files
+- **API endpoints**: Protect against malicious payloads
+- **Memory management**: Avoid memory exhaustion from large requests
+
+Example with different limits for different purposes:
+
+```ruby
+# For API with JSON payloads
+Kemal.config.max_request_body_size = 1024 * 100  # 100 KB
+
+# For file upload applications
+Kemal.config.max_request_body_size = 1024 * 1024 * 50  # 50 MB
+
+# No limit (use with caution in production)
+Kemal.config.max_request_body_size = nil
+```
+
+**Note:** Setting this value too low may prevent legitimate large requests from being processed. Choose a value that balances security with your application's requirements.
+
+## Static Files Configuration
+
+### Public Folder
+
+Set the directory for serving static files:
+
+```ruby
+Kemal.config.public_folder = "./assets"  # Default: "./public"
+```
+
+### Serve Static Files
+
+Enable or disable static file serving:
+
+```ruby
+Kemal.config.serve_static = false  # Default: true
+```
+
+You can also pass options for gzip compression and directory listing:
+
+```ruby
+Kemal.config.serve_static = {"gzip" => true, "dir_listing" => false}
+```
+
+By default `Kemal` gzips most files, skipping only very small files, or those which don't benefit from gzipping. If you are running `Kemal` behind a proxy, you may wish to disable this feature.
+
+### Static Headers
+
+Add custom headers to static files served by `Kemal::StaticFileHandler`. This is especially useful for CORS or caching:
+
+```ruby
+static_headers do |response, filepath, filestat|
+  if filepath =~ /\.html$/
+    response.headers.add("Access-Control-Allow-Origin", "*")
+  end
+  response.headers.add("Content-Size", filestat.size.to_s)
+end
+```
+
+## Logging Configuration
+
+### Enable/Disable Logging
+
+Kemal enables logging by default. You can easily disable it:
+
+```ruby
+Kemal.config.logging = false  # Default: true
+```
+
+You can add logging statements to your code:
+
+```ruby
+Log.info { "Log message with or without embedded #{variables}" }
+```
+
+### Custom Logger
+
+You can easily replace the built-in logger of `Kemal`. Your logger must inherit from `Kemal::BaseLogHandler`:
+
+```ruby
+class MyCustomLogger < Kemal::BaseLogHandler
+  # This is run for each request. You can access the request/response context with `context`.
+  def call(context)
+    puts "Custom logger is in action."
+    # Be sure to `call_next`.
+    call_next context
+  end
+
+  def write(message)
+  end
+end
+```
+
+Register your custom logger with the `logger` config property:
+
+```ruby
+require "kemal"
+
+Kemal.config.logger = MyCustomLogger.new
+```
+
+## SSL Configuration
+
+Configure SSL/TLS for HTTPS:
+
+```ruby
+Kemal.config.ssl = true
+Kemal.config.ssl_certificate_file = "/path/to/cert.pem"
+Kemal.config.ssl_key_file = "/path/to/key.pem"
+```
+
+Or use command line flags:
+
+```bash
+./your_app --ssl --ssl-cert-file cert.pem --ssl-key-file key.pem
+```
+
+## Environment Configuration
+
+Kemal respects the `KEMAL_ENV` environment variable and `Kemal.config.env`. It is set to `development` by default.
+
+To change this value to `production`, for example, use:
+
+```bash
+$ export KEMAL_ENV=production
+```
+
+If you prefer to do this from within your application, use:
+
+```ruby
+Kemal.config.env = "production"
+```
+
+When the `KEMAL_ENV` environment variable is not set to `production`, e.g. `development`, an exception page is rendered when an exception is raised which provides a lot of useful information for debugging. However, if the environment variable is set to `production` a standard error page is rendered (see [source](https://github.com/kemalcr/kemal/blob/master/src/kemal/helpers/exception_page.cr#L16)).
+
+**Note:** `KEMAL_ENV` should ***always*** be set to `production` in a production environment for security reasons.
+
+## Error Handling
+
+### Powered By Header
+
+Hide or customize the "X-Powered-By" header:
+
+```ruby
+Kemal.config.powered_by_header = false       # Disable header
+Kemal.config.powered_by_header = "MyApp"     # Custom value
+# Default: "Kemal"
+```
+
+### Always Rescue
+
+Control whether Kemal should rescue all exceptions:
+
+```ruby
+Kemal.config.always_rescue = false  # Default: true
+```
+
+When set to `false`, exceptions will not be caught by Kemal's exception handler and will propagate up.
+
+## Handler Configuration
+
+### Add Custom Handlers
+
+Add custom middleware/handlers to your application:
+
+```ruby
+Kemal.config.add_handler MyCustomHandler.new
+```
+
+Handlers are added in the order they're called and will be executed in that order for each request.
+
+### Extra Options
+
+Store custom application-wide configuration:
+
+```ruby
+Kemal.config.extra_options do |parser|
+  parser.on("-c CONFIG", "--config CONFIG", "Load configuration from file") do |config_file|
+    # Your custom logic here
+  end
+end
+```
+
+## Server Instance Configuration
+
+### Customize HTTP Server
+
+Access and configure the underlying `HTTP::Server` instance:
+
+```ruby
+Kemal.config.server.not_nil!.bind_tcp "0.0.0.0", 3000, reuse_port: true
+```
+
+### Shutdown Timeout
+
+Configure graceful shutdown timeout:
+
+```ruby
+Kemal.config.shutdown_timeout = 10.seconds  # Default: nil (no timeout)
+```
+
+## Complete Configuration Example
+
+Here's a comprehensive example showing multiple configuration options:
+
+```ruby
+require "kemal"
+
+# Server settings
+Kemal.config.host_binding = "0.0.0.0"
+Kemal.config.port = 3000
+Kemal.config.env = "production"
+Kemal.config.max_request_body_size = 1024 * 1024 * 10  # 10 MB limit
+
+# Static files
+Kemal.config.public_folder = "./public"
+Kemal.config.serve_static = {"gzip" => true, "dir_listing" => false}
+
+# Logging
+Kemal.config.logging = true
+
+# SSL
+Kemal.config.ssl = true
+Kemal.config.ssl_certificate_file = "./ssl/cert.pem"
+Kemal.config.ssl_key_file = "./ssl/key.pem"
+
+# Headers
+Kemal.config.powered_by_header = "MyApp/1.0"
+
+# Error handling
+Kemal.config.always_rescue = true
+
+# Add custom handler
+Kemal.config.add_handler MyAuthHandler.new
+
+# Your routes go here
+get "/" do
+  "Hello World!"
+end
+
+Kemal.run
+```
+
+## Configuration Priority
+
+Configuration values are resolved in the following order (highest to lowest priority):
+
+1. Command-line arguments (`--port`, `--bind`, etc.)
+2. Code configuration (`Kemal.config.port = 3000`)
+3. Environment variables (`KEMAL_ENV`)
+4. Default values
+
+## Helper Methods vs Config Methods
+
+Kemal provides two equivalent ways to configure most options:
+
+**Helper methods (shorthand):**
+
+```ruby
+logging false
+public_folder "./assets"
+serve_static false
+```
+
+**Config object (explicit):**
+
+```ruby
+Kemal.config.logging = false
+Kemal.config.public_folder = "./assets"
+Kemal.config.serve_static = false
+```
+
+Both approaches are valid and produce the same result. Use whichever style fits your preference.
 
 # [CLI](#cli)
 
