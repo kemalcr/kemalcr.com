@@ -6,57 +6,86 @@ title: Kemal - Guide
 ## Table of Contents
 
 1. [Getting Started](#getting-started)
-   - Installing Kemal
-   - Using Kemal
-   - Running Kemal
+   - [Installing Kemal](#installing-kemal)
+   - [Using Kemal](#using-kemal)
+   - [Running Kemal](#running-kemal)
 2. [Routes](#routes)
 3. [HTTP Parameters](#http-parameters)
-   - URL Parameters
-   - Query Parameters
-   - POST / Form Parameters
+   - [URL Parameters](#url-parameters)
+   - [Query Parameters](#query-parameters)
+   - [POST / Form Parameters](#post-form-parameters)
 4. [HTTP Request / Response Context](#context)
-   - Context Storage
-   - Request Properties
+   - [Context Storage](#context-storage)
+   - [Request Properties](#request-properties)
 5. [Views / Templates](#views-templates)
-   - Using Layouts
-   - content_for and yield_content
-   - Using Common Paths
+   - [Using Layouts](#using-layouts)
+   - [content_for and yield_content](#content_for-and-yield_content)
+     - [Usage](#usage)
+   - [Using Common Paths](#using-common-paths)
 6. [Filters](#filters)
+   - [Simple before_get example](#simple-before_get-example)
+   - [Simple before_all example](#simple-before_all-example)
+   - [Multiple `before_all`](#multiple-before_all)
 7. [Helpers](#helpers)
-   - Browser Redirect
-   - Halt
-   - Custom Errors
-   - Send File
+   - [Browser Redirect](#browser-redirect)
+   - [Halt](#halt)
+   - [Custom Errors](#custom-errors)
+   - [Send File](#send-file)
 8. [Middleware](#middleware)
-   - Creating your own middleware
-   - Conditional Middleware Execution
-   - Creating a custom Logger middleware
-   - Kemal Middleware
+   - [Creating your own middleware](#creating-your-own-middleware)
+   - [Conditional Middleware Execution](#conditional-middleware-execution)
+   - [Creating a custom Logger middleware](#creating-a-custom-logger-middleware)
+   - [Kemal Middleware](#kemal-middleware)
 9. [File Upload](#file-upload)
-   - Basic File Upload
-   - Advanced File Upload with Validation
-   - Multiple File Upload
+   - [Basic File Upload](#basic-file-upload)
+   - [Advanced File Upload with Validation](#advanced-file-upload-with-validation)
+   - [File Upload Properties](#file-upload-properties)
+   - [Multiple File Upload](#multiple-file-upload)
+   - [Testing File Upload](#testing-file-upload)
 10. [Sessions](#sessions)
+    - [Accessing the CSRF token](#accessing-the-csrf-token)
 11. [WebSockets](#websockets)
+    - [Accessing Dynamic Url Params](#accessing-dynamic-url-params)
 12. [Testing](#testing)
 13. [Static Files](#static-files)
 14. [Configuration](#configuration)
-    - Server Configuration
-    - Static Files Configuration
-    - Logging Configuration
-    - SSL Configuration
-    - Environment Configuration
-    - Error Handling
-    - Handler Configuration
+    - [Server Configuration](#server-configuration)
+      - [Host and Port](#host-and-port)
+      - [Max Request Body Size](#max-request-body-size)
+    - [Static Files Configuration](#static-files-configuration)
+      - [Public Folder](#public-folder)
+      - [Serve Static Files](#serve-static-files)
+      - [Static Headers](#static-headers)
+    - [Logging Configuration](#logging-configuration)
+      - [Enable/Disable Logging](#enable-disable-logging)
+      - [Custom Logger](#custom-logger)
+    - [SSL Configuration](#ssl-configuration)
+    - [Environment Configuration](#environment-configuration)
+    - [Error Handling](#error-handling)
+      - [Powered By Header](#powered-by-header)
+      - [Always Rescue](#always-rescue)
+    - [Handler Configuration](#handler-configuration)
+      - [Add Custom Handlers](#add-custom-handlers)
+      - [Extra Options](#extra-options)
+    - [Server Instance Configuration](#server-instance-configuration)
+      - [Customize HTTP Server](#customize-http-server)
+      - [Shutdown Timeout](#shutdown-timeout)
+    - [Complete Configuration Example](#complete-configuration-example)
+    - [Configuration Priority](#configuration-priority)
+    - [Helper Methods vs Config Methods](#helper-methods-vs-config-methods)
 15. [CLI](#cli)
 16. [SSL](#ssl)
 17. [Deployment](#deployment)
+    - [Heroku](#heroku)
+    - [Capistrano](#capistrano)
+    - [Cross-compilation](#cross-compilation)
+    - [Improve this guide](#improve-this-guide)
 
 # [Getting Started](#getting-started)
 
 This guide assumes that you already have Crystal installed. If not, check out the [Crystal installation methods](https://crystal-lang.org/install/) and come back when you're done.
 
-### Installing Kemal
+### [Installing Kemal](#installing-kemal)
 
 First you need to create your application:
 
@@ -89,7 +118,7 @@ Installing kemal (0.21.0)
 
 That's it! You're now ready to use Kemal in your application.
 
-### Using Kemal
+### [Using Kemal](#using-kemal)
 
 You can do awesome stuff with Kemal. Let's start with a simple example. Just change the content of `src/your_app.cr` to:
 
@@ -103,7 +132,7 @@ end
 Kemal.run
 ```
 
-### Running Kemal
+### [Running Kemal](#running-kemal)
 
 Starting your application is easy. Simply run:
 
@@ -165,7 +194,7 @@ Routes are matched in the order they are defined. The first route that matches t
 
 When passing data through an HTTP request, you will often need to use query parameters, or post parameters depending on which HTTP method you're using.
 
-### URL Parameters
+### [URL Parameters](#url-parameters)
 Kemal allows you to use variables in your route path as placeholders for passing data. To access URL parameters, you use `env.params.url`.
 
 ```ruby
@@ -188,7 +217,7 @@ get "/dir/*all" do |env|
 end
 ```
 
-### Query Parameters
+### [Query Parameters](#query-parameters)
 To access query parameters, you use `env.params.query`.
 
 ```ruby
@@ -199,7 +228,7 @@ get "/resize" do |env|
 end
 ```
 
-### POST / Form Parameters
+### [POST / Form Parameters](#post-form-parameters)
 Kemal has a few options for accessing post parameters. You can easily access JSON payload from the parameters, or through the standard post body.
 
 For JSON parameters, use `env.params.json`.
@@ -272,7 +301,7 @@ get "/status-code" do |env|
 end
 ```
 
-### Context Storage
+### [Context Storage](#context-storage)
 
 Contexts are useful for sharing states between filters and middleware. You can use `context` to store some variables and access them later at some point. Each stored value only exist in the lifetime of request / response cycle.
 
@@ -317,7 +346,7 @@ end
 
 Be aware that you have to declare the custom type before trying to add with `add_context_storage_type`.
 
-### Request Properties
+### [Request Properties](#request-properties)
 
 Some common request information is available at `env.request.*`:
 
@@ -351,7 +380,7 @@ Your `hello.ecr` view should have the same context as the method.
 Hello <%= name %>
 ```
 
-## Using Layouts
+## [Using Layouts](#using-layouts)
 
 You can use **layouts** in Kemal. You can do this by passing a second argument to the `render` method.
 
@@ -374,13 +403,13 @@ In your layout file, you need to return the output of `subview.ecr` with the `co
 </html>
 ```
 
-### content_for and yield_content
+### [content_for and yield_content](#content_for-and-yield_content)
 
 You can capture blocks inside views to be rendered later during the request
 with the `content_for` helper. The most common use is to populate different
 parts of your layout from your view.
 
-#### Usage
+#### [Usage](#usage)
 
 First, call `content_for`, generally from a view, to capture a block of markup
 with an identifier:
@@ -406,7 +435,7 @@ To solve this problem, you can use `<%= yield_content "scripts_and_styles" %>` i
 your `layout.ecr`, inside the `<head>` tag, and each view can call `content_for`
 with the appropriate set of tags that should be added to the layout.
 
-## Using Common Paths
+## [Using Common Paths](#using-common-paths)
 
 Since Crystal does not allow using variables in macro literals, you need to generate
 another *helper macro* to make the code easier to read and write.
@@ -445,7 +474,7 @@ When using `before_all` and `after_all` keep in mind that they will be evaluated
     before_all -> before_x -> X -> after_x -> after_all
 
 
-#### Simple before_get example
+#### [Simple before_get example](#simple-before_get-example)
 
 ```ruby
 before_get "/foo" do |env|
@@ -459,7 +488,7 @@ get "/foo" do |env|
 end
 ```
 
-#### Simple before_all example
+#### [Simple before_all example](#simple-before_all-example)
 
 ```ruby
 before_all "/foo" do |env|
@@ -484,7 +513,7 @@ end
 
 ```
 
-#### Multiple `before_all`
+#### [Multiple `before_all`](#multiple-before_all)
 
 You can add many blocks to the same verb/path combination by calling it multiple times they will be called __in the same order they were defined__.
 
@@ -509,7 +538,7 @@ _Note: `authorized?` and `Session.new` are fictitious calls used to illustrate t
 
 # [Helpers](#helpers)
 
-### Browser Redirect
+### [Browser Redirect](#browser-redirect)
 
 Browser redirects are simple as well. Simply call `env.redirect` in the route's corresponding block.
 
@@ -523,7 +552,7 @@ end
 
 **Note:** For configuration options like logging and public folder settings, see the [Configuration](#configuration) section.
 
-### Halt
+### [Halt](#halt)
 
 Halt execution with the current context. Returns 200 and an empty response by default.
 
@@ -533,7 +562,7 @@ halt env, status_code: 403, response: "Forbidden"
 
 *Note:* `halt` can only be used inside routes.
 
-### Custom Errors
+### [Custom Errors](#custom-errors)
 
 You can customize the built-in error pages or even add your own with `error`.
 
@@ -584,7 +613,8 @@ end
 ```
 
 Will resolve to the handler for `GrandParentException` rather than `ParentException`
-### Send File
+
+### [Send File](#send-file)
 
 Send a file with the given path and base the MIME type on the file extension or default to `application/octet-stream`.
 
@@ -619,7 +649,7 @@ Middleware, also known as `Handler`s, are the building blocks of `Kemal`. Middle
 
 Each middleware is supposed to have one responsibility. Take a look at `Kemal`'s built-in middleware to see what that means.
 
-## Creating your own middleware
+## [Creating your own middleware](#creating-your-own-middleware)
 
 You can create your own middleware by inheriting from `Kemal::Handler`
 
@@ -634,7 +664,7 @@ end
 add_handler CustomHandler.new
 ```
 
-### Conditional Middleware Execution
+### [Conditional Middleware Execution](#conditional-middleware-execution)
 Kemal gives you access to two handy filters `only` and `exclude`. These can be used to process your custom middleware for `only` specific routes, or to `exclude` from specific routes.
 
 ```ruby
@@ -683,7 +713,7 @@ class PostExcludeHandler < Kemal::Handler
 end
 ```
 
-### Creating a custom Logger middleware
+### [Creating a custom Logger middleware](#creating-a-custom-logger-middleware)
 
 You can easily replace the built-in logger of `Kemal`. There's only one requirement which is that
 your logger must inherit from `Kemal::BaseLogHandler`.
@@ -712,7 +742,7 @@ Kemal.config.logger = MyCustomLogger.new
 
 That's it!
 
-### Kemal Middleware
+### [Kemal Middleware](#kemal-middleware)
 
 The Kemal organization has a variety of useful middleware.
 
@@ -723,7 +753,7 @@ The Kemal organization has a variety of useful middleware.
 
 Kemal provides easy access to uploaded files through `env.params.files`. When a file is uploaded via a form, it's automatically stored in a temporary location and accessible through the parameter name.
 
-## Basic File Upload
+## [Basic File Upload](#basic-file-upload)
 
 Here's a simple example of handling file uploads:
 
@@ -744,7 +774,7 @@ post "/upload" do |env|
 end
 ```
 
-## Advanced File Upload with Validation
+## [Advanced File Upload with Validation](#advanced-file-upload-with-validation)
 
 For production applications, you should validate uploaded files:
 
@@ -783,7 +813,7 @@ post "/upload" do |env|
 end
 ```
 
-## File Upload Properties
+## [File Upload Properties](#file-upload-properties)
 
 The uploaded file object has the following properties:
 
@@ -792,7 +822,7 @@ The uploaded file object has the following properties:
 - `size`: Size of the uploaded file in bytes
 - `headers`: HTTP headers associated with the file upload
 
-## Multiple File Upload
+## [Multiple File Upload](#multiple-file-upload)
 
 Kemal also supports uploading multiple files using array notation in form field names:
 
@@ -838,7 +868,7 @@ post "/upload-multiple" do |env|
 end
 ```
 
-## Testing File Upload
+## [Testing File Upload](#testing-file-upload)
 
 You can test single file uploads using `curl`:
 
@@ -879,7 +909,7 @@ You should ***only*** use `MemoryEngine` for development and testing purposes.
 
 See [kemal-session](https://github.com/kemalcr/kemal-session) for usage and compatible storage engines.
 
-## Accessing the CSRF token
+## [Accessing the CSRF token](#accessing-the-csrf-token)
 
 To access the CSRF token of the active session you can do the following in your form:
 
@@ -934,7 +964,7 @@ ws "/" do |socket, context|
 end
 ```
 
-### Accessing Dynamic Url Params
+### [Accessing Dynamic Url Params](#accessing-dynamic-url-params)
 
 ```ruby
 ws "/:id" do |socket, context|
@@ -1049,9 +1079,9 @@ Kemal will serve the files in the `public` directory without having to write rou
 
 Kemal provides a powerful configuration system through `Kemal.config` that allows you to customize various aspects of your application. Here are all the available public configuration options:
 
-## Server Configuration
+## [Server Configuration](#server-configuration)
 
-### Host and Port
+### [Host and Port](#host-and-port)
 
 Configure the host address and port your application listens on:
 
@@ -1066,7 +1096,7 @@ You can also set these via command line flags:
 ./your_app --bind 127.0.0.1 --port 8080
 ```
 
-### Max Request Body Size
+### [Max Request Body Size](#max-request-body-size)
 
 Limit the maximum size of HTTP request bodies to prevent potential memory exhaustion or DoS attacks:
 
@@ -1096,9 +1126,9 @@ Kemal.config.max_request_body_size = nil
 
 **Note:** Setting this value too low may prevent legitimate large requests from being processed. Choose a value that balances security with your application's requirements.
 
-## Static Files Configuration
+## [Static Files Configuration](#static-files-configuration)
 
-### Public Folder
+### [Public Folder](#public-folder)
 
 Set the directory for serving static files:
 
@@ -1106,7 +1136,7 @@ Set the directory for serving static files:
 Kemal.config.public_folder = "./assets"  # Default: "./public"
 ```
 
-### Serve Static Files
+### [Serve Static Files](#serve-static-files)
 
 Enable or disable static file serving:
 
@@ -1122,7 +1152,7 @@ Kemal.config.serve_static = {"gzip" => true, "dir_listing" => false}
 
 By default `Kemal` gzips most files, skipping only very small files, or those which don't benefit from gzipping. If you are running `Kemal` behind a proxy, you may wish to disable this feature.
 
-### Static Headers
+### [Static Headers](#static-headers)
 
 Add custom headers to static files served by `Kemal::StaticFileHandler`. This is especially useful for CORS or caching:
 
@@ -1135,9 +1165,9 @@ static_headers do |response, filepath, filestat|
 end
 ```
 
-## Logging Configuration
+## [Logging Configuration](#logging-configuration)
 
-### Enable/Disable Logging
+### [Enable/Disable Logging](#enable-disable-logging)
 
 Kemal enables logging by default. You can easily disable it:
 
@@ -1151,7 +1181,7 @@ You can add logging statements to your code:
 Log.info { "Log message with or without embedded #{variables}" }
 ```
 
-### Custom Logger
+### [Custom Logger](#custom-logger)
 
 You can easily replace the built-in logger of `Kemal`. Your logger must inherit from `Kemal::BaseLogHandler`:
 
@@ -1177,7 +1207,7 @@ require "kemal"
 Kemal.config.logger = MyCustomLogger.new
 ```
 
-## SSL Configuration
+## [SSL Configuration](#ssl-configuration)
 
 Configure SSL/TLS for HTTPS:
 
@@ -1193,7 +1223,7 @@ Or use command line flags:
 ./your_app --ssl --ssl-cert-file cert.pem --ssl-key-file key.pem
 ```
 
-## Environment Configuration
+## [Environment Configuration](#environment-configuration)
 
 Kemal respects the `KEMAL_ENV` environment variable and `Kemal.config.env`. It is set to `development` by default.
 
@@ -1213,9 +1243,9 @@ When the `KEMAL_ENV` environment variable is not set to `production`, e.g. `deve
 
 **Note:** `KEMAL_ENV` should ***always*** be set to `production` in a production environment for security reasons.
 
-## Error Handling
+## [Error Handling](#error-handling)
 
-### Powered By Header
+### [Powered By Header](#powered-by-header)
 
 Hide or customize the "X-Powered-By" header:
 
@@ -1225,7 +1255,7 @@ Kemal.config.powered_by_header = "MyApp"     # Custom value
 # Default: "Kemal"
 ```
 
-### Always Rescue
+### [Always Rescue](#always-rescue)
 
 Control whether Kemal should rescue all exceptions:
 
@@ -1235,9 +1265,9 @@ Kemal.config.always_rescue = false  # Default: true
 
 When set to `false`, exceptions will not be caught by Kemal's exception handler and will propagate up.
 
-## Handler Configuration
+## [Handler Configuration](#handler-configuration)
 
-### Add Custom Handlers
+### [Add Custom Handlers](#add-custom-handlers)
 
 Add custom middleware/handlers to your application:
 
@@ -1247,7 +1277,7 @@ Kemal.config.add_handler MyCustomHandler.new
 
 Handlers are added in the order they're called and will be executed in that order for each request.
 
-### Extra Options
+### [Extra Options](#extra-options)
 
 Store custom application-wide configuration:
 
@@ -1259,9 +1289,9 @@ Kemal.config.extra_options do |parser|
 end
 ```
 
-## Server Instance Configuration
+## [Server Instance Configuration](#server-instance-configuration)
 
-### Customize HTTP Server
+### [Customize HTTP Server](#customize-http-server)
 
 Access and configure the underlying `HTTP::Server` instance:
 
@@ -1269,7 +1299,7 @@ Access and configure the underlying `HTTP::Server` instance:
 Kemal.config.server.not_nil!.bind_tcp "0.0.0.0", 3000, reuse_port: true
 ```
 
-### Shutdown Timeout
+### [Shutdown Timeout](#shutdown-timeout)
 
 Configure graceful shutdown timeout:
 
@@ -1277,7 +1307,7 @@ Configure graceful shutdown timeout:
 Kemal.config.shutdown_timeout = 10.seconds  # Default: nil (no timeout)
 ```
 
-## Complete Configuration Example
+## [Complete Configuration Example](#complete-configuration-example)
 
 Here's a comprehensive example showing multiple configuration options:
 
@@ -1319,7 +1349,7 @@ end
 Kemal.run
 ```
 
-## Configuration Priority
+## [Configuration Priority](#configuration-priority)
 
 Configuration values are resolved in the following order (highest to lowest priority):
 
@@ -1328,7 +1358,7 @@ Configuration values are resolved in the following order (highest to lowest prio
 3. Environment variables (`KEMAL_ENV`)
 4. Default values
 
-## Helper Methods vs Config Methods
+## [Helper Methods vs Config Methods](#helper-methods-vs-config-methods)
 
 Kemal provides two equivalent ways to configure most options:
 
@@ -1378,7 +1408,7 @@ crystal build --release src/your_app.cr
 
 # [Deployment](#deployment)
 
-### Heroku
+### [Heroku](#heroku)
 
 You can use [heroku-buildpack-crystal](https://github.com/crystal-lang/heroku-buildpack-crystal) to deploy your Kemal application to Heroku.
 
@@ -1386,10 +1416,10 @@ You can use [heroku-buildpack-crystal](https://github.com/crystal-lang/heroku-bu
 
 You can use [capistrano-kemal](https://github.com/sdogruyol/capistrano-kemal) to deploy your Kemal application to any server.
 
-### Cross-compilation
+### [Cross-compilation](#cross-compilation)
 
 You can cross-compile a Kemal app by using this [guide](http://crystal-lang.org/docs/syntax_and_semantics/cross-compilation.html).
 
-### Improve this guide
+### [Improve this guide](#improve-this-guide)
 
 Please help us improve this guide with pull requests to [this website repository](https://github.com/kemalcr/kemalcr.com).
