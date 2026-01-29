@@ -268,34 +268,37 @@ title: Media
 }
 
 .contact-card {
-  background: linear-gradient(135deg, #f52b31 0%, #15a2ab 100%);
-  color: white;
+  background: #ffffff;
+  border: 2px solid #f52b31;
+  color: #333;
   padding: 2.5rem;
   border-radius: 12px;
   text-align: center;
-  box-shadow: 0 8px 24px rgba(245, 43, 49, 0.3);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .contact-card h3 {
   margin: 0 0 1rem 0;
   font-size: 1.75rem;
   font-weight: 700;
+  color: #333;
 }
 
 .contact-card p {
   margin: 0;
   font-size: 1.1rem;
-  opacity: 0.95;
+  color: #666;
 }
 
 .contact-card a {
-  color: white;
+  color: #f52b31;
   text-decoration: underline;
   font-weight: 600;
 }
 
 .contact-card a:hover {
-  opacity: 0.8;
+  color: #d93859;
+  text-decoration: none;
 }
 
 @media (max-width: 768px) {

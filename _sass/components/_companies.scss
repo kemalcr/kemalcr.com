@@ -4,7 +4,7 @@
 
 .companies-page {
   padding: 40px 0 80px;
-  background: linear-gradient(to bottom, #ffffff 0%, #fafafa 100%);
+  background: #ffffff;
   min-height: calc(100vh - 200px);
 }
 
@@ -93,7 +93,7 @@
     left: 0;
     right: 0;
     height: 3px;
-    background: linear-gradient(90deg, #f52b31 0%, #15a2ab 100%);
+    background: $brand-primary;
     transform: scaleX(0);
     transform-origin: left;
     transition: transform 0.3s ease;
@@ -173,11 +173,12 @@
 }
 
 .cta-card {
-  background: linear-gradient(135deg, #f52b31 0%, #15a2ab 100%);
+  background: #ffffff;
+  border: 2px solid $brand-primary;
   border-radius: 16px;
   padding: 48px 32px;
   text-align: center;
-  box-shadow: 0 8px 24px rgba(245, 43, 49, 0.3);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   max-width: 700px;
   margin: 0 auto;
   
@@ -192,7 +193,7 @@
   h3 {
     font-size: 28px;
     font-weight: 700;
-    color: #ffffff;
+    color: $text-color;
     margin: 0 0 16px 0;
     
     @media screen and (max-width: $screen-sm-min) {
@@ -206,7 +207,7 @@
   
   p {
     font-size: 16px;
-    color: rgba(255, 255, 255, 0.9);
+    color: $text-muted;
     margin: 0 0 28px 0;
     line-height: 1.6;
     
@@ -219,15 +220,15 @@
 
 .cta-button {
   display: inline-block;
-  background: #ffffff;
-  color: #f52b31;
+  background: $brand-primary;
+  color: #ffffff;
   padding: 14px 32px;
   border-radius: 8px;
   font-size: 16px;
   font-weight: 600;
   text-decoration: none;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 8px rgba(245, 43, 49, 0.3);
   
   @media screen and (max-width: 480px) {
     padding: 12px 28px;
@@ -236,10 +237,10 @@
   
   &:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
-    color: #f52b31;
+    box-shadow: 0 4px 12px rgba(245, 43, 49, 0.4);
+    color: #ffffff;
     text-decoration: none;
-    background: #fff5f5;
+    background: darken($brand-primary, 5%);
   }
   
   &:active {

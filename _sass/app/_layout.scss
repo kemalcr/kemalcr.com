@@ -48,8 +48,9 @@
 // Hero
 .Hero {
   padding: 80px 0 60px;
-  background: linear-gradient(135deg, lighten($brand-primary, 10%), $brand-secondary);
-  color: #fff;
+  background: #ffffff;
+  color: $text-color;
+  border-bottom: 1px solid $gray-lighter;
 
   @media screen and (min-width: $screen-md-min) {
     padding: 100px 0 80px;
@@ -106,18 +107,22 @@
 
 .Hero_secondaryCta {
   background: transparent;
-  border-color: rgba(255,255,255,.6);
-  color: #fff;
+  border-color: $gray-light;
+  color: $text-color;
 }
 
 .Hero_code {
   flex: 1 1 50%;
-  background: rgba(0,0,0,.35);
+  background: #fafafa;
+  border: 2px solid #e1e4e8;
   border-radius: 8px;
-  padding: 16px;
+  padding: 20px;
   overflow: auto;
   font-family: $font-family-monospace;
-  font-size: 13px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: $text-color;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 // Feature grid
