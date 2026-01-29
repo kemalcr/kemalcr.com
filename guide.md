@@ -824,7 +824,7 @@ That's it!
 The Kemal organization has a variety of useful middleware.
 
 - [kemal-basic-auth](https://github.com/kemalcr/kemal-basic-auth): Add HTTP Basic Authorization to your Kemal application.
-- [kemal-csrf](https://github.com/kemalcr/kemal-csrf): Add CSRF protection to your Kemal application.
+- [kemal-hmac](https://github.com/kemalcr/kemal-hmac): HMAC middleware for Kemal
 
 # [HTTP Parameters](#http-parameters)
 
