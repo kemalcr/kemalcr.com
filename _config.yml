@@ -1,7 +1,7 @@
 # Site settings
-title:            Kemal - Lightning Fast, Super Simple Web Framework for Crystal
+title:            Kemal - Fast, Effective, Simple web framework for Crystal
 email:            dogruyolserdar@gmail.com
-description:      'Lightning Fast, Super Simple web framework for Crystal'
+description:      'Fast, Effective, Simple web framework for Crystal'
 baseurl:          "" # the subpath of your site, e.g. /blog
 url:              "http://kemalcr.com" # the base hostname & protocol for your site
 twitter_username: sdogruyol
@@ -33,12 +33,9 @@ nav_bars:
     url: "https://twitter.com/crystalkemal"
 
 
-examples:
-  - title: "How to connect to Database"
-    url: "https://github.com/sdogruyol/kemal-pg-sample"
-
 jsarr:
   - name: "/js/browser.js"
+  - name: "/js/copy-code.js"
 
 plugins:
   - jemoji
@@ -46,5 +43,3 @@ plugins:
 footer_docs:
   - title: "Getting Started"
     url: "/guide/#getting-started"
-  - title: "Media"
-    url: "/media"

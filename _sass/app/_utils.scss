@@ -1,3 +1,18 @@
+
+.u-skip-link {
+  position: absolute;
+  left: -999px;
+  top: 0;
+  padding: 8px 14px;
+  background: $brand-primary;
+  color: #fff;
+  z-index: 9999;
+
+  &:focus {
+    left: 8px;
+  }
+}
+
  ///// Menu toggle icon effect
 
 .menu-icon{

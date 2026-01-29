@@ -1,0 +1,207 @@
+// Global layout primitives
+.Site {
+  &-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: $body-bg;
+    color: $text-color;
+  }
+}
+
+.Site-main {
+  flex: 1 1 auto;
+}
+
+.Section {
+  padding: 60px 0;
+
+  @media screen and (min-width: $screen-md-min) {
+    padding: 80px 0;
+  }
+
+  & + & {
+    border-top: 1px solid $gray-lighter;
+  }
+}
+
+.Section_header {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto 40px;
+}
+
+.Section_header--compact {
+  margin-bottom: 24px;
+}
+
+.Section_title {
+  font-size: $font-size-h2;
+  margin-bottom: 10px;
+}
+
+.Section_subtitle {
+  font-size: $font-size-base;
+  color: $text-muted;
+}
+
+// Hero
+.Hero {
+  padding: 80px 0 60px;
+  background: linear-gradient(135deg, lighten($brand-primary, 10%), $brand-secondary);
+  color: #fff;
+
+  @media screen and (min-width: $screen-md-min) {
+    padding: 100px 0 80px;
+  }
+}
+
+.Hero_inner {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+
+  @media screen and (min-width: $screen-md-min) {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
+.Hero_copy {
+  flex: 1 1 50%;
+}
+
+.Hero_kicker {
+  font-size: 40px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.Hero_title {
+  font-size: 28px;
+  line-height: 1.2;
+  margin-bottom: 16px;
+
+  @media screen and (min-width: $screen-md-min) {
+    font-size: 40px;
+  }
+}
+
+.Hero_subtitle {
+  font-size: 16px;
+  line-height: 1.6;
+  opacity: .9;
+  margin-bottom: 24px;
+}
+
+.Hero_actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.Hero_primaryCta {
+  box-shadow: 0 10px 25px rgba(0,0,0,.18);
+}
+
+.Hero_secondaryCta {
+  background: transparent;
+  border-color: rgba(255,255,255,.6);
+  color: #fff;
+}
+
+.Hero_code {
+  flex: 1 1 50%;
+  background: rgba(0,0,0,.35);
+  border-radius: 8px;
+  padding: 16px;
+  overflow: auto;
+  font-family: $font-family-monospace;
+  font-size: 13px;
+}
+
+// Feature grid
+.FeatureGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+
+  @media screen and (min-width: $screen-md-min) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.FeatureCard {
+  background: #fff;
+  border-radius: 8px;
+  padding: 20px 24px;
+  box-shadow: 0 8px 18px rgba(0,0,0,.03);
+}
+
+.FeatureCard_title {
+  font-size: $font-size-h4;
+  margin-bottom: 8px;
+}
+
+.FeatureCard_body {
+  font-size: $font-size-base;
+  color: $text-color;
+}
+
+// Showcase cards
+.ShowcaseGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+
+  @media screen and (min-width: $screen-md-min) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.ShowcaseCard {
+  background: #fff;
+  border-radius: 8px;
+  padding: 20px 24px;
+  border: 1px solid $gray-lighter;
+}
+
+.ShowcaseCard_title {
+  font-size: $font-size-h4;
+  margin-bottom: 8px;
+}
+
+.ShowcaseCard_body {
+  font-size: $font-size-base;
+  margin-bottom: 10px;
+}
+
+.ShowcaseCard_link {
+  font-size: $font-size-small;
+}
+
+// Docs layout
+.DocsLayout {
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  gap: 32px;
+
+  @media screen and (max-width: $screen-sm-max) {
+    display: block;
+  }
+}
+
+.DocsLayout_sidebar {
+  position: sticky;
+  top: 80px;
+  align-self: flex-start;
+
+  @media screen and (max-width: $screen-sm-max) {
+    position: static;
+    margin-bottom: 24px;
+  }
+}
+
+.DocsLayout_content {
+  min-width: 0;
+}

@@ -1,0 +1,76 @@
+/**
+ * Copy code button styles
+ */
+.copy-code-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+  color: #586069;
+  background-color: #ffffff;
+  border: 1px solid rgba(27, 31, 35, 0.15);
+  border-radius: 6px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out, background-color 0.2s ease;
+  z-index: 10;
+
+  &:hover {
+    color: #24292e;
+    background-color: #f3f4f6;
+    border-color: rgba(27, 31, 35, 0.25);
+  }
+
+  &:active {
+    background-color: #edeff2;
+    transform: scale(0.95);
+  }
+
+  &:focus {
+    outline: 2px solid #0366d6;
+    outline-offset: 2px;
+  }
+}
+
+// Show button on hover
+.highlight {
+  position: relative;
+
+  &:hover .copy-code-button {
+    opacity: 1;
+  }
+}
+
+// Special styling for Hero section
+.Hero_code .highlight {
+  margin: 0;
+}
+
+// Always show on touch devices
+@media (hover: none) {
+  .copy-code-button {
+    opacity: 0.8;
+  }
+}
+
+// Dark mode support (if needed in the future)
+@media (prefers-color-scheme: dark) {
+  .copy-code-button {
+    color: #c9d1d9;
+    background-color: #21262d;
+    border-color: rgba(240, 246, 252, 0.1);
+
+    &:hover {
+      color: #f0f6fc;
+      background-color: #30363d;
+      border-color: rgba(240, 246, 252, 0.2);
+    }
+
+    &:active {
+      background-color: #282e36;
+    }
+  }
+}

@@ -191,3 +191,145 @@
   }
 }
 
+/*
+* Stats Bar
+*/
+.Section_stats {
+  background: linear-gradient(to bottom, #fafafa 0%, #ffffff 100%);
+  padding: 40px 0;
+  border-top: 1px solid #e9ecef;
+  border-bottom: 1px solid #e9ecef;
+
+  @media screen and (max-width: $screen-sm-min) {
+    padding: 30px 0;
+  }
+}
+
+.StatsBar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 30px;
+  text-align: center;
+
+  @media screen and (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  @media screen and (max-width: 480px) {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
+.Stat {
+  padding: 10px 20px;
+
+  &_label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #6c757d;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+  }
+
+  &_value {
+    font-size: 18px;
+    font-weight: 700;
+    color: #2c3e50;
+
+    a {
+      color: #f52b31;
+      text-decoration: none;
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: #15a2ab;
+        text-decoration: none;
+      }
+    }
+
+    img {
+      display: inline-block;
+      vertical-align: middle;
+      height: 20px;
+    }
+  }
+}
+
+/*
+* Companies Section (Homepage)
+*/
+.Section_companies {
+  background: #ffffff;
+  padding: 60px 0;
+
+  @media screen and (max-width: $screen-sm-min) {
+    padding: 50px 0;
+  }
+}
+
+.CompaniesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 40px 30px;
+  align-items: center;
+  justify-items: center;
+  margin-bottom: 40px;
+
+  @media screen and (max-width: 768px) {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 30px 20px;
+  }
+
+  @media screen and (max-width: 480px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px 15px;
+  }
+}
+
+.CompanyLogo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 20px;
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  background: #fafafa;
+  border: 1px solid transparent;
+
+  &:hover {
+    background: #ffffff;
+    border-color: #f52b31;
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+
+    img {
+      filter: grayscale(0%) brightness(1.1);
+      transform: scale(1.05);
+    }
+  }
+
+  img {
+    max-width: 140px;
+    max-height: 70px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    filter: grayscale(30%) brightness(0.95);
+    transition: all 0.3s ease;
+
+    @media screen and (max-width: 480px) {
+      max-width: 100px;
+      max-height: 50px;
+    }
+  }
+}
+
+.Section_cta {
+  text-align: center;
+  margin-top: 20px;
+}
+

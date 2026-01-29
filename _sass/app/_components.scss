@@ -1,3 +1,51 @@
+// Buttons
+.btn {
+  border-radius: $btn-border-radius-base;
+  font-weight: 500;
+}
+
+.btn-primary {
+  box-shadow: 0 4px 12px rgba($brand-primary, .4);
+}
+
+// Cards & blocks
+.Block {
+  margin-bottom: 40px;
+}
+
+.Block_title {
+  text-align: center;
+  border-bottom: 1px solid #f1f1f1;
+  padding-bottom: 20px;
+}
+
+.Block_content {
+  padding-top: 30px;
+}
+
+// Docs content
+.doc-header {
+  margin-bottom: 20px;
+}
+
+.doc-title {
+  font-size: $font-size-h2;
+}
+
+.doc-content {
+  font-size: $font-size-base;
+  line-height: 1.7;
+
+  h2, h3, h4 {
+    margin-top: 32px;
+    margin-bottom: 12px;
+  }
+
+  p {
+    margin-bottom: 12px;
+  }
+}
+
 @import "../components/forms";
 
 // Header
@@ -7,6 +55,12 @@
 @import "../components/home";
 @import "../components/subpage";
 @import "../components/blog";
+
+// Companies
+@import "../components/companies";
+
+// Community
+@import "../components/community";
 
 // Footer
 @import "../components/footer";

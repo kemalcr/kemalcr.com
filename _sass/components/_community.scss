@@ -1,0 +1,131 @@
+// Community Page Styles
+
+.community-page {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.community-intro {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.community-intro .lead {
+  font-size: 1.5rem;
+  color: #666;
+  margin: 0;
+}
+
+.community-section {
+  margin-bottom: 4rem;
+}
+
+.section-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #333;
+  text-align: center;
+}
+
+.section-subtitle {
+  font-size: 1.1rem;
+  color: #666;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -15px;
+}
+
+.col-sm-6 {
+  flex: 0 0 50%;
+  max-width: 50%;
+  padding: 0 15px;
+  margin-bottom: 30px;
+}
+
+.ShowcaseCard {
+  background: white;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  height: 100%;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ShowcaseCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.ShowcaseCard_title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #333;
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.ShowcaseCard_body {
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.ShowcaseCard ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.ShowcaseCard ul li {
+  padding: 0.5rem 0;
+  color: #555;
+}
+
+.ShowcaseCard ul li a {
+  color: #ee4266;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.ShowcaseCard ul li a:hover {
+  color: #d93859;
+  text-decoration: underline;
+}
+
+.ShowcaseGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+@media (max-width: 768px) {
+  .community-page {
+    padding: 1rem 0.5rem;
+  }
+
+  .col-sm-6 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+  }
+
+  .ShowcaseCard {
+    padding: 1.5rem;
+  }
+
+  .ShowcaseGrid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
