@@ -3,12 +3,14 @@ layout: page
 title: Community
 ---
 
-<section class="Section">
-  <div class="container">
-    <p class="Section_subtitle" style="text-align: center; margin-bottom: 40px; font-size: 1.2em;">
+<div class="community-page">
+  <div class="community-intro">
+    <p class="lead">
       Kemal is nice, so we are nice. Join the community, ask questions, and share what you build.
     </p>
+  </div>
 
+  <section class="community-section">
     <div class="row">
       <div class="col-sm-6">
         <div class="ShowcaseCard">
@@ -35,42 +37,40 @@ title: Community
         </div>
       </div>
     </div>
+  </section>
 
-    <section class="Section Section_showcase">
-      <header class="Section_header Section_header--compact">
-        <h2 class="Section_title">Talks &amp; videos</h2>
-        <p class="Section_subtitle">
-          Learn Kemal from conference talks, screencasts and live coding sessions.
-        </p>
-      </header>
+  <section class="community-section">
+    <h2 class="section-title">Talks &amp; videos</h2>
+    <p class="section-subtitle">
+      Learn Kemal from conference talks, screencasts and live coding sessions.
+    </p>
 
-      <div class="ShowcaseGrid">
-        <article class="ShowcaseCard">
-          <h3 class="ShowcaseCard_title">Getting started</h3>
-          <ul>
-            <li><a href="https://youtu.be/6CHdjlgnE5U">Build a RESTful API in 5 minutes with Kemal</a></li>
-            <li><a href="https://www.youtube.com/watch?v=OkM42UKhjsk">Crystal and Kemal: Simply Fast</a></li>
-            <li><a href="https://www.youtube.com/watch?v=6KzPGp87YCw">Todo App Demo with Crystal, React and PostgreSQL</a></li>
-          </ul>
-        </article>
+    <div class="ShowcaseGrid">
+      <article class="ShowcaseCard">
+        <h3 class="ShowcaseCard_title">Getting started</h3>
+        <ul>
+          <li><a href="https://youtu.be/6CHdjlgnE5U">Build a RESTful API in 5 minutes with Kemal</a></li>
+          <li><a href="https://www.youtube.com/watch?v=OkM42UKhjsk">Crystal and Kemal: Simply Fast</a></li>
+          <li><a href="https://www.youtube.com/watch?v=6KzPGp87YCw">Todo App Demo with Crystal, React and PostgreSQL</a></li>
+        </ul>
+      </article>
 
-        <article class="ShowcaseCard">
-          <h3 class="ShowcaseCard_title">Deep dives</h3>
-          <ul>
-            <li><a href="https://www.youtube.com/watch?v=KJB-nAoRSr8">Kemal - Building Lightning Fast Web Applications with Simplicity</a></li>
-            <li><a href="https://www.youtube.com/watch?v=XPLsQ88XOiQ">Building Web Applications with Crystal and Kemal</a></li>
-            <li><a href="https://www.youtube.com/watch?v=0OFiLfXXodg">Web Server Optimized: Kemal</a></li>
-          </ul>
-        </article>
+      <article class="ShowcaseCard">
+        <h3 class="ShowcaseCard_title">Deep dives</h3>
+        <ul>
+          <li><a href="https://www.youtube.com/watch?v=KJB-nAoRSr8">Kemal - Building Lightning Fast Web Applications with Simplicity</a></li>
+          <li><a href="https://www.youtube.com/watch?v=XPLsQ88XOiQ">Building Web Applications with Crystal and Kemal</a></li>
+          <li><a href="https://www.youtube.com/watch?v=0OFiLfXXodg">Web Server Optimized: Kemal</a></li>
+        </ul>
+      </article>
 
-        <article class="ShowcaseCard">
-          <h3 class="ShowcaseCard_title">In other languages</h3>
-          <ul>
-            <li><a href="https://www.youtube.com/watch?v=DT7gRIaKQqg">(ES) Crystal en Español: Kemal</a></li>
-            <li><a href="https://www.youtube.com/watch?v=LOAahRnsIpk">(TR) Crystal Lang ve Kemal</a></li>
-          </ul>
-        </article>
-      </div>
-    </section>
-  </div>
-</section>
+      <article class="ShowcaseCard">
+        <h3 class="ShowcaseCard_title">In other languages</h3>
+        <ul>
+          <li><a href="https://www.youtube.com/watch?v=DT7gRIaKQqg">(ES) Crystal en Español: Kemal</a></li>
+          <li><a href="https://www.youtube.com/watch?v=LOAahRnsIpk">(TR) Crystal Lang ve Kemal</a></li>
+        </ul>
+      </article>
+    </div>
+  </section>
+</div>
