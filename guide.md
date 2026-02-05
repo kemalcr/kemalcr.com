@@ -50,7 +50,10 @@ title: Kemal - Guide
     - [Handler Configuration](#handler-configuration)
 15. [CLI](#cli)
 16. [SSL](#ssl)
-17. [Deployment](#deployment)
+17. [Security](#security)
+    - [Resource Limits](#resource-limits)
+    - [Defense](#defense)
+18. [Deployment](#deployment)
     - [Production Build](#production-build)
     - [Docker Deployment](#docker-deployment)
     - [Cloud Platforms](#cloud-platforms)
@@ -1388,6 +1391,72 @@ crystal build --release src/your_app.cr
 ./your_app --ssl --ssl-key-file your_key_file --ssl-cert-file your_cert_file
 ```
 
+# [Security](#security)
+
+Best practices for securing your Kemal application: resource limits, security headers, rate limiting, and the Defense shard for throttling and blocking malicious requests.
+
+## [Resource Limits](#resource-limits)
+
+**Set appropriate limits:**
+
+```ruby
+require "kemal"
+
+# Maximum request body size (10 MB)
+Kemal.config.max_request_body_size = 10 * 1024 * 1024
+
+# Powered by header (hide for security)
+Kemal.config.powered_by_header = false
+
+# Always rescue in production
+Kemal.config.always_rescue = true
+```
+
+## [Defense](#defense)
+
+[Defense](https://github.com/defense-cr/defense) is a Crystal HTTP handler for throttling, blocking and tracking malicious requests (inspired by Rack::Attack). Add the shard and register the handler early in your handler chain:
+
+```ruby
+# shard.yml
+dependencies:
+  defense:
+    github: defense-cr/defense
+```
+
+```ruby
+require "kemal"
+require "defense"
+
+# Store: Redis (production) or MemoryStore (development/tests)
+Defense.store = Defense::RedisStore.new(url: ENV["REDIS_URL"]? || "redis://localhost:6379/0")
+# Defense.store = Defense::MemoryStore.new
+
+add_handler Defense::Handler.new
+
+# Throttle: 10 requests per minute per IP
+Defense.throttle("requests per minute", limit: 10, period: 60) do |request|
+  request.remote_address.to_s
+end
+
+# Blocklist: block /admin for non-trusted IPs
+Defense.blocklist("block admin") do |request|
+  request.path.starts_with?("/admin/")
+end
+
+# Safelist: never throttle/block localhost
+Defense.safelist("localhost") do |request|
+  request.remote_address.to_s == "127.0.0.1"
+end
+
+get "/" do
+  "Hello World"
+end
+
+Kemal.run
+```
+
+Throttled and blocked responses are configurable via `Defense.throttled_response=` and `Defense.blocked_response=`. Defense also supports Fail2Ban and Allow2Ban for banning after repeated violations. See the [Defense README](https://github.com/defense-cr/defense) for full options.
+
 # [Deployment](#deployment)
 
 Deploying a Kemal application to production requires careful consideration of build optimization, hosting platform, infrastructure setup, and operational best practices. This comprehensive guide covers everything you need to know to deploy your Kemal application successfully.
@@ -2276,73 +2345,6 @@ get "/" do
 end
 
 Kemal.run
-```
-
-### [Resource Limits and Security](#resource-limits-security)
-
-**Set appropriate limits:**
-
-```ruby
-require "kemal"
-
-# Maximum request body size (10 MB)
-Kemal.config.max_request_body_size = 10 * 1024 * 1024
-
-# Powered by header (hide for security)
-Kemal.config.powered_by_header = false
-
-# Always rescue in production
-Kemal.config.always_rescue = true
-```
-
-**Add security middleware:**
-
-```ruby
-# Security headers middleware
-class SecurityHeadersHandler < Kemal::Handler
-  def call(env)
-    env.response.headers["X-Frame-Options"] = "SAMEORIGIN"
-    env.response.headers["X-Content-Type-Options"] = "nosniff"
-    env.response.headers["X-XSS-Protection"] = "1; mode=block"
-    env.response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
-    call_next env
-  end
-end
-
-add_handler SecurityHeadersHandler.new
-```
-
-**Rate limiting:**
-
-```ruby
-# Simple in-memory rate limiter (use Redis for production)
-class RateLimitHandler < Kemal::Handler
-  RATE_LIMIT = 100 # requests per minute
-  
-  def initialize
-    @requests = Hash(String, Array(Time)).new { |h, k| h[k] = [] of Time }
-  end
-  
-  def call(env)
-    ip = env.request.headers["X-Real-IP"]? || 
-         env.request.headers["X-Forwarded-For"]?.try(&.split(",").first.strip) ||
-         env.request.remote_address.to_s
-    
-    now = Time.utc
-    @requests[ip].reject! { |t| t < now - 1.minute }
-    
-    if @requests[ip].size >= RATE_LIMIT
-      env.response.status_code = 429
-      env.response.headers["Retry-After"] = "60"
-      return "Rate limit exceeded"
-    end
-    
-    @requests[ip] << now
-    call_next env
-  end
-end
-
-add_handler RateLimitHandler.new
 ```
 
 ## [Deployment Strategies](#deployment-strategies)
