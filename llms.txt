@@ -89,7 +89,7 @@ shards install
 
 - [GitHub Issues](https://github.com/kemalcr/kemal/issues)
 - [Crystal Community](https://crystal-lang.org/community)
-- [Gitter Chat](https://gitter.im/sdogruyol/kemal)
+- [Discord](https://discord.gg/prSVAZJEpz)
 
 ## Companies Using Kemal
 
