@@ -1,0 +1,1449 @@
+<SYSTEM>This is the full developer documentation for Kemal.</SYSTEM>
+
+# Start of Kemal documentation
+
+# Kemal
+
+Fast, Super Simple web framework for Crystal.
+
+Kemal is a fast, effective, simple web framework written in Crystal. It is inspired by Sinatra but is much faster due to being built with Crystal.
+
+## Quick Start
+
+```crystal
+require "kemal"
+
+get "/" do
+  "Hello World!"
+end
+
+Kemal.run
+```
+
+## Features
+
+- **High-performance by default**: Built on Crystal with a thin abstraction layer so you can serve a large number of requests with low latency and low memory footprint.
+- **Full REST & HTTP support**: Handle all HTTP verbs (GET, POST, PUT, PATCH, DELETE, etc.) with a straightforward routing DSL.
+- **WebSocket & real-time**: First-class WebSocket support for building chats, dashboards and other real-time experiences.
+- **JSON-first APIs**: Native JSON handling makes building JSON APIs and microservices feel natural.
+- **Static assets made easy**: Serve static files (assets, uploads, SPA bundles) efficiently from the same application.
+- **Template engine included**: Built-in ECR template engine for server‑rendered HTML when you need it.
+- **Composable middleware**: Flexible middleware system to add logging, auth, rate limiting, metrics and more.
+- **Ergonomic request/response API**: Simple access to params, headers, cookies and bodies via a clear context object.
+- **Session management**: Easy session handling with kemal-session, suitable for production apps.
+- **Production Ready** - Battle-tested and used in production by many companies
+
+## Use Cases
+
+### Web Applications
+
+Build full-featured web applications ranging from small MVPs to large, multi‑module platforms:
+
+- Server‑rendered dashboards, admin panels and internal tools
+- Multi‑page sites with shared layouts and partials using ECR templates
+- Hybrid apps that combine HTML views with JSON endpoints and background jobs
+
+Kemal’s routing, filters and middleware make it easy to structure complex applications while keeping the codebase readable.
+
+### APIs and Microservices
+
+Design high‑performance HTTP APIs that are easy to consume and maintain:
+
+- REST or JSON‑only backends for SPAs and mobile apps
+- BFF (Backend‑for‑Frontend) services for React/Vue/Svelte frontends
+- Internal microservices communicating over HTTP/JSON
+
+The lightweight request/response API, built‑in JSON support and test tooling (spec‑kemal) make API development straightforward and predictable.
+
+### Real‑time Applications
+
+Use WebSockets to power interactive, low‑latency experiences:
+
+- Chat applications and notifications
+- Live dashboards and monitoring UIs
+- Collaborative tools (e.g. shared documents, whiteboards)
+
+Kemal’s WebSocket primitives let you handle connections, broadcasts, rooms and events without heavy abstractions, while still integrating cleanly with the rest of your HTTP routes and middleware.
+
+# Getting Started
+
+This guide assumes that you already have Crystal installed. If not, check out the [Crystal installation methods](https://crystal-lang.org/install/) and come back when you're done.
+
+## Installing Kemal
+
+First you need to create your application:
+
+```bash
+crystal init app your_app
+cd your_app
+```
+
+Then add *kemal* to the `shard.yml` file as a dependency.
+
+```yaml
+dependencies:
+  kemal:
+    github: kemalcr/kemal
+```
+
+Finally run `shards` to get the dependencies:
+
+```bash
+shards install
+```
+
+You should see something like this:
+
+```
+$ shards install
+Updating https://github.com/kemalcr/kemal.git
+Installing kemal (1.9.0)
+```
+
+That's it! You're now ready to use Kemal in your application.
+
+## Using Kemal
+
+You can do awesome stuff with Kemal. Let's start with a simple example. Just change the content of `src/your_app.cr` to:
+
+```crystal
+require "kemal"
+
+get "/" do
+  "Hello World!"
+end
+
+Kemal.run
+```
+
+## Running Kemal
+
+Starting your application is easy. Simply run:
+
+```bash
+crystal run src/your_app.cr
+```
+
+If everything goes well, you should see a message saying that Kemal is running.
+If you are using Windows, use `http://localhost:3000` or `http://127.0.0.1:3000` instead of `http://0.0.0.0:3000`.
+
+```
+[development] Kemal is ready to lead at http://0.0.0.0:3000
+2015-12-01 13:47:48 UTC 200 GET / 666µs
+```
+
+Congratulations on your first Kemal application! This is just the beginning.
+
+# Routes
+
+You can handle HTTP methods as easy as writing method names and the route with a code block. Kemal will handle all the hard work.
+
+```crystal
+# GET - Retrieve data, list resources, show pages
+get "/" do
+  "Hello World!"
+end
+
+# POST - Create new resources
+post "/" do
+  "Creating a new resource"
+end
+
+# PUT - Replace entire resource
+put "/" do
+  "Updating entire resource"
+end
+
+# PATCH - Partially update resource
+patch "/" do
+  "Updating partial resource"
+end
+
+# DELETE - Remove resources
+delete "/" do
+  "Deleting resource"
+end
+```
+
+Any **string** returned from a route will output to the browser.
+Routes are matched in the order they are defined. The first route that matches the request is invoked.
+
+# HTTP Parameters
+
+When passing data through an HTTP request, you will often need to use query parameters, or post parameters depending on which HTTP method you're using.
+
+## URL Parameters
+
+Kemal allows you to use variables in your route path as placeholders for passing data. To access URL parameters, you use `env.params.url`.
+
+```crystal
+# Matches /hello/kemal
+get "/hello/:name" do |env|
+  name = env.params.url["name"]
+  "Hello back to #{name}"
+end
+
+# Matches /users/1
+get "/users/:id" do |env|
+  id = env.params.url["id"]
+  "Found user #{id}"
+end
+
+# Matches /dir/and/anything/after
+get "/dir/*all" do |env|
+  all = env.params.url["all"]
+  "Found path #{all}"
+end
+```
+
+## Query Parameters
+
+To access query parameters, you use `env.params.query`.
+
+```crystal
+# Matches /resize?width=200&height=200
+get "/resize" do |env|
+  width = env.params.query["width"]
+  height = env.params.query["height"]
+  "Resizing to #{width}x#{height}"
+end
+```
+
+## POST / Form Parameters
+
+Kemal has a few options for accessing post parameters. You can easily access JSON payload from the parameters, or through the standard post body.
+
+For JSON parameters, use `env.params.json`.
+For body parameters, use `env.params.body`.
+
+```crystal
+# The request content type needs to be application/json
+# The payload: {"name": "Serdar", "likes": ["Ruby", "Crystal"]}
+post "/json_params" do |env|
+  name = env.params.json["name"].as(String)
+  likes = env.params.json["likes"].as(Array)
+  "#{name} likes #{likes.join(",")}"
+end
+
+# Using a standard post body
+# name=Serdar&likes=Ruby&likes=Crystal
+post "/body_params" do |env|
+  name = env.params.body["name"].as(String)
+  likes = env.params.body["likes"].as(Array)
+  "#{name} likes #{likes.join(",")}"
+end
+```
+
+**NOTE:** For Array or Hash like parameters, Kemal will group like keys for you. Alternatively, you can use the square bracket notation `likes[]=ruby&likes[]=crystal`. Be sure to access the param name exactly how it was passed. (i.e. `env.params.body["likes[]"]`).
+
+# HTTP Request / Response Context
+
+Accessing the HTTP request/response context (query parameters, body, content_type, headers, status_code) is super easy. You can use the context returned from the block:
+
+```crystal
+# Matches /hello/kemal
+get "/hello/:name" do |env|
+  name = env.params.url["name"]
+  "Hello back to #{name}"
+end
+
+# Set the content as application/json and return JSON
+get "/user.json" do |env|
+  user = {name: "Kemal", language: "Crystal"}.to_json
+  env.response.content_type = "application/json"
+  user
+end
+
+# Add headers to your response
+get "/headers" do |env|
+  env.response.headers["Accept-Language"] = "tr"
+  env.response.headers["Authorization"] = "Token 12345"
+  "Headers set"
+end
+
+# Set response status code
+get "/status-code" do |env|
+  env.response.status_code = 404
+  "Not Found"
+end
+```
+
+## Context Storage
+
+Contexts are useful for sharing states between filters and middleware. You can use `context` to store some variables and access them later at some point. Each stored value only exist in the lifetime of request / response cycle.
+
+```crystal
+before_get "/" do |env|
+  env.set "is_kemal_cool", true
+end
+
+get "/" do |env|
+  is_kemal_cool = env.get "is_kemal_cool"
+  "Kemal cool = #{is_kemal_cool}"
+end
+```
+
+This renders `Kemal cool = true` when a request is made to `/`.
+
+If you prefer a safer version use `env.get?` which won't raise when the key doesn't exist and will return `nil` instead.
+
+```crystal
+get "/" do |env|
+  non_existent_key = env.get?("non_existent_key") # => nil
+end
+```
+
+Context storage also supports custom types. You can register and use a custom type as the following:
+
+```crystal
+class User
+  property name
+end
+
+add_context_storage_type(User)
+
+before "/" do |env|
+  env.set "user", User.new(name: "dummy-user")
+end
+
+get "/" do |env|
+  user = env.get "user"
+  "Hello #{user.name}"
+end
+```
+
+Be aware that you have to declare the custom type before trying to add with `add_context_storage_type`.
+
+## Request Properties
+
+Some common request information is available at `env.request.*`:
+
+- **method** - the HTTP method (e.g. `GET`, `POST`, ...)
+- **headers** - a hash containing relevant request header information
+- **body** - the request body
+- **version** - the HTTP version (e.g. `HTTP/1.1`)
+- **path** - the uri path (e.g. `http://kemalcr.com/docs/context?lang=cr` => `/docs/context`)
+- **resource** - the uri path and query parameters (e.g. `http://kemalcr.com/docs/context?lang=cr` => `/docs/context?lang=cr`)
+- **cookies** - e.g. `env.request.cookies["cookie_name"].value`
+
+# Views / Templates
+
+You can use ERB-like built-in [ECR](http://crystal-lang.org/api/ECR.html) to render dynamic views.
+
+```crystal
+get "/:name" do |env|
+  name = env.params.url["name"]
+  render "src/views/hello.ecr"
+end
+```
+
+Your `hello.ecr` view should have the same context as the method.
+
+```erb
+Hello <%= name %>
+```
+
+## Using Layouts
+
+You can use **layouts** in Kemal. You can do this by passing a second argument to the `render` method.
+
+```crystal
+get "/:name" do
+  render "src/views/subview.ecr", "src/views/layouts/layout.ecr"
+end
+```
+
+In your layout file, you need to return the output of `subview.ecr` with the `content` variable (like `yield` in Rails).
+
+```erb
+<html>
+<head>
+  <title>My Kemal Application</title>
+</head>
+<body>
+  <%= content %>
+</body>
+</html>
+```
+
+## content_for and yield_content
+
+You can capture blocks inside views to be rendered later during the request with the `content_for` helper. The most common use is to populate different parts of your layout from your view.
+
+### Usage
+
+First, call `content_for`, generally from a view, to capture a block of markup with an identifier:
+
+```erb
+# index.ecr
+<% content_for "some_key" do %>
+  <chunk of="html">...</chunk>
+<% end %>
+```
+
+Then, call **yield_content** with that identifier, generally from a layout, to render the captured block:
+
+```erb
+# layout.ecr
+<%= yield_content "some_key" %>
+```
+
+This is useful because some of your views may need specific JavaScript tags or stylesheets and you don't want to use these tags in all of your pages.
+
+## Using Common Paths
+
+Since Crystal does not allow using variables in macro literals, you need to generate another *helper macro* to make the code easier to read and write.
+
+```crystal
+macro my_renderer(filename)
+  render "my/app/view/base/path/#{ {{filename}} }.ecr", "my/app/view/base/path/layouts/layout.ecr"
+end
+```
+
+And now you can use your new renderer.
+
+```crystal
+get "/:name" do
+  my_renderer "subview"
+end
+```
+
+# Filters
+
+Before filters are evaluated before each request within the same context as the routes. They can modify the request and response.
+
+_Important note: This should **not** be used by plugins/addons, instead they should do all their work in their own middleware._
+
+Available filters:
+
+- before_all, before_get, before_post, before_put, before_patch, before_delete
+- after_all, after_get, after_post, after_put, after_patch, after_delete
+
+The `Filter` middleware is lazily added as soon as a call to `after_X` or `before_X` is made.
+
+When using `before_all` and `after_all` keep in mind that they will be evaluated in the following order:
+
+```
+before_all -> before_x -> X -> after_x -> after_all
+```
+
+## Simple before_get example
+
+```crystal
+before_get "/foo" do |env|
+  puts "Setting response content type"
+  env.response.content_type = "application/json"
+end
+
+get "/foo" do |env|
+  puts env.response.headers["Content-Type"] # => "application/json"
+  {"name": "Kemal"}.to_json
+end
+```
+
+## Simple before_all example
+
+```crystal
+before_all "/foo" do |env|
+  puts "Setting response content type"
+  env.response.content_type = "application/json"
+end
+
+get "/foo" do |env|
+  {"name": "Kemal"}.to_json
+end
+
+put "/foo" do |env|
+  {"name": "Kemal"}.to_json
+end
+
+post "/foo" do |env|
+  {"name": "Kemal"}.to_json
+end
+```
+
+## Multiple before_all
+
+You can add many blocks to the same verb/path combination by calling it multiple times. They will be called in the same order they were defined.
+
+```crystal
+before_all do |env|
+  raise "Unauthorized" unless authorized?(env)
+end
+
+before_all do |env|
+  env.session = Session.new(env.cookies)
+end
+
+get "/foo" do |env|
+  "foo"
+end
+```
+
+# Helpers
+
+## Browser Redirect
+
+Browser redirects are simple. Simply call `env.redirect` in the route's corresponding block.
+
+```crystal
+get "/logout" do |env|
+  # important stuff like clearing session etc.
+  env.redirect "/login" # redirect to /login page
+end
+```
+
+## Halt
+
+Halt execution with the current context. Returns 200 and an empty response by default.
+
+```crystal
+halt env, status_code: 403, response: "Forbidden"
+```
+
+*Note:* `halt` can only be used inside routes.
+
+## Custom Errors
+
+You can customize the built-in error pages or even add your own with `error`.
+
+```crystal
+error 404 do
+  "This is a customized 404 page."
+end
+
+error 403 do
+  "Access Forbidden!"
+end
+```
+
+To handle a custom error based on a raised exception, you pass the exception to `error`:
+
+```crystal
+get "/" do |env|
+  if some_condition
+    raise ValueError.new
+  end
+  {"message": "Hello Kemal"}.to_json
+end
+
+error ValueError do
+  "Something has gone wrong"
+end
+```
+
+## Send File
+
+Send a file with the given path and base the MIME type on the file extension or default to `application/octet-stream`.
+
+```crystal
+send_file env, "./path/to/file.jpg"
+```
+
+Optionally, you can override the MIME type:
+
+```crystal
+send_file env, "./path/to/file.exe", "image/jpeg"
+```
+
+MIME type detection is based on the MIME registry from the Crystal standard library.
+
+You can extend the registered type list by calling `MIME.register`:
+
+```crystal
+MIME.register ".cr", "text/crystal"
+```
+
+> **Security Notice:**  
+> When using `send_file` with dynamic file paths, always sanitize and validate the path to prevent directory traversal and unauthorized file access.
+
+# Middleware
+
+Middleware, also known as `Handler`s, are the building blocks of Kemal. Middleware lets you separate application concerns into different layers.
+
+Each middleware is supposed to have one responsibility.
+
+## Creating your own middleware
+
+You can create your own middleware by inheriting from `Kemal::Handler`
+
+```crystal
+class CustomHandler < Kemal::Handler
+  def call(context)
+    puts "Doing some custom stuff here"
+    call_next context
+  end
+end
+
+add_handler CustomHandler.new
+```
+
+## Conditional Middleware Execution
+
+Kemal gives you access to two handy filters `only` and `exclude`. These can be used to process your custom middleware for `only` specific routes, or to `exclude` from specific routes.
+
+```crystal
+class OnlyHandler < Kemal::Handler
+  # Matches GET /specials and GET /deals
+  only ["/specials", "/deals"]
+
+  def call(env)
+    return call_next(env) unless only_match?(env)
+    puts "Processing only for /specials and /deals"
+    call_next(env)
+  end
+end
+
+class ExcludeHandler < Kemal::Handler
+  # Matches GET /
+  exclude ["/"]
+
+  def call(env)
+    return call_next(env) if exclude_match?(env)
+    puts "Processing for all routes except /"
+    call_next(env)
+  end
+end
+```
+
+## Creating a custom Logger middleware
+
+You can easily replace the built-in logger of Kemal. Your logger must inherit from `Kemal::BaseLogHandler`.
+
+```crystal
+class MyCustomLogger < Kemal::BaseLogHandler
+  def call(context)
+    puts "Custom logger is in action."
+    call_next context
+  end
+
+  def write(message)
+  end
+end
+```
+
+You need to register your custom logger with `logger` config property.
+
+```crystal
+require "kemal"
+
+Kemal.config.logger = MyCustomLogger.new
+```
+
+## Kemal Middlewares
+
+The Kemal organization has a variety of useful middleware:
+
+- [kemal-basic-auth](https://github.com/kemalcr/kemal-basic-auth) - HTTP Basic Authorization
+- [kemal-hmac](https://github.com/kemalcr/kemal-hmac) - HMAC middleware
+
+# File Upload
+
+Kemal provides easy access to uploaded files through `env.params.files`.
+
+## Basic File Upload
+
+```crystal
+post "/upload" do |env|
+  file = env.params.files["image"].tempfile
+  file_path = ::File.join [Kemal.config.public_folder, "uploads/", File.basename(file.path)]
+  
+  File.open(file_path, "w") do |f|
+    IO.copy(file, f)
+  end
+  
+  "Upload successful!"
+end
+```
+
+## Advanced File Upload with Validation
+
+```crystal
+post "/upload" do |env|
+  unless env.params.files.has_key?("image")
+    halt env, status_code: 400, response: "No file uploaded"
+  end
+  
+  uploaded_file = env.params.files["image"]
+  
+  # Validate file size (max 5MB)
+  max_size = 5 * 1024 * 1024
+  if uploaded_file.size > max_size
+    halt env, status_code: 400, response: "File too large"
+  end
+  
+  # Validate file type
+  allowed_extensions = [".jpg", ".jpeg", ".png", ".gif"]
+  file_extension = File.extname(uploaded_file.filename || "").downcase
+  unless allowed_extensions.includes?(file_extension)
+    halt env, status_code: 400, response: "Invalid file type"
+  end
+  
+  # Generate unique filename
+  unique_filename = "#{Time.utc.to_unix}_#{uploaded_file.filename}"
+  file_path = ::File.join [Kemal.config.public_folder, "uploads/", unique_filename]
+  
+  # Save the file
+  File.open(file_path, "w") do |f|
+    IO.copy(uploaded_file.tempfile, f)
+  end
+  
+  "File uploaded successfully as: #{unique_filename}"
+end
+```
+
+## File Upload Properties
+
+- `filename`: Original filename
+- `tempfile`: Temporary file object
+- `size`: File size in bytes
+- `headers`: HTTP headers
+
+## Multiple File Upload
+
+```crystal
+post "/upload-multiple" do |env|
+  uploaded_file_names = [] of String
+  
+  if env.params.files.has_key?("images[]")
+    env.params.files["images[]"].each do |uploaded_file|
+      # Validate and save each file
+      max_size = 5 * 1024 * 1024
+      next if uploaded_file.size > max_size
+      
+      unique_filename = "#{Time.utc.to_unix}_#{Random.rand(1000)}_#{uploaded_file.filename}"
+      file_path = ::File.join [Kemal.config.public_folder, "uploads/", unique_filename]
+      
+      File.open(file_path, "w") do |f|
+        IO.copy(uploaded_file.tempfile, f)
+      end
+      
+      uploaded_file_names << unique_filename
+    end
+  end
+  
+  "Successfully uploaded #{uploaded_file_names.size} files"
+end
+```
+
+# Sessions
+
+Kemal supports Sessions with [kemal-session](https://github.com/kemalcr/kemal-session).
+
+```crystal
+require "kemal"
+require "kemal-session"
+
+get "/set" do |env|
+  env.session.int("number", rand(100))
+  "Random number set."
+end
+
+get "/get" do |env|
+  num = env.session.int("number")
+  "Value of random number is #{num}."
+end
+
+Kemal.run
+```
+
+`kemal-session` has a generic API to multiple storage engines. The default is `MemoryEngine` which stores sessions in process memory. You should only use `MemoryEngine` for development and testing.
+
+## Accessing the CSRF token
+
+```erb
+<input type="hidden" name="authenticity_token" value="<%= env.session.string("csrf") %>">
+```
+
+# WebSockets
+
+Using *WebSockets* with Kemal is super easy!
+
+```crystal
+ws "/" do |socket|
+  # Send welcome message
+  socket.send "Hello from Kemal!"
+
+  # Handle incoming messages
+  socket.on_message do |message|
+    socket.send "Echo: #{message}"
+  end
+
+  # Handle close
+  socket.on_close do
+    puts "Connection closed"
+  end
+end
+
+ws "/route2" do |socket|
+  # Another WebSocket endpoint
+end
+```
+
+`ws` yields a second parameter for accessing the HTTP context:
+
+```crystal
+ws "/" do |socket, context|
+  headers = context.request.headers
+  socket.send headers["Content-Type"]?
+end
+```
+
+## Accessing Dynamic URL Params
+
+```crystal
+ws "/:id" do |socket, context|
+  id = context.ws_route_lookup.params["id"]
+  socket.send "Connected to room #{id}"
+end
+```
+
+# Testing
+
+You can test your Kemal application using [spec-kemal](https://github.com/kemalcr/spec-kemal).
+
+First add `spec-kemal` to your `shard.yml`:
+
+```yaml
+name: your-kemal-app
+version: 0.1.0
+
+dependencies:
+  kemal:
+    github: kemalcr/kemal
+
+development_dependencies:
+  spec-kemal:
+    github: kemalcr/spec-kemal
+```
+
+Install dependencies:
+
+```bash
+shards install
+```
+
+Require it in your `spec/spec_helper.cr`:
+
+```crystal
+require "spec-kemal"
+require "../src/your-kemal-app"
+```
+
+Create a spec file `spec/your-kemal-app_spec.cr`:
+
+```crystal
+require "./spec_helper"
+
+describe "Your::Kemal::App" do
+  it "renders /" do
+    get "/"
+    response.body.should eq "Hello World!"
+  end
+end
+```
+
+Run the tests:
+
+```bash
+KEMAL_ENV=test crystal spec
+```
+
+# Static Files
+
+Any files you add to the `public` directory will be served automatically by Kemal.
+
+```
+app/
+  src/
+    your_app.cr
+  public/
+    js/
+      jquery.js
+      your_app.js
+    css/
+      your_app.css
+    index.html
+```
+
+Example HTML:
+
+```html
+<html>
+ <head>
+   <script src="/js/jquery.js"></script>
+   <script src="/js/your_app.js"></script>
+   <link rel="stylesheet" href="/css/your_app.css"/>
+ </head>
+ <body>
+   ...
+ </body>
+</html>
+```
+
+# Configuration
+
+Kemal provides a powerful configuration system through `Kemal.config`.
+
+## Server Configuration
+
+### Host and Port
+
+```crystal
+Kemal.config.host_binding = "127.0.0.1"  # Default: "0.0.0.0"
+Kemal.config.port = 8080                  # Default: 3000
+```
+
+Command line:
+
+```bash
+./your_app --bind 127.0.0.1 --port 8080
+```
+
+### Max Request Body Size
+
+```crystal
+Kemal.config.max_request_body_size = 1024 * 1024 * 10  # 10 MB
+# Default: 8 MB
+```
+
+## Static Files Configuration
+
+### Public Folder
+
+```crystal
+Kemal.config.public_folder = "./assets"  # Default: "./public"
+```
+
+### Serve Static Files
+
+```crystal
+Kemal.config.serve_static = false  # Default: true
+
+# With options
+Kemal.config.serve_static = {"gzip" => true, "dir_listing" => false}
+```
+
+### Static Headers
+
+```crystal
+static_headers do |response, filepath, filestat|
+  if filepath =~ /\.html$/
+    response.headers.add("Access-Control-Allow-Origin", "*")
+  end
+  response.headers.add("Content-Size", filestat.size.to_s)
+end
+```
+
+## Logging Configuration
+
+### Enable/Disable Logging
+
+```crystal
+Kemal.config.logging = false  # Default: true
+```
+
+### Custom Logger
+
+```crystal
+class MyCustomLogger < Kemal::BaseLogHandler
+  def call(context)
+    puts "Custom logger"
+    call_next context
+  end
+
+  def write(message)
+  end
+end
+
+Kemal.config.logger = MyCustomLogger.new
+```
+
+## SSL Configuration
+
+```crystal
+Kemal.config.ssl = true
+Kemal.config.ssl_certificate_file = "/path/to/cert.pem"
+Kemal.config.ssl_key_file = "/path/to/key.pem"
+```
+
+Command line:
+
+```bash
+./your_app --ssl --ssl-cert-file cert.pem --ssl-key-file key.pem
+```
+
+## Environment Configuration
+
+```bash
+export KEMAL_ENV=production
+```
+
+Or in code:
+
+```crystal
+Kemal.config.env = "production"
+```
+
+## Error Handling
+
+### Powered By Header
+
+```crystal
+Kemal.config.powered_by_header = false       # Disable
+Kemal.config.powered_by_header = "MyApp"     # Custom value
+```
+
+### Always Rescue
+
+```crystal
+Kemal.config.always_rescue = false  # Default: true
+```
+
+## Handler Configuration
+
+### Add Custom Handlers
+
+```crystal
+Kemal.config.add_handler MyCustomHandler.new
+```
+
+### Shutdown Timeout
+
+```crystal
+Kemal.config.shutdown_timeout = 10.seconds  # Default: nil
+```
+
+# CLI
+
+Command-line flags:
+
+| Short | Long                   | Description                    |
+|-------|------------------------|--------------------------------|
+| `-b`  | `--bind HOST`          | Host to bind (default: 0.0.0.0)|
+| `-p`  | `--port PORT`          | Port (default: 3000)           |
+| `-s`  | `--ssl`                | Enables SSL                    |
+|       | `--ssl-key-file FILE`  | SSL key file                   |
+|       | `--ssl-cert-file FILE` | SSL certificate file           |
+
+# SSL
+
+Start your Kemal with SSL support:
+
+```bash
+crystal build --release src/your_app.cr
+./your_app --ssl --ssl-key-file your_key_file --ssl-cert-file your_cert_file
+```
+
+# Security
+
+## Resource Limits
+
+```crystal
+require "kemal"
+
+# Maximum request body size (10 MB)
+Kemal.config.max_request_body_size = 10 * 1024 * 1024
+
+# Hide powered by header
+Kemal.config.powered_by_header = false
+
+# Always rescue in production
+Kemal.config.always_rescue = true
+```
+
+## Defense
+
+[Defense](https://github.com/defense-cr/defense) provides throttling, blocking and tracking malicious requests.
+
+```crystal
+require "kemal"
+require "defense"
+
+# Configure store
+Defense.store = Defense::RedisStore.new(url: ENV["REDIS_URL"]? || "redis://localhost:6379/0")
+
+add_handler Defense::Handler.new
+
+# Throttle: 10 requests per minute per IP
+Defense.throttle("requests per minute", limit: 10, period: 60) do |request|
+  request.remote_address.to_s
+end
+
+# Blocklist
+Defense.blocklist("block admin") do |request|
+  request.path.starts_with?("/admin/")
+end
+
+# Safelist
+Defense.safelist("localhost") do |request|
+  request.remote_address.to_s == "127.0.0.1"
+end
+
+get "/" do
+  "Hello World"
+end
+
+Kemal.run
+```
+
+# Deployment
+
+## Production Build
+
+### Basic Release Build
+
+```bash
+crystal build --release --no-debug src/your_app.cr
+```
+
+### Static Linking
+
+```bash
+crystal build --release --static --no-debug src/your_app.cr
+```
+
+## Docker Deployment
+
+### Multi-Stage Dockerfile
+
+```dockerfile
+# Build stage
+FROM crystallang/crystal:1.11.2-alpine AS builder
+
+WORKDIR /app
+
+COPY shard.yml shard.lock ./
+RUN shards install --production
+
+COPY . .
+RUN crystal build --release --static --no-debug src/your_app.cr -o bin/app
+
+# Runtime stage
+FROM alpine:latest
+
+WORKDIR /app
+
+RUN apk add --no-cache libgcc
+
+COPY --from=builder /app/bin/app .
+COPY --from=builder /app/public ./public
+
+EXPOSE 3000
+
+HEALTHCHECK --interval=30s --timeout=3s \
+  CMD wget --spider http://localhost:3000/health || exit 1
+
+CMD ["./app"]
+```
+
+### Docker Compose
+
+```yaml
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      KEMAL_ENV: production
+      DATABASE_URL: postgres://postgres:password@db:5432/myapp
+      REDIS_URL: redis://redis:6379
+    depends_on:
+      - db
+      - redis
+    restart: unless-stopped
+
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: myapp
+      POSTGRES_PASSWORD: password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    volumes:
+      - redis_data:/data
+
+volumes:
+  postgres_data:
+  redis_data:
+```
+
+## Cloud Platforms
+
+### Heroku
+
+Create `Procfile`:
+
+```
+web: ./your_app --port $PORT --bind 0.0.0.0
+```
+
+Add buildpack:
+
+```bash
+heroku buildpacks:set https://github.com/crystal-lang/heroku-buildpack-crystal
+```
+
+Deploy:
+
+```bash
+git push heroku main
+```
+
+### Fly.io
+
+Initialize:
+
+```bash
+fly launch
+```
+
+Create `fly.toml`:
+
+```toml
+app = "my-kemal-app"
+primary_region = "iad"
+
+[build]
+  image = "your-registry/my-kemal-app:latest"
+
+[env]
+  KEMAL_ENV = "production"
+
+[http_service]
+  internal_port = 3000
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 1
+
+[[services]]
+  protocol = "tcp"
+  internal_port = 3000
+
+  [[services.ports]]
+    port = 80
+    handlers = ["http"]
+
+  [[services.ports]]
+    port = 443
+    handlers = ["tls", "http"]
+```
+
+Deploy:
+
+```bash
+fly deploy
+```
+
+## VPS and Bare Metal
+
+### Systemd Service
+
+Create `/etc/systemd/system/kemal-app.service`:
+
+```ini
+[Unit]
+Description=Kemal Application
+After=network.target postgresql.service
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/opt/myapp
+ExecStart=/opt/myapp/your_app
+Restart=always
+RestartSec=10
+
+Environment=KEMAL_ENV=production
+Environment=PORT=3000
+Environment=HOST=127.0.0.1
+
+EnvironmentFile=/opt/myapp/.env
+
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/myapp/log /opt/myapp/tmp
+
+LimitNOFILE=65535
+LimitNPROC=4096
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Enable and start:
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable kemal-app
+sudo systemctl start kemal-app
+sudo systemctl status kemal-app
+```
+
+### Nginx Reverse Proxy
+
+Create `/etc/nginx/sites-available/myapp`:
+
+```nginx
+upstream kemal {
+    server 127.0.0.1:3000 max_fails=3 fail_timeout=30s;
+    keepalive 32;
+}
+
+server {
+    listen 80;
+    server_name example.com;
+    return 301 https://$server_name$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    server_name example.com;
+    
+    ssl_certificate /etc/letsencrypt/live/example.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/example.com/privkey.pem;
+    
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers HIGH:!aNULL:!MD5;
+    ssl_prefer_server_ciphers on;
+    
+    add_header Strict-Transport-Security "max-age=31536000" always;
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    
+    client_max_body_size 50M;
+    
+    location /static/ {
+        alias /opt/myapp/public/;
+        expires 30d;
+        add_header Cache-Control "public, immutable";
+    }
+    
+    location /ws {
+        proxy_pass http://kemal;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_read_timeout 86400;
+    }
+    
+    location / {
+        proxy_pass http://kemal;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        
+        proxy_connect_timeout 60s;
+        proxy_send_timeout 60s;
+        proxy_read_timeout 60s;
+    }
+    
+    location /health {
+        proxy_pass http://kemal;
+        access_log off;
+    }
+}
+```
+
+Enable:
+
+```bash
+sudo ln -s /etc/nginx/sites-available/myapp /etc/nginx/sites-enabled/
+sudo nginx -t
+sudo systemctl reload nginx
+```
+
+### SSL with Let's Encrypt
+
+```bash
+sudo apt install certbot python3-certbot-nginx
+sudo certbot --nginx -d example.com
+```
+
+## Best Practices
+
+### Environment Configuration
+
+```crystal
+require "kemal"
+
+Kemal.config.env = ENV["KEMAL_ENV"]? || "development"
+Kemal.config.port = ENV["PORT"]?.try(&.to_i) || 3000
+Kemal.config.host_binding = ENV["HOST"]? || "0.0.0.0"
+
+DATABASE_URL = ENV["DATABASE_URL"]? || "postgres://localhost/myapp_dev"
+SECRET_KEY = ENV["SECRET_KEY_BASE"]? || raise "SECRET_KEY_BASE required"
+```
+
+### Logging and Monitoring
+
+```crystal
+# Health check endpoint
+get "/health" do |env|
+  env.response.content_type = "application/json"
+  
+  db_healthy = begin
+    DB.open(DATABASE_URL) { |db| db.query_one("SELECT 1", as: Int32) }
+    true
+  rescue
+    false
+  end
+  
+  status = db_healthy ? "healthy" : "unhealthy"
+  env.response.status_code = status == "healthy" ? 200 : 503
+  
+  {
+    status: status,
+    timestamp: Time.utc.to_rfc3339,
+    checks: {
+      database: db_healthy ? "up" : "down"
+    }
+  }.to_json
+end
+```
+
+### Graceful Shutdown
+
+```crystal
+Kemal.config.shutdown_timeout = 10.seconds
+
+Signal::INT.trap do
+  Log.info { "Shutting down gracefully..." }
+  Kemal.stop
+  exit
+end
+
+Signal::TERM.trap do
+  Log.info { "Shutting down gracefully..." }
+  Kemal.stop
+  exit
+end
+
+Kemal.run
+```
+
+## Cross-compilation
+
+```bash
+# Basic cross-compilation
+crystal build --cross-compile --target x86_64-unknown-linux-gnu src/your_app.cr
+
+# Docker-based
+docker run --rm -v $(pwd):/app -w /app crystallang/crystal:latest \
+  crystal build --release --static --no-debug src/your_app.cr -o bin/app-linux
+```
+
+# End of Kemal documentation

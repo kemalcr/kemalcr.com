@@ -40,6 +40,11 @@ jsarr:
 plugins:
   - jemoji
 
+# Include LLM documentation files
+include:
+  - llms.txt
+  - llms-full.txt
+
 footer_docs:
   - title: "Getting Started"
     url: "/guide/#getting-started"

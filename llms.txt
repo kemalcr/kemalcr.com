@@ -1,0 +1,96 @@
+# Kemal
+
+> Fast, Super Simple web framework for Crystal.
+> Kemal is a fast, effective, simple web framework written in Crystal.
+
+## Docs
+
+- [Full Docs](https://kemalcr.com/llms-full.txt): Complete documentation of Kemal (includes all features and examples)
+
+## Main Links
+
+- [Official Website](https://kemalcr.com)
+- [Documentation](https://kemalcr.com/guide)
+- [GitHub Repository](https://github.com/kemalcr/kemal)
+- [Blog](https://kemalcr.com/blog)
+- [Community](https://kemalcr.com/community)
+
+## Quick Start
+
+```crystal
+require "kemal"
+
+get "/" do
+  "Hello World!"
+end
+
+Kemal.run
+```
+
+## Key Features
+
+- **High-performance by default**: Built on Crystal with a thin abstraction layer so you can serve a large number of requests with low latency and low memory footprint.
+- **Full REST & HTTP support**: Handle all HTTP verbs (GET, POST, PUT, PATCH, DELETE, etc.) with a straightforward routing DSL.
+- **WebSocket & real-time**: First-class WebSocket support for building chats, dashboards and other real-time experiences.
+- **JSON-first APIs**: Native JSON handling makes building JSON APIs and microservices feel natural.
+- **Static assets made easy**: Serve static files (assets, uploads, SPA bundles) efficiently from the same application.
+- **Template engine included**: Built-in ECR template engine for server‑rendered HTML when you need it.
+- **Composable middleware**: Flexible middleware system to add logging, auth, rate limiting, metrics and more.
+- **Ergonomic request/response API**: Simple access to params, headers, cookies and bodies via a clear context object.
+- **Session management**: Easy session handling with kemal-session, suitable for production apps.
+- **Production Ready** - Battle-tested and used in production by many companies
+
+## Core Concepts
+
+- [Routes](https://kemalcr.com/guide#routes) - HTTP method routing (GET, POST, PUT, DELETE, PATCH)
+- [Parameters](https://kemalcr.com/guide#http-parameters) - URL, query, and post parameters
+- [Context](https://kemalcr.com/guide#context) - Request/response context and storage
+- [Filters](https://kemalcr.com/guide#filters) - Before/after request filters
+- [Middleware](https://kemalcr.com/guide#middleware) - Custom middleware creation
+- [WebSockets](https://kemalcr.com/guide#websockets) - Real-time communication
+- [Templates](https://kemalcr.com/guide#views-templates) - ECR template rendering
+- [Sessions](https://kemalcr.com/guide#sessions) - Session management
+- [Testing](https://kemalcr.com/guide#testing) - Testing with spec-kemal
+- [Deployment](https://kemalcr.com/guide#deployment) - Production deployment guide
+
+## Cookbook
+
+Common examples:
+
+- [Hello World](https://kemalcr.com/cookbook/hello_world)
+- [JSON API](https://kemalcr.com/cookbook/json_api)
+- [File Upload](https://kemalcr.com/cookbook/file_upload)
+- [WebSocket Chat](https://kemalcr.com/cookbook/websocket_chat)
+- [Sessions](https://kemalcr.com/cookbook/session)
+- [Cookies](https://kemalcr.com/cookbook/cookies)
+- [CORS](https://kemalcr.com/cookbook/cors)
+- [HTTP Basic Auth](https://kemalcr.com/cookbook/http_basic_auth)
+- [Database (PostgreSQL)](https://kemalcr.com/cookbook/postgresql-db)
+- [Database (MySQL)](https://kemalcr.com/cookbook/mysql-db)
+- [Redis](https://kemalcr.com/cookbook/redis)
+
+## Installation
+
+Add to your `shard.yml`:
+
+```yaml
+dependencies:
+  kemal:
+    github: kemalcr/kemal
+```
+
+Then run:
+
+```bash
+shards install
+```
+
+## Community & Support
+
+- [GitHub Issues](https://github.com/kemalcr/kemal/issues)
+- [Crystal Community](https://crystal-lang.org/community)
+- [Gitter Chat](https://gitter.im/sdogruyol/kemal)
+
+## Companies Using Kemal
+
+See [companies using Kemal](https://kemalcr.com/companies_using_kemal) for a list of organizations using Kemal in production.
