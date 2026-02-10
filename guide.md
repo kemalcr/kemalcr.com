@@ -871,19 +871,41 @@ curl -F "images[]=@/path/to/file1.png" -F "images[]=@/path/to/file2.jpg" http://
 
 Kemal supports Sessions with [kemal-session](https://github.com/kemalcr/kemal-session).
 
+## User Login / Logout Example
+
 ```ruby
 require "kemal"
 require "kemal-session"
 
-get "/set" do |env|
-  env.session.int("number", rand(100)) # set the value of "number"
-  "Random number set."
+# Session Configuration
+Kemal::Session.config.secret = "my-secret-key"
+
+# User login (create session)
+post "/login" do |env|
+  username = env.params.body["username"]?.to_s
+
+  # In a real app you would authenticate here
+  env.session.string("username", username)
+  env.session.bool("logged_in", true)
+
+  "Welcome #{username}, you're now logged in."
 end
 
-get "/get" do |env|
-  num  = env.session.int("number") # get the value of "number"
-  env.session.int?("hello") # get value or nil, like []?
-  "Value of random number is #{num}."
+# Protected route using session
+get "/profile" do |env|
+  unless env.session.bool?("logged_in")
+    env.response.status_code = 401
+    next "Please log in first"
+  end
+
+  username = env.session.string("username")
+  "Hello #{username}!"
+end
+
+# User logout (destroy session)
+post "/logout" do |env|
+  env.session.destroy
+  "You have been logged out."
 end
 
 Kemal.run
