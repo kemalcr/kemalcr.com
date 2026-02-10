@@ -871,9 +871,8 @@ curl -F "images[]=@/path/to/file1.png" -F "images[]=@/path/to/file2.jpg" http://
 
 Kemal supports Sessions with [kemal-session](https://github.com/kemalcr/kemal-session).
 
-## User Login / Logout Example
-
 ```ruby
+# User Login / Logout Example
 require "kemal"
 require "kemal-session"
 
