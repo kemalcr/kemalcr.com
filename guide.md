@@ -52,6 +52,7 @@ title: Kemal - Guide
 16. [SSL](#ssl)
 17. [Security](#security)
     - [Resource Limits](#resource-limits)
+    - [Helmet](#helmet)
     - [Defense](#defense)
 18. [Deployment](#deployment)
     - [Production Build](#production-build)
@@ -1414,7 +1415,7 @@ crystal build --release src/your_app.cr
 
 # [Security](#security)
 
-Best practices for securing your Kemal application: resource limits, security headers, rate limiting, and the Defense shard for throttling and blocking malicious requests.
+Best practices for securing your Kemal application: resource limits, security headers (Helmet), rate limiting, and the Defense shard for throttling and blocking malicious requests.
 
 ## [Resource Limits](#resource-limits)
 
@@ -1432,6 +1433,38 @@ Kemal.config.powered_by_header = false
 # Always rescue in production
 Kemal.config.always_rescue = true
 ```
+
+## [Helmet](#helmet)
+
+[Helmet](https://github.com/EvanHahn/crystal-helmet) helps you secure your Kemal app by setting various HTTP security headers. It's a port of the Node.js Helmet module. Add the shard and register the handlers early in your handler chain:
+
+```ruby
+# shard.yml
+dependencies:
+  helmet:
+    github: EvanHahn/crystal-helmet
+```
+
+```ruby
+require "kemal"
+require "helmet"
+
+# Add Helmet handlers (order matters – add early)
+add_handler Helmet::DNSPrefetchControllerHandler.new
+add_handler Helmet::FrameGuardHandler.new
+add_handler Helmet::InternetExplorerNoOpenHandler.new
+add_handler Helmet::NoSniffHandler.new
+add_handler Helmet::StrictTransportSecurityHandler.new(7.day)
+add_handler Helmet::XSSFilterHandler.new
+
+get "/" do
+  "Hello World"
+end
+
+Kemal.run
+```
+
+Each handler sets a specific header (e.g. `X-Frame-Options`, `X-Content-Type-Options`, `Strict-Transport-Security`). See the [Helmet documentation](https://evanhahn.github.io/crystal-helmet/) for options and customization.
 
 ## [Defense](#defense)
 
