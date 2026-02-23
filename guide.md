@@ -108,7 +108,7 @@ That's it! You're now ready to use Kemal in your application.
 
 You can do awesome stuff with Kemal. Let's start with a simple example. Just change the content of `src/your_app.cr` to:
 
-```ruby
+```crystal
 require "kemal"
 
 get "/" do
@@ -140,7 +140,7 @@ Congratulations on your first Kemal application! This is just the beginning. Kee
 
 You can handle HTTP methods as easy as writing method names and the route with a code block. Kemal will handle all the hard work.
 
-```ruby
+```crystal
 # GET - Retrieve data, list resources, show pages
 # Use for: Reading data, displaying pages, listing items
 get "/" do
@@ -183,7 +183,7 @@ When passing data through an HTTP request, you will often need to use query para
 ### [URL Parameters](#url-parameters)
 Kemal allows you to use variables in your route path as placeholders for passing data. To access URL parameters, you use `env.params.url`.
 
-```ruby
+```crystal
 # Matches /hello/kemal
 get "/hello/:name" do |env|
   name = env.params.url["name"]
@@ -206,7 +206,7 @@ end
 ### [Query Parameters](#query-parameters)
 To access query parameters, you use `env.params.query`.
 
-```ruby
+```crystal
 # Matches /resize?width=200&height=200
 get "/resize" do |env|
   width = env.params.query["width"]
@@ -220,7 +220,7 @@ Kemal has a few options for accessing post parameters. You can easily access JSO
 For JSON parameters, use `env.params.json`.
 For body parameters, use `env.params.body`.
 
-```ruby
+```crystal
 # The request content type needs to be application/json
 # The payload
 # {"name": "Serdar", "likes": ["Ruby", "Crystal"]}
@@ -243,9 +243,9 @@ end
 
 # [HTTP Request / Response Context](#context)
 
-Accessing the HTTP request/response context (query paremeters, body, content_type, headers, status_code) is super easy. You can use the context returned from the block:
+Accessing the HTTP request/response context (query parameters, body, content_type, headers, status_code) is super easy. You can use the context returned from the block:
 
-```ruby
+```crystal
 # Matches /hello/kemal
 get "/hello/:name" do |env|
   name = env.params.url["name"]
@@ -265,7 +265,7 @@ end
 post "/json_params" do |env|
   name = env.params.json["name"].as(String)
   likes = env.params.json["likes"].as(Array)
-  "#{name} likes #{likes.each.join(',')}"
+  "#{name} likes #{likes.join(',')}"
 end
 
 # Set the content as application/json and return JSON
@@ -291,7 +291,7 @@ end
 
 Contexts are useful for sharing states between filters and middleware. You can use `context` to store some variables and access them later at some point. Each stored value only exist in the lifetime of request / response cycle.
 
-```ruby
+```crystal
 before_get "/" do |env|
   env.set "is_kemal_cool", true
 end
@@ -306,7 +306,7 @@ This renders `Kemal cool = true` when a request is made to `/`.
 
 If you prefer a safer version use `env.get?` which won't raise when the key doesn't exist and will return `nil` instead.
 
-```ruby
+```crystal
 get "/" do |env|
   non_existent_key = env.get?("non_existent_key") # => nil
 end
@@ -314,18 +314,21 @@ end
 
 Context storage also supports custom types. You can register and use a custom type as the following:
 
-```ruby
+```crystal
 class User
- property name
+  property name : String
+
+  def initialize(@name : String)
+  end
 end
 
 add_context_storage_type(User)
 
 before "/" do |env|
-  env.set "user", User.new(name: "dummy-user")
+  env.set "user", User.new("dummy-user")
 end
 
-get "/" do
+get "/" do |env|
   user = env.get "user"
 end
 ```
@@ -353,7 +356,7 @@ Some common request information is available at `env.request.*`:
 
 You can use ERB-like built-in [ECR](http://crystal-lang.org/api/ECR.html) to render dynamic views.
 
-```ruby
+```crystal
 get "/:name" do |env|
   name = env.params.url["name"]
   render "src/views/hello.ecr"
@@ -370,7 +373,7 @@ Hello <%= name %>
 
 You can use **layouts** in Kemal. You can do this by passing a second argument to the `render` method.
 
-```ruby
+```crystal
 get "/:name" do
   render "src/views/subview.ecr", "src/views/layouts/layout.ecr"
 end
@@ -426,7 +429,7 @@ with the appropriate set of tags that should be added to the layout.
 Since Crystal does not allow using variables in macro literals, you need to generate
 another *helper macro* to make the code easier to read and write.
 
-```ruby
+```crystal
 {% raw %}
 macro my_renderer(filename)
   render "my/app/view/base/path/#{ {{filename}} }.ecr", "my/app/view/base/path/layouts/layout.ecr"
@@ -436,7 +439,7 @@ end
 
 And now you can use your new renderer.
 
-```ruby
+```crystal
 get "/:name" do
   my_renderer "subview"
 end
@@ -462,7 +465,7 @@ When using `before_all` and `after_all` keep in mind that they will be evaluated
 
 #### [Simple before_get example](#simple-before_get-example)
 
-```ruby
+```crystal
 before_get "/foo" do |env|
   puts "Setting response content type"
   env.response.content_type = "application/json"
@@ -476,7 +479,7 @@ end
 
 #### [Simple before_all example](#simple-before_all-example)
 
-```ruby
+```crystal
 before_all "/foo" do |env|
   puts "Setting response content type"
   env.response.content_type = "application/json"
@@ -503,7 +506,7 @@ end
 
 You can add many blocks to the same verb/path combination by calling it multiple times they will be called __in the same order they were defined__.
 
-```ruby
+```crystal
 before_all do |env|
   raise "Unauthorized" unless authorized?(env)
 end
@@ -528,7 +531,7 @@ _Note: `authorized?` and `Session.new` are fictitious calls used to illustrate t
 
 Browser redirects are simple as well. Simply call `env.redirect` in the route's corresponding block.
 
-```ruby
+```crystal
 # Redirect browser
 get "/logout" do |env|
   # important stuff like clearing session etc.
@@ -542,7 +545,7 @@ end
 
 Halt execution with the current context. Returns 200 and an empty response by default.
 
-```ruby
+```crystal
 halt env, status_code: 403, response: "Forbidden"
 ```
 
@@ -552,7 +555,7 @@ halt env, status_code: 403, response: "Forbidden"
 
 You can customize the built-in error pages or even add your own with `error`.
 
-```ruby
+```crystal
 error 404 do
   "This is a customized 404 page."
 end
@@ -564,7 +567,7 @@ end
 
 To handle a custom error based on a raised exception, you pass the exception to `error`
 
-```ruby
+```crystal
 get "/" do |env|
   if some_condition
     raise ValueError.new
@@ -579,7 +582,7 @@ end
 
 **NOTE** Exception handlers are resolved based on definition order first, and inheritance order second. For example:
 
-```ruby
+```crystal
 
 class GrandParentException < Exception; end
 class ParentException < GrandParentException; end
@@ -604,13 +607,13 @@ Will resolve to the handler for `GrandParentException` rather than `ParentExcept
 
 Send a file with the given path and base the MIME type on the file extension or default to `application/octet-stream`.
 
-```ruby
+```crystal
 send_file env, "./path/to/file.jpg"
 ```
 
 Optionally, you can override the MIME type:
 
-```ruby
+```crystal
 send_file env, "./path/to/file.exe", "image/jpeg"
 ```
 
@@ -620,7 +623,7 @@ MIME type detection is based on the [MIME](https://crystal-lang.org/api/0.27.1/M
 
 You can extend the registered type list by calling `MIME.register` with an extension and its desired type:
 
-```ruby
+```crystal
 MIME.register ".cr", "text/crystal"
 ```
 
@@ -639,7 +642,7 @@ Each middleware is supposed to have one responsibility. Take a look at `Kemal`'s
 
 You can create your own middleware by inheriting from `Kemal::Handler`
 
-```ruby
+```crystal
 class CustomHandler < Kemal::Handler
   def call(context)
     puts "Doing some custom stuff here"
@@ -653,7 +656,7 @@ add_handler CustomHandler.new
 ### [Conditional Middleware Execution](#conditional-middleware-execution)
 Kemal gives you access to two handy filters `only` and `exclude`. These can be used to process your custom middleware for `only` specific routes, or to `exclude` from specific routes.
 
-```ruby
+```crystal
 class OnlyHandler < Kemal::Handler
   # Matches GET /specials and GET /deals
   only ["/specials", "/deals"]
@@ -677,7 +680,7 @@ class PostOnlyHandler < Kemal::Handler
 end
 ```
 
-```ruby
+```crystal
 class ExcludeHandler < Kemal::Handler
   # Matches GET /
   exclude ["/"]
@@ -704,7 +707,7 @@ end
 You can easily replace the built-in logger of `Kemal`. There's only one requirement which is that
 your logger must inherit from `Kemal::BaseLogHandler`.
 
-```ruby
+```crystal
 class MyCustomLogger < Kemal::BaseLogHandler
   # This is run for each request. You can access the request/response context with `context`.
   def call(context)
@@ -720,7 +723,7 @@ end
 
 You need to register your custom logger with `logger` config property.
 
-```ruby
+```crystal
 require "kemal"
 
 Kemal.config.logger = MyCustomLogger.new
@@ -872,7 +875,7 @@ curl -F "images[]=@/path/to/file1.png" -F "images[]=@/path/to/file2.jpg" http://
 
 Kemal supports Sessions with [kemal-session](https://github.com/kemalcr/kemal-session).
 
-```ruby
+```crystal
 # User Login / Logout Example
 require "kemal"
 require "kemal-session"
@@ -931,7 +934,7 @@ Using *Websockets* with Kemal is super easy!
 You can create a `WebSocket` handler which matches the route of `ws://host:port/route`. You can create more than 1 websocket handler
 with different routes.
 
-```ruby
+```crystal
 ws "/" do |socket|
 
 end
@@ -943,7 +946,7 @@ end
 
 Let's access the socket and create a simple echo server.
 
-```ruby
+```crystal
 # Matches "/"
 ws "/" do |socket|
   # Send welcome message to the client
@@ -963,7 +966,7 @@ end
 
 `ws` yields a second parameter which lets you access the `HTTP::Server::Context` which lets you use the underlying `request` and `response`.
 
-```ruby
+```crystal
 ws "/" do |socket, context|
   headers = context.request.headers
 
@@ -973,7 +976,7 @@ end
 
 ### [Accessing Dynamic Url Params](#accessing-dynamic-url-params)
 
-```ruby
+```crystal
 ws "/:id" do |socket, context|
   id = context.ws_route_lookup.params["id"]
 end
@@ -985,7 +988,7 @@ You can test your Kemal application using [spec-kemal](https://github.com/kemalc
 
 Your Kemal application
 
-```ruby
+```crystal
 # src/your-kemal-app.cr
 
 require "kemal"
@@ -1018,7 +1021,7 @@ shards install
 
 Require it before your files in your `spec/spec_helper.cr`
 
-```ruby
+```crystal
 require "spec-kemal"
 require "../src/your-kemal-app"
 ```
@@ -1026,7 +1029,7 @@ require "../src/your-kemal-app"
 Now you can easily test your `Kemal` application in your `spec`s.
 Create a file called `spec/your-kemal-app_spec.cr`:
 
-```ruby
+```crystal
 require "./spec_helper"
 
 describe "Your::Kemal::App" do
@@ -1092,7 +1095,7 @@ Kemal provides a powerful configuration system through `Kemal.config` that allow
 
 Configure the host address and port your application listens on:
 
-```ruby
+```crystal
 Kemal.config.host_binding = "127.0.0.1"  # Default: "0.0.0.0"
 Kemal.config.port = 8080                  # Default: 3000
 ```
@@ -1107,7 +1110,7 @@ You can also set these via command line flags:
 
 Limit the maximum size of HTTP request bodies to prevent potential memory exhaustion or DoS attacks:
 
-```ruby
+```crystal
 Kemal.config.max_request_body_size = 1024 * 1024 * 10  # 10 MB (in bytes)
 # Default: 8 MB
 ```
@@ -1120,7 +1123,7 @@ When a request exceeds this limit, Kemal will reject it with a `413 Payload Too 
 
 Example with different limits for different purposes:
 
-```ruby
+```crystal
 # For API with JSON payloads
 Kemal.config.max_request_body_size = 1024 * 100  # 100 KB
 
@@ -1139,7 +1142,7 @@ Kemal.config.max_request_body_size = nil
 
 Set the directory for serving static files:
 
-```ruby
+```crystal
 Kemal.config.public_folder = "./assets"  # Default: "./public"
 ```
 
@@ -1147,13 +1150,13 @@ Kemal.config.public_folder = "./assets"  # Default: "./public"
 
 Enable or disable static file serving:
 
-```ruby
+```crystal
 Kemal.config.serve_static = false  # Default: true
 ```
 
 You can also pass options for gzip compression and directory listing:
 
-```ruby
+```crystal
 Kemal.config.serve_static = {"gzip" => true, "dir_listing" => false}
 ```
 
@@ -1163,7 +1166,7 @@ By default `Kemal` gzips most files, skipping only very small files, or those wh
 
 Add custom headers to static files served by `Kemal::StaticFileHandler`. This is especially useful for CORS or caching:
 
-```ruby
+```crystal
 static_headers do |response, filepath, filestat|
   if filepath =~ /\.html$/
     response.headers.add("Access-Control-Allow-Origin", "*")
@@ -1178,13 +1181,13 @@ end
 
 Kemal enables logging by default. You can easily disable it:
 
-```ruby
+```crystal
 Kemal.config.logging = false  # Default: true
 ```
 
 You can add logging statements to your code:
 
-```ruby
+```crystal
 Log.info { "Log message with or without embedded #{variables}" }
 ```
 
@@ -1192,7 +1195,7 @@ Log.info { "Log message with or without embedded #{variables}" }
 
 You can easily replace the built-in logger of `Kemal`. Your logger must inherit from `Kemal::BaseLogHandler`:
 
-```ruby
+```crystal
 class MyCustomLogger < Kemal::BaseLogHandler
   # This is run for each request. You can access the request/response context with `context`.
   def call(context)
@@ -1208,7 +1211,7 @@ end
 
 Register your custom logger with the `logger` config property:
 
-```ruby
+```crystal
 require "kemal"
 
 Kemal.config.logger = MyCustomLogger.new
@@ -1218,7 +1221,7 @@ Kemal.config.logger = MyCustomLogger.new
 
 Configure SSL/TLS for HTTPS:
 
-```ruby
+```crystal
 Kemal.config.ssl = true
 Kemal.config.ssl_certificate_file = "/path/to/cert.pem"
 Kemal.config.ssl_key_file = "/path/to/key.pem"
@@ -1242,7 +1245,7 @@ $ export KEMAL_ENV=production
 
 If you prefer to do this from within your application, use:
 
-```ruby
+```crystal
 Kemal.config.env = "production"
 ```
 
@@ -1256,7 +1259,7 @@ When the `KEMAL_ENV` environment variable is not set to `production`, e.g. `deve
 
 Hide or customize the "X-Powered-By" header:
 
-```ruby
+```crystal
 Kemal.config.powered_by_header = false       # Disable header
 Kemal.config.powered_by_header = "MyApp"     # Custom value
 # Default: "Kemal"
@@ -1266,7 +1269,7 @@ Kemal.config.powered_by_header = "MyApp"     # Custom value
 
 Control whether Kemal should rescue all exceptions:
 
-```ruby
+```crystal
 Kemal.config.always_rescue = false  # Default: true
 ```
 
@@ -1278,7 +1281,7 @@ When set to `false`, exceptions will not be caught by Kemal's exception handler 
 
 Add custom middleware/handlers to your application:
 
-```ruby
+```crystal
 Kemal.config.add_handler MyCustomHandler.new
 ```
 
@@ -1288,7 +1291,7 @@ Handlers are added in the order they're called and will be executed in that orde
 
 Store custom application-wide configuration:
 
-```ruby
+```crystal
 Kemal.config.extra_options do |parser|
   parser.on("-c CONFIG", "--config CONFIG", "Load configuration from file") do |config_file|
     # Your custom logic here
@@ -1302,7 +1305,7 @@ end
 
 Access and configure the underlying `HTTP::Server` instance:
 
-```ruby
+```crystal
 Kemal.config.server.not_nil!.bind_tcp "0.0.0.0", 3000, reuse_port: true
 ```
 
@@ -1310,7 +1313,7 @@ Kemal.config.server.not_nil!.bind_tcp "0.0.0.0", 3000, reuse_port: true
 
 Configure graceful shutdown timeout:
 
-```ruby
+```crystal
 Kemal.config.shutdown_timeout = 10.seconds  # Default: nil (no timeout)
 ```
 
@@ -1318,7 +1321,7 @@ Kemal.config.shutdown_timeout = 10.seconds  # Default: nil (no timeout)
 
 Here's a comprehensive example showing multiple configuration options:
 
-```ruby
+```crystal
 require "kemal"
 
 # Server settings
@@ -1371,7 +1374,7 @@ Kemal provides two equivalent ways to configure most options:
 
 **Helper methods (shorthand):**
 
-```ruby
+```crystal
 logging false
 public_folder "./assets"
 serve_static false
@@ -1379,7 +1382,7 @@ serve_static false
 
 **Config object (explicit):**
 
-```ruby
+```crystal
 Kemal.config.logging = false
 Kemal.config.public_folder = "./assets"
 Kemal.config.serve_static = false
@@ -1421,7 +1424,7 @@ Best practices for securing your Kemal application: resource limits, security he
 
 **Set appropriate limits:**
 
-```ruby
+```crystal
 require "kemal"
 
 # Maximum request body size (10 MB)
@@ -1438,14 +1441,14 @@ Kemal.config.always_rescue = true
 
 [Helmet](https://github.com/EvanHahn/crystal-helmet) helps you secure your Kemal app by setting various HTTP security headers. It's a port of the Node.js Helmet module. Add the shard and register the handlers early in your handler chain:
 
-```ruby
+```crystal
 # shard.yml
 dependencies:
   helmet:
     github: EvanHahn/crystal-helmet
 ```
 
-```ruby
+```crystal
 require "kemal"
 require "helmet"
 
@@ -1470,14 +1473,14 @@ Each handler sets a specific header (e.g. `X-Frame-Options`, `X-Content-Type-Opt
 
 [Defense](https://github.com/defense-cr/defense) is a Crystal HTTP handler for throttling, blocking and tracking malicious requests (inspired by Rack::Attack). Add the shard and register the handler early in your handler chain:
 
-```ruby
+```crystal
 # shard.yml
 dependencies:
   defense:
     github: defense-cr/defense
 ```
 
-```ruby
+```crystal
 require "kemal"
 require "defense"
 
@@ -1726,7 +1729,7 @@ heroku ps:scale web=1
 
 **Important:** Configure your app to use the `PORT` environment variable:
 
-```ruby
+```crystal
 Kemal.config.port = ENV["PORT"]?.try(&.to_i) || 3000
 Kemal.config.host_binding = ENV["HOST"]? || "0.0.0.0"
 ```
@@ -2236,7 +2239,7 @@ Follow these best practices to ensure a robust production deployment.
 
 **Use environment variables for configuration:**
 
-```ruby
+```crystal
 require "kemal"
 
 # Configuration from environment
@@ -2281,7 +2284,7 @@ SECRET_KEY_BASE=generate-a-secure-random-string-here
 
 **Configure production logging:**
 
-```ruby
+```crystal
 require "kemal"
 
 # Set environment
@@ -2314,7 +2317,7 @@ end
 
 **Application logging:**
 
-```ruby
+```crystal
 # Use Crystal's Log
 Log.info { "User #{user_id} logged in" }
 Log.warn { "Rate limit exceeded for IP #{ip}" }
@@ -2323,7 +2326,7 @@ Log.error { "Database connection failed: #{error}" }
 
 **Monitor application health:**
 
-```ruby
+```crystal
 # Add health check endpoint
 get "/health" do |env|
   env.response.content_type = "application/json"
@@ -2374,7 +2377,7 @@ end
 
 Ensure your application shuts down gracefully, completing in-flight requests.
 
-```ruby
+```crystal
 require "kemal"
 
 # Configure graceful shutdown
@@ -2434,11 +2437,12 @@ echo "Building new version..."
 crystal build --release --no-debug src/your_app.cr -o your_app.new
 
 echo "Deploying with zero downtime..."
+
+# Replace binary once (all instances share the same binary)
+cp your_app.new $APP_DIR/your_app
+
 for PORT in "${PORTS[@]}"; do
     echo "Deploying to instance on port $PORT..."
-    
-    # Replace binary
-    mv your_app.new $APP_DIR/your_app
     
     # Restart instance
     sudo systemctl restart kemal-app-$PORT
@@ -2467,7 +2471,7 @@ Use `reuse_port` to run multiple instances on the same port.
 
 **Enable SO_REUSEPORT:**
 
-```ruby
+```crystal
 require "kemal"
 
 # Configure the server to reuse the port
@@ -2493,7 +2497,7 @@ sudo systemctl enable kemal-app@{1,2,3,4}
 sudo systemctl start kemal-app@{1,2,3,4}
 ```
 
-Or use a single service with increased process count:
+Or use a single service (one instance per service file):
 
 ```ini
 [Unit]
@@ -2507,8 +2511,6 @@ WorkingDirectory=/opt/myapp
 ExecStart=/opt/myapp/your_app
 Restart=always
 
-# Run 4 instances
-Environment=GOMAXPROCS=4
 EnvironmentFile=/opt/myapp/.env
 
 [Install]
@@ -2540,8 +2542,8 @@ fi
 
 **Safe migration practices:**
 
-```ruby
-# migrations/001_add_users_table.sql
+```sql
+-- migrations/001_add_users_table.sql
 -- Always use IF NOT EXISTS for safety
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
@@ -2549,7 +2551,7 @@ CREATE TABLE IF NOT EXISTS users (
     created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
-# migrations/002_add_index.sql
+-- migrations/002_add_index.sql
 -- Create indexes concurrently (PostgreSQL)
 CREATE INDEX CONCURRENTLY IF NOT EXISTS idx_users_email ON users(email);
 ```
@@ -2730,7 +2732,7 @@ Optimize your Kemal application for maximum performance.
 
 For better performance, serve static files with Nginx instead of Kemal:
 
-```ruby
+```crystal
 # Disable Kemal's static file handler in production
 if Kemal.config.env == "production"
   Kemal.config.serve_static = false
@@ -2769,7 +2771,7 @@ gzip_disable "msie6";
 
 Use connection pooling for database connections:
 
-```ruby
+```crystal
 require "db"
 require "pg"
 
@@ -2794,7 +2796,7 @@ end
 
 Implement caching for expensive operations:
 
-```ruby
+```crystal
 require "redis"
 
 # Initialize Redis
