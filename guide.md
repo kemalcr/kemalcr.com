@@ -289,7 +289,7 @@ end
 
 ### [Context Storage](#context-storage)
 
-Contexts are useful for sharing states between filters and middleware. You can use `context` to store some variables and access them later at some point. Each stored value only exist in the lifetime of request / response cycle.
+Contexts are useful for sharing states between filters and middleware. You can use `context` to store some variables and access them later at some point. Each stored value only exists in the lifetime of request / response cycle.
 
 ```crystal
 before_get "/" do |env|
@@ -619,7 +619,7 @@ send_file env, "./path/to/file.exe", "image/jpeg"
 
 For both examples, the file will be sent with the `image/jpeg` MIME type.
 
-MIME type detection is based on the [MIME](https://crystal-lang.org/api/0.27.1/MIME.html) registry from the Crystal standard library, which uses the OS-provided MIME database. If unavailable, it falls back to a basic type list ([MIME::DEFAULT_TYPES](https://crystal-lang.org/api/0.27.1/MIME.html#DEFAULT_TYPES)).
+MIME type detection is based on the [MIME](https://crystal-lang.org/api/MIME.html) registry from the Crystal standard library, which uses the OS-provided MIME database. If unavailable, it falls back to a basic type list ([MIME::DEFAULT_TYPES](https://crystal-lang.org/api/MIME.html#DEFAULT_TYPES)).
 
 You can extend the registered type list by calling `MIME.register` with an extension and its desired type:
 
@@ -1389,9 +1389,7 @@ A Kemal application accepts a few optional command-line flags:
 
 # [SSL](#ssl)
 
-Kemal has built-in and easy to use SSL support.
-
-To start your Kemal with SSL support.
+Kemal has built-in and easy to use SSL support. To start your Kemal app with SSL, build and run with the SSL flags:
 
 ```
 crystal build --release src/your_app.cr
@@ -1423,7 +1421,7 @@ Kemal.config.always_rescue = true
 
 [Helmet](https://github.com/EvanHahn/crystal-helmet) helps you secure your Kemal app by setting various HTTP security headers. It's a port of the Node.js Helmet module. Add the shard and register the handlers early in your handler chain:
 
-```crystal
+```yaml
 # shard.yml
 dependencies:
   helmet:
@@ -1455,7 +1453,7 @@ Each handler sets a specific header (e.g. `X-Frame-Options`, `X-Content-Type-Opt
 
 [Defense](https://github.com/defense-cr/defense) is a Crystal HTTP handler for throttling, blocking and tracking malicious requests (inspired by Rack::Attack). Add the shard and register the handler early in your handler chain:
 
-```crystal
+```yaml
 # shard.yml
 dependencies:
   defense:
@@ -1735,14 +1733,14 @@ fly auth login
 fly launch
 ```
 
-3. Create a `fly.toml` configuration:
+3. Create a `fly.toml` configuration (use `dockerfile` to build from your project's Dockerfile):
 
 ```toml
 app = "my-kemal-app"
 primary_region = "iad"
 
 [build]
-  image = "your-registry/my-kemal-app:latest"
+  dockerfile = "Dockerfile"
 
 [env]
   KEMAL_ENV = "production"
@@ -2208,10 +2206,13 @@ Create `/etc/logrotate.d/kemal-app`:
     create 0640 www-data www-data
     sharedscripts
     postrotate
-        systemctl reload kemal-app > /dev/null 2>&1 || true
+        # Optional: if your app reopens logs on SIGHUP, use: kill -HUP $(pgrep -f your_app) 2>/dev/null || true
+        true
     endscript
 }
 ```
+
+**Note:** Kemal doesn't have built-in log rotation support. Consider using Crystal's `Log` with a backend that handles rotation, or `copytruncate` instead of `create` if your app must keep the file open.
 
 ## [Production Best Practices](#production-best-practices)
 
@@ -2404,6 +2405,28 @@ upstream kemal {
 }
 ```
 
+**Create per-port systemd services** (e.g. `/etc/systemd/system/kemal-app@.service`):
+
+```ini
+[Unit]
+Description=Kemal Application (port %i)
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+WorkingDirectory=/opt/myapp
+ExecStart=/opt/myapp/your_app
+Restart=always
+Environment=PORT=%i
+EnvironmentFile=/opt/myapp/.env
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Enable with `systemctl enable kemal-app@{3000,3001,3002}` so each instance runs on a different port.
+
 **Deployment script:**
 
 Create `scripts/deploy.sh`:
@@ -2426,8 +2449,8 @@ cp your_app.new $APP_DIR/your_app
 for PORT in "${PORTS[@]}"; do
     echo "Deploying to instance on port $PORT..."
     
-    # Restart instance
-    sudo systemctl restart kemal-app-$PORT
+    # Restart instance (uses kemal-app@.service template)
+    sudo systemctl restart kemal-app@$PORT
     
     # Wait for health check
     sleep 5
@@ -2791,7 +2814,7 @@ require "redis"
 # Initialize Redis
 REDIS = Redis.new(url: ENV["REDIS_URL"])
 
-# Cache expensive queries
+# Cache expensive queries (Post is your model/struct type)
 get "/popular-posts" do |env|
   cache_key = "popular_posts"
   
