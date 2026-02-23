@@ -2751,28 +2751,35 @@ gzip_disable "msie6";
 
 ### [Connection Pooling](#connection-pooling)
 
-Use connection pooling for database connections:
+`crystal-db` provides a built-in connection pool. `DB.open` returns a `DB::Database` object that manages the pool—you don't need to configure it manually. Configure the pool via **query string parameters** in your connection URI.
+
+**Pool parameters** (see [Crystal Connection Pool docs](https://crystal-lang.org/reference/1.19/database/connection_pool.html)):
+
+| Parameter             | Default | Description                                    |
+|-----------------------|---------|------------------------------------------------|
+| `initial_pool_size`   | 1       | Connections created when opening the database  |
+| `max_pool_size`       | 0       | Maximum connections (0 = unlimited)          |
+| `max_idle_pool_size` | 1       | Max idle connections before closing excess   |
+| `checkout_timeout`    | 5.0     | Seconds to wait for an available connection   |
+| `retry_attempts`      | 1       | Retries on connection loss                   |
+| `retry_delay`         | 1.0     | Seconds between retries                       |
 
 ```crystal
 require "db"
 require "pg"
 
-# Create connection pool
-DB_POOL = DB.open(ENV["DATABASE_URL"]) do |conn|
-  conn.max_pool_size = 25
-  conn.initial_pool_size = 5
-  conn.max_idle_pool_size = 10
-  conn.checkout_timeout = 5.0
-  conn.retry_attempts = 3
-  conn.retry_delay = 1.0
-end
+# Configure pool via URI query parameters
+# postgres://user:pass@host/db?initial_pool_size=5&max_pool_size=25&checkout_timeout=5&retry_attempts=3
+DB = DB.open(ENV["DATABASE_URL"]? || "postgres://localhost/myapp?initial_pool_size=5&max_pool_size=25&max_idle_pool_size=10&checkout_timeout=5&retry_attempts=3&retry_delay=1")
 
-# Use in routes
+# Use in routes - db.query, db.exec, etc. automatically use the pool
 get "/users" do |env|
-  users = DB_POOL.query_all("SELECT * FROM users", as: User)
+  users = DB.query_all("SELECT * FROM users", as: User)
   users.to_json
 end
 ```
+
+When using `db.query`, `db.exec`, `db.scalar`, etc., the pool automatically checks out a connection, runs the statement, and returns it to the pool. If the connection is lost, it retries according to `retry_attempts` and `retry_delay`.
 
 ### [Caching Strategies](#caching-strategies)
 
