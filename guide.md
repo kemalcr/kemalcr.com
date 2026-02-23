@@ -467,7 +467,6 @@ When using `before_all` and `after_all` keep in mind that they will be evaluated
 
 ```crystal
 before_get "/foo" do |env|
-  puts "Setting response content type"
   env.response.content_type = "application/json"
 end
 
@@ -478,6 +477,8 @@ end
 ```
 
 #### [Simple before_all example](#simple-before_all-example)
+
+`before_all` applies to all HTTP methods for the given path. Same as `before_get` but also runs for `put`, `post`, etc.:
 
 ```crystal
 before_all "/foo" do |env|
@@ -499,7 +500,6 @@ post "/foo" do |env|
   puts env.response.headers["Content-Type"] # => "application/json"
   {"name": "Kemal"}.to_json
 end
-
 ```
 
 #### [Multiple `before_all`](#multiple-before_all)
@@ -1193,27 +1193,9 @@ Log.info { "Log message with or without embedded #{variables}" }
 
 ### [Custom Logger](#custom-logger)
 
-You can easily replace the built-in logger of `Kemal`. Your logger must inherit from `Kemal::BaseLogHandler`:
+You can easily replace the built-in logger of `Kemal`. Your logger must inherit from `Kemal::BaseLogHandler`. See [Creating a custom Logger middleware](#creating-a-custom-logger-middleware) for the full implementation. Register it with:
 
 ```crystal
-class MyCustomLogger < Kemal::BaseLogHandler
-  # This is run for each request. You can access the request/response context with `context`.
-  def call(context)
-    puts "Custom logger is in action."
-    # Be sure to `call_next`.
-    call_next context
-  end
-
-  def write(message)
-  end
-end
-```
-
-Register your custom logger with the `logger` config property:
-
-```crystal
-require "kemal"
-
 Kemal.config.logger = MyCustomLogger.new
 ```
 
