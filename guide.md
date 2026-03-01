@@ -14,6 +14,7 @@ title: Kemal - Guide
    - [URL Parameters](#url-parameters)
    - [Query Parameters](#query-parameters)
    - [POST / Form Parameters](#post-form-parameters)
+   - [Override Method (PUT, PATCH, DELETE from Forms)](#override-method-put-patch-delete-from-forms)
 4. [HTTP Request / Response Context](#context)
    - [Context Storage](#context-storage)
    - [Request Properties](#request-properties)
@@ -240,6 +241,67 @@ end
 ```
 
 **NOTE:** For Array or Hash like parameters, Kemal will group like keys for you. Alternatively, you can use the square bracket notation `likes[]=ruby&likes[]=crystal`. Be sure to access the param name exactly how it was passed. (i.e. `env.params.body["likes[]"]`).
+
+### [Override Method (PUT, PATCH, DELETE from Forms)](#override-method-put-patch-delete-from-forms)
+
+HTML forms only support `GET` and `POST` methods. When you need to use `PUT`, `PATCH`, or `DELETE` in RESTful applications, Kemal's `OverrideMethodHandler` middleware lets you simulate these methods. It reads the `_method` magic parameter from a POST request body and rewrites the request to the corresponding HTTP method.
+
+**Important:** This middleware is **not** included in Kemal's default handlers. You must add it explicitly to your application:
+
+```crystal
+require "kemal"
+
+# Add OverrideMethodHandler to the handler chain
+add_handler Kemal::OverrideMethodHandler::INSTANCE
+
+put "/users/:id" do |env|
+  id = env.params.url["id"]
+  # User update logic
+  "User #{id} updated"
+end
+
+patch "/users/:id" do |env|
+  id = env.params.url["id"]
+  # Partial update logic
+  "User #{id} partially updated"
+end
+
+delete "/users/:id" do |env|
+  id = env.params.url["id"]
+  # User deletion logic
+  "User #{id} deleted"
+end
+
+Kemal.run
+```
+
+In your HTML form, add the `_method` parameter as a hidden field:
+
+```html
+<!-- PUT - Replace entire resource -->
+<form action="/users/1" method="post">
+  <input type="hidden" name="_method" value="PUT">
+  <input type="text" name="name" value="Kemal">
+  <button type="submit">Update</button>
+</form>
+
+<!-- PATCH - Partial update -->
+<form action="/users/1" method="post">
+  <input type="hidden" name="_method" value="PATCH">
+  <input type="text" name="email" placeholder="New email">
+  <button type="submit">Update Email</button>
+</form>
+
+<!-- DELETE - Remove resource -->
+<form action="/users/1" method="post">
+  <input type="hidden" name="_method" value="DELETE">
+  <button type="submit">Delete</button>
+</form>
+```
+
+**Allowed methods:** `PUT`, `PATCH`, `DELETE`
+
+**Note:** This middleware consumes `params.body` to read the `_method` parameter. You can ignore this parameter when accessing your form data.
 
 # [HTTP Request / Response Context](#context)
 
