@@ -97,7 +97,7 @@ You should see something like this:
 ```
 $ shards install
 Updating https://github.com/kemalcr/kemal.git
-Installing kemal (1.9.0)
+Installing kemal (1.10.0)
 ```
 
 That's it! You're now ready to use Kemal in your application.
@@ -168,6 +168,33 @@ end
 Any **string** returned from a route will output to the browser.
 Routes are matched in the order they are defined. The first route that matches the request is invoked.
 
+## Kemal::Router (Modular Routing)
+
+Kemal provides a modular `Kemal::Router` for organizing routes into namespaces, with scoped filters and WebSocket support. The router can be mounted at any path while keeping the existing DSL fully compatible.
+
+```crystal
+require "kemal"
+
+api = Kemal::Router.new
+
+api.namespace "/users" do
+  get "/" do |env|
+    env.json({users: ["alice", "bob"]})
+  end
+
+  get "/:id" do |env|
+    env.text "user #{env.params.url["id"]}"
+  end
+end
+
+mount "/api/v1", api
+
+Kemal.run
+```
+
+In this example, the routes are available at `/api/v1/users` and `/api/v1/users/:id`. You can define filters, WebSocket handlers, and additional namespaces within a router. Filters defined inside a namespace are isolated to that router's routes, while global wildcard filters always execute.
+Routes are matched in the order they are defined. The first route that matches the request is invoked.
+
 # HTTP Parameters
 
 When passing data through an HTTP request, you will often need to use query parameters, or post parameters depending on which HTTP method you're using.
@@ -236,6 +263,64 @@ end
 
 **NOTE:** For Array or Hash like parameters, Kemal will group like keys for you. Alternatively, you can use the square bracket notation `likes[]=ruby&likes[]=crystal`. Be sure to access the param name exactly how it was passed. (i.e. `env.params.body["likes[]"]`).
 
+## Override Method (PUT, PATCH, DELETE from Forms)
+
+HTML forms only support `GET` and `POST` methods. When you need to use `PUT`, `PATCH`, or `DELETE` in RESTful applications, Kemal's `OverrideMethodHandler` middleware lets you simulate these methods. It reads the `_method` magic parameter from a POST request body and rewrites the request to the corresponding HTTP method.
+
+**Important:** This middleware is **not** included in Kemal's default handlers. You must add it explicitly to your application:
+
+```crystal
+require "kemal"
+
+# Add OverrideMethodHandler to the handler chain
+add_handler Kemal::OverrideMethodHandler::INSTANCE
+
+put "/users/:id" do |env|
+  id = env.params.url["id"]
+  "User #{id} updated"
+end
+
+patch "/users/:id" do |env|
+  id = env.params.url["id"]
+  "User #{id} partially updated"
+end
+
+delete "/users/:id" do |env|
+  id = env.params.url["id"]
+  "User #{id} deleted"
+end
+
+Kemal.run
+```
+
+In your HTML form, add the `_method` parameter as a hidden field:
+
+```html
+<!-- PUT - Replace entire resource -->
+<form action="/users/1" method="post">
+  <input type="hidden" name="_method" value="PUT">
+  <input type="text" name="name" value="Kemal">
+  <button type="submit">Update</button>
+</form>
+
+<!-- PATCH - Partial update -->
+<form action="/users/1" method="post">
+  <input type="hidden" name="_method" value="PATCH">
+  <input type="text" name="email" placeholder="New email">
+  <button type="submit">Update Email</button>
+</form>
+
+<!-- DELETE - Remove resource -->
+<form action="/users/1" method="post">
+  <input type="hidden" name="_method" value="DELETE">
+  <button type="submit">Delete</button>
+</form>
+```
+
+**Allowed methods:** `PUT`, `PATCH`, `DELETE`
+
+**Note:** This middleware consumes `params.body` to read the `_method` parameter. You can ignore this parameter when accessing your form data.
+
 # HTTP Request / Response Context
 
 Accessing the HTTP request/response context (query parameters, body, content_type, headers, status_code) is super easy. You can use the context returned from the block:
@@ -247,7 +332,20 @@ get "/hello/:name" do |env|
   "Hello back to #{name}"
 end
 
-# Set the content as application/json and return JSON
+# Response helpers: chainable JSON, HTML, text, XML with HTTP::Status support
+get "/users" do |env|
+  env.json({users: ["alice", "bob"]})
+end
+
+post "/users" do |env|
+  env.status(:created).json({id: 1, created: true})
+end
+
+get "/admin" do |env|
+  halt env.status(403).html("<h1>Forbidden</h1>")
+end
+
+# Manual content type (alternative to helpers)
 get "/user.json" do |env|
   user = {name: "Kemal", language: "Crystal"}.to_json
   env.response.content_type = "application/json"
@@ -270,7 +368,7 @@ end
 
 ## Context Storage
 
-Contexts are useful for sharing states between filters and middleware. You can use `context` to store some variables and access them later at some point. Each stored value only exist in the lifetime of request / response cycle.
+Contexts are useful for sharing states between filters and middleware. You can use `context` to store some variables and access them later at some point. Each stored value only exists in the lifetime of request / response cycle.
 
 ```crystal
 before_get "/" do |env|
@@ -297,13 +395,16 @@ Context storage also supports custom types. You can register and use a custom ty
 
 ```crystal
 class User
-  property name
+  property name : String
+
+  def initialize(@name : String)
+  end
 end
 
 add_context_storage_type(User)
 
 before "/" do |env|
-  env.set "user", User.new(name: "dummy-user")
+  env.set "user", User.new("dummy-user")
 end
 
 get "/" do |env|
@@ -419,7 +520,7 @@ Available filters:
 - before_all, before_get, before_post, before_put, before_patch, before_delete
 - after_all, after_get, after_post, after_put, after_patch, after_delete
 
-The `Filter` middleware is lazily added as soon as a call to `after_X` or `before_X` is made.
+The `Filter` middleware is lazily added as soon as a call to `after_X` or `before_X` is made. It will not even be instantiated unless a call to `after_X` or `before_X` is made.
 
 When using `before_all` and `after_all` keep in mind that they will be evaluated in the following order:
 
@@ -443,6 +544,8 @@ end
 
 ## Simple before_all example
 
+`before_all` applies to all HTTP methods for the given path. Same as `before_get` but also runs for `put`, `post`, etc.:
+
 ```crystal
 before_all "/foo" do |env|
   puts "Setting response content type"
@@ -450,6 +553,7 @@ before_all "/foo" do |env|
 end
 
 get "/foo" do |env|
+  puts env.response.headers["Content-Type"] # => "application/json"
   {"name": "Kemal"}.to_json
 end
 
@@ -480,6 +584,8 @@ get "/foo" do |env|
 end
 ```
 
+Each time `GET /foo` (or any other route since we didn't specify a route for these blocks) is called the first `before_all` will run and then the second will set the session. Note: `authorized?` and `Session.new` are fictitious calls used to illustrate the example.
+
 # Helpers
 
 ## Browser Redirect
@@ -499,6 +605,14 @@ Halt execution with the current context. Returns 200 and an empty response by de
 
 ```crystal
 halt env, status_code: 403, response: "Forbidden"
+```
+
+You can also halt from a chained response for concise API error handling:
+
+```crystal
+get "/admin" do |env|
+  halt env.status(403).html("<h1>Forbidden</h1>")
+end
 ```
 
 *Note:* `halt` can only be used inside routes.
@@ -532,6 +646,28 @@ error ValueError do
 end
 ```
 
+**NOTE** Exception handlers are resolved based on definition order first, and inheritance order second. For example:
+
+```crystal
+class GrandParentException < Exception; end
+class ParentException < GrandParentException; end
+class ChildException < ParentException; end
+
+error GrandParentException do
+  "Grandparent exception"
+end
+
+error ParentException do
+  "Parent exception"
+end
+
+get "/" do
+  raise ChildException.new()
+end
+```
+
+Will resolve to the handler for `GrandParentException` rather than `ParentException`.
+
 ## Send File
 
 Send a file with the given path and base the MIME type on the file extension or default to `application/octet-stream`.
@@ -546,7 +682,7 @@ Optionally, you can override the MIME type:
 send_file env, "./path/to/file.exe", "image/jpeg"
 ```
 
-MIME type detection is based on the MIME registry from the Crystal standard library.
+MIME type detection is based on the [MIME](https://crystal-lang.org/api/MIME.html) registry from the Crystal standard library, which uses the OS-provided MIME database. If unavailable, it falls back to a basic type list ([MIME::DEFAULT_TYPES](https://crystal-lang.org/api/MIME.html#DEFAULT_TYPES)).
 
 You can extend the registered type list by calling `MIME.register`:
 
@@ -555,13 +691,38 @@ MIME.register ".cr", "text/crystal"
 ```
 
 > **Security Notice:**  
-> When using `send_file` with dynamic file paths, always sanitize and validate the path to prevent directory traversal and unauthorized file access.
+> When using `send_file` with dynamic file paths (such as those based on user input), always **sanitize and validate** the path to prevent directory traversal and unauthorized file access. Never pass unchecked user input directly to `send_file`.  
+> For example, ensure the path is within an allowed directory and does not contain sequences like `../` that could escape the intended folder.  
+> See [kemalcr/kemal#718](https://github.com/kemalcr/kemal/issues/718) for more details.
 
 # Middleware
 
 Middleware, also known as `Handler`s, are the building blocks of Kemal. Middleware lets you separate application concerns into different layers.
 
 Each middleware is supposed to have one responsibility.
+
+## The `use` Keyword
+
+Use the `use` keyword to register middleware globally or for specific paths. You can pass a single handler, an array of handlers, or insert at a specific position in the handler chain.
+
+```crystal
+require "kemal"
+
+# Path-specific middlewares for /api routes
+use "/api", [CORSHandler.new, AuthHandler.new]
+
+get "/" do
+  "Public home"
+end
+
+get "/api/users" do |env|
+  env.json({users: ["alice", "bob"]})
+end
+
+Kemal.run
+```
+
+Global middleware runs for all routes; path-specific middleware runs only for routes matching the given path prefix.
 
 ## Creating your own middleware
 
@@ -608,12 +769,13 @@ end
 
 ## Creating a custom Logger middleware
 
-You can easily replace the built-in logger of Kemal. Your logger must inherit from `Kemal::BaseLogHandler`.
+You can easily replace the built-in logger of Kemal. There's only one requirement which is that your logger must inherit from `Kemal::BaseLogHandler`.
 
 ```crystal
 class MyCustomLogger < Kemal::BaseLogHandler
   def call(context)
     puts "Custom logger is in action."
+    # Be sure to call_next.
     call_next context
   end
 
@@ -634,12 +796,12 @@ Kemal.config.logger = MyCustomLogger.new
 
 The Kemal organization has a variety of useful middleware:
 
-- [kemal-basic-auth](https://github.com/kemalcr/kemal-basic-auth) - HTTP Basic Authorization
-- [kemal-hmac](https://github.com/kemalcr/kemal-hmac) - HMAC middleware
+- [kemal-basic-auth](https://github.com/kemalcr/kemal-basic-auth): Add HTTP Basic Authorization to your Kemal application.
+- [kemal-hmac](https://github.com/kemalcr/kemal-hmac): HMAC middleware for Kemal
 
 # File Upload
 
-Kemal provides easy access to uploaded files through `env.params.files`.
+Kemal provides easy access to uploaded files through `env.params.files`. When a file is uploaded via a form, it's automatically stored in a temporary location and accessible through the parameter name.
 
 ## Basic File Upload
 
@@ -726,30 +888,69 @@ post "/upload-multiple" do |env|
 end
 ```
 
+## Testing File Upload
+
+You can test single file uploads using `curl`:
+
+```bash
+curl -F "image=@/path/to/your/file.png" http://localhost:3000/upload
+```
+
+For multiple file uploads:
+
+```bash
+curl -F "images[]=@/path/to/file1.png" -F "images[]=@/path/to/file2.jpg" http://localhost:3000/upload-multiple
+```
+
 # Sessions
 
 Kemal supports Sessions with [kemal-session](https://github.com/kemalcr/kemal-session).
+
+## User Login / Logout Example
 
 ```crystal
 require "kemal"
 require "kemal-session"
 
-get "/set" do |env|
-  env.session.int("number", rand(100))
-  "Random number set."
+# Session Configuration
+Kemal::Session.config.secret = "my-secret-key"
+
+# User login (create session)
+post "/login" do |env|
+  username = env.params.body["username"]?.to_s
+
+  # In a real app you would authenticate here
+  env.session.string("username", username)
+  env.session.bool("logged_in", true)
+
+  "Welcome #{username}, you're now logged in."
 end
 
-get "/get" do |env|
-  num = env.session.int("number")
-  "Value of random number is #{num}."
+# Protected route using session
+get "/profile" do |env|
+  unless env.session.bool?("logged_in")
+    env.response.status_code = 401
+    next "Please log in first"
+  end
+
+  username = env.session.string("username")
+  "Hello #{username}!"
+end
+
+# User logout (destroy session)
+post "/logout" do |env|
+  env.session.destroy
+  "You have been logged out."
 end
 
 Kemal.run
 ```
 
-`kemal-session` has a generic API to multiple storage engines. The default is `MemoryEngine` which stores sessions in process memory. You should only use `MemoryEngine` for development and testing.
+`kemal-session` has a generic API to multiple storage engines. The default storage engine is `MemoryEngine` which stores the sessions in process memory. You should only use `MemoryEngine` for development and testing purposes.
 
 ## Accessing the CSRF token
+
+To access the CSRF token of the active session you can do the following in your form:
 
 ```erb
 <input type="hidden" name="authenticity_token" value="<%= env.session.string("csrf") %>">
@@ -1037,6 +1238,8 @@ crystal build --release src/your_app.cr
 
 # Security
 
+Best practices for securing your Kemal application: resource limits, security headers (Helmet), rate limiting, and the Defense shard for throttling and blocking malicious requests.
+
 ## Resource Limits
 
 ```crystal
@@ -1052,16 +1255,56 @@ Kemal.config.powered_by_header = false
 Kemal.config.always_rescue = true
 ```
 
+## Helmet
+
+[Helmet](https://github.com/EvanHahn/crystal-helmet) helps you secure your Kemal app by setting various HTTP security headers. It's a port of the Node.js Helmet module. Add the shard and register the handlers early in your handler chain:
+
+```yaml
+# shard.yml
+dependencies:
+  helmet:
+    github: EvanHahn/crystal-helmet
+```
+
+```crystal
+require "kemal"
+require "helmet"
+
+# Add Helmet handlers (order matters – add early)
+add_handler Helmet::DNSPrefetchControllerHandler.new
+add_handler Helmet::FrameGuardHandler.new
+add_handler Helmet::InternetExplorerNoOpenHandler.new
+add_handler Helmet::NoSniffHandler.new
+add_handler Helmet::StrictTransportSecurityHandler.new(7.day)
+add_handler Helmet::XSSFilterHandler.new
+
+get "/" do
+  "Hello World"
+end
+
+Kemal.run
+```
+
+Each handler sets a specific header (e.g. `X-Frame-Options`, `X-Content-Type-Options`, `Strict-Transport-Security`). See the [Helmet documentation](https://evanhahn.github.io/crystal-helmet/) for options and customization.
+
 ## Defense
 
-[Defense](https://github.com/defense-cr/defense) provides throttling, blocking and tracking malicious requests.
+[Defense](https://github.com/defense-cr/defense) is a Crystal HTTP handler for throttling, blocking and tracking malicious requests (inspired by Rack::Attack). Add the shard and register the handler early in your handler chain:
+
+```yaml
+# shard.yml
+dependencies:
+  defense:
+    github: defense-cr/defense
+```
 
 ```crystal
 require "kemal"
 require "defense"
 
-# Configure store
+# Store: Redis (production) or MemoryStore (development/tests)
 Defense.store = Defense::RedisStore.new(url: ENV["REDIS_URL"]? || "redis://localhost:6379/0")
+# Defense.store = Defense::MemoryStore.new
 
 add_handler Defense::Handler.new
 
@@ -1070,12 +1313,12 @@ Defense.throttle("requests per minute", limit: 10, period: 60) do |request|
   request.remote_address.to_s
 end
 
-# Blocklist
+# Blocklist: block /admin for non-trusted IPs
 Defense.blocklist("block admin") do |request|
   request.path.starts_with?("/admin/")
 end
 
-# Safelist
+# Safelist: never throttle/block localhost
 Defense.safelist("localhost") do |request|
   request.remote_address.to_s == "127.0.0.1"
 end
@@ -1086,6 +1329,8 @@ end
 
 Kemal.run
 ```
+
+Throttled and blocked responses are configurable via `Defense.throttled_response=` and `Defense.blocked_response=`. Defense also supports Fail2Ban and Allow2Ban for banning after repeated violations. See the [Defense README](https://github.com/defense-cr/defense) for full options.
 
 # Deployment
 
@@ -1434,6 +1679,38 @@ end
 
 Kemal.run
 ```
+
+### Connection Pooling
+
+`crystal-db` provides a built-in connection pool. `DB.open` returns a `DB::Database` object that manages the pool—you don't need to configure it manually. Configure the pool via **query string parameters** in your connection URI.
+
+**Pool parameters** (see [Crystal Connection Pool docs](https://crystal-lang.org/reference/1.19/database/connection_pool.html)):
+
+| Parameter             | Default | Description                                    |
+|-----------------------|---------|------------------------------------------------|
+| `initial_pool_size`   | 1       | Connections created when opening the database  |
+| `max_pool_size`       | 0       | Maximum connections (0 = unlimited)          |
+| `max_idle_pool_size` | 1       | Max idle connections before closing excess   |
+| `checkout_timeout`    | 5.0     | Seconds to wait for an available connection   |
+| `retry_attempts`      | 1       | Retries on connection loss                   |
+| `retry_delay`         | 1.0     | Seconds between retries                       |
+
+```crystal
+require "db"
+require "pg"
+
+# Configure pool via URI query parameters
+# postgres://user:pass@host/db?initial_pool_size=5&max_pool_size=25&checkout_timeout=5&retry_attempts=3
+DB = DB.open(ENV["DATABASE_URL"]? || "postgres://localhost/myapp?initial_pool_size=5&max_pool_size=25&max_idle_pool_size=10&checkout_timeout=5&retry_attempts=3&retry_delay=1")
+
+# Use in routes - db.query, db.exec, etc. automatically use the pool
+get "/users" do |env|
+  users = DB.query_all("SELECT * FROM users", as: User)
+  users.to_json
+end
+```
+
+When using `db.query`, `db.exec`, `db.scalar`, etc., the pool automatically checks out a connection, runs the statement, and returns it to the pool. If the connection is lost, it retries according to `retry_attempts` and `retry_delay`.
 
 ## Cross-compilation
 
