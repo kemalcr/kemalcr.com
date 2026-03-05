@@ -18,7 +18,7 @@ title: Kemal - Guide
 4. [HTTP Request / Response Context](#context)
    - [Context Storage](#context-storage)
    - [Request Properties](#request-properties)
-5. [Views / Templates](#views-templates)
+5. [Views / Templates](#views--templates)
    - [Using Layouts](#using-layouts)
    - [content_for and yield_content](#content_for-and-yield_content)
    - [Using Common Paths](#using-common-paths)
@@ -414,7 +414,7 @@ Some common request information is available at `env.request.*`:
 - **cookies**
   - e.g. `env.request.cookies["cookie_name"].value`
 
-# [Views / Templates](#views-templates)
+# [Views / Templates](#views--templates)
 
 You can use ERB-like built-in [ECR](http://crystal-lang.org/api/ECR.html) to render dynamic views.
 
