@@ -10,10 +10,12 @@ title: Kemal - Guide
    - [Using Kemal](#using-kemal)
    - [Running Kemal](#running-kemal)
 2. [Routes](#routes)
+   - [Kemal::Router (Modular Routing)](#kemal-router-modular-routing)
 3. [HTTP Parameters](#http-parameters)
    - [URL Parameters](#url-parameters)
    - [Query Parameters](#query-parameters)
    - [POST / Form Parameters](#post-form-parameters)
+   - [Raw Body (Multi-Handler Access)](#raw-body-multi-handler-access)
    - [Override Method (PUT, PATCH, DELETE from Forms)](#override-method-put-patch-delete-from-forms)
 4. [HTTP Request / Response Context](#context)
    - [Context Storage](#context-storage)
@@ -29,6 +31,7 @@ title: Kemal - Guide
    - [Custom Errors](#custom-errors)
    - [Send File](#send-file)
 8. [Middleware](#middleware)
+   - [The `use` Keyword](#the-use-keyword)
    - [Creating your own middleware](#creating-your-own-middleware)
    - [Conditional Middleware Execution](#conditional-middleware-execution)
    - [Creating a custom Logger middleware](#creating-a-custom-logger-middleware)
@@ -100,7 +103,7 @@ You should see something like this:
 ```
 $ shards install
 Updating https://github.com/kemalcr/kemal.git
-Installing kemal (1.9.0)
+Installing kemal (1.10.0)
 ```
 
 That's it! You're now ready to use Kemal in your application.
@@ -177,6 +180,32 @@ end
 Any **string** returned from a route will output to the browser.
 Routes are matched in the order they are defined. The first route that matches the request is invoked.
 
+### [Kemal::Router (Modular Routing)](#kemal-router-modular-routing)
+
+Kemal provides a modular `Kemal::Router` for organizing routes into namespaces, with scoped filters and WebSocket support. The router can be mounted at any path while keeping the existing DSL fully compatible.
+
+```crystal
+require "kemal"
+
+api = Kemal::Router.new
+
+api.namespace "/users" do
+  get "/" do |env|
+    env.json({users: ["alice", "bob"]})
+  end
+
+  get "/:id" do |env|
+    env.text "user #{env.params.url["id"]}"
+  end
+end
+
+mount "/api/v1", api
+
+Kemal.run
+```
+
+In this example, the routes are available at `/api/v1/users` and `/api/v1/users/:id`. You can define filters, WebSocket handlers, and additional namespaces within a router. Filters defined inside a namespace are isolated to that router's routes, while global wildcard filters always execute.
+
 # [HTTP Parameters](#http-parameters)
 
 When passing data through an HTTP request, you will often need to use query parameters, or post parameters depending on which HTTP method you're using.
@@ -241,6 +270,7 @@ end
 ```
 
 **NOTE:** For Array or Hash like parameters, Kemal will group like keys for you. Alternatively, you can use the square bracket notation `likes[]=ruby&likes[]=crystal`. Be sure to access the param name exactly how it was passed. (i.e. `env.params.body["likes[]"]`).
+
 
 ### [Override Method (PUT, PATCH, DELETE from Forms)](#override-method-put-patch-delete-from-forms)
 
@@ -330,7 +360,24 @@ post "/json_params" do |env|
   "#{name} likes #{likes.join(',')}"
 end
 
-# Set the content as application/json and return JSON
+# Response helpers: chainable JSON, HTML, text, XML with HTTP::Status support
+get "/users" do |env|
+  env.json({users: ["alice", "bob"]})
+end
+
+post "/users" do |env|
+  env.status(:created).json({id: 1, created: true})
+end
+
+get "/admin" do |env|
+  halt env.status(403).html("<h1>Forbidden</h1>")
+end
+
+get "/api/users" do |env|
+  env.json({data: ["alice", "bob"]}, content_type: "application/vnd.api+json")
+end
+
+# Manual content type (alternative to helpers)
 get "/user.json" do |env|
   user = {name: "Kemal", language: "Crystal"}.to_json
   env.response.content_type = "application/json"
@@ -611,6 +658,14 @@ Halt execution with the current context. Returns 200 and an empty response by de
 halt env, status_code: 403, response: "Forbidden"
 ```
 
+You can also halt from a chained response for concise API error handling:
+
+```crystal
+get "/admin" do |env|
+  halt env.status(403).html("<h1>Forbidden</h1>")
+end
+```
+
 *Note:* `halt` can only be used inside routes.
 
 ### [Custom Errors](#custom-errors)
@@ -699,6 +754,29 @@ MIME.register ".cr", "text/crystal"
 Middleware, also known as `Handler`s, are the building blocks of `Kemal`. Middleware lets you separate application concerns into different layers.
 
 Each middleware is supposed to have one responsibility. Take a look at `Kemal`'s built-in middleware to see what that means.
+
+## [The `use` Keyword](#the-use-keyword)
+
+Use the `use` keyword to register middleware globally or for specific paths. You can pass a single handler, an array of handlers, or insert at a specific position in the handler chain.
+
+```crystal
+require "kemal"
+
+# Path-specific middlewares for /api routes
+use "/api", [CORSHandler.new, AuthHandler.new]
+
+get "/" do
+  "Public home"
+end
+
+get "/api/users" do |env|
+  env.json({users: ["alice", "bob"]})
+end
+
+Kemal.run
+```
+
+Global middleware runs for all routes; path-specific middleware runs only for routes matching the given path prefix.
 
 ## [Creating your own middleware](#creating-your-own-middleware)
 
