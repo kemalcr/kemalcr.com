@@ -2506,19 +2506,6 @@ require "kemal"
 # Configure graceful shutdown
 Kemal.config.shutdown_timeout = 10.seconds
 
-# Handle shutdown signals
-Signal::INT.trap do
-  Log.info { "Received SIGINT, shutting down gracefully..." }
-  Kemal.stop
-  exit
-end
-
-Signal::TERM.trap do
-  Log.info { "Received SIGTERM, shutting down gracefully..." }
-  Kemal.stop
-  exit
-end
-
 # Your routes...
 get "/" do
   "Hello World"
