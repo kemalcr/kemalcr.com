@@ -1663,18 +1663,14 @@ end
 ### Graceful Shutdown
 
 ```crystal
+require "kemal"
+
+# Configure graceful shutdown
 Kemal.config.shutdown_timeout = 10.seconds
 
-Signal::INT.trap do
-  Log.info { "Shutting down gracefully..." }
-  Kemal.stop
-  exit
-end
-
-Signal::TERM.trap do
-  Log.info { "Shutting down gracefully..." }
-  Kemal.stop
-  exit
+# Your routes...
+get "/" do
+  "Hello World"
 end
 
 Kemal.run
