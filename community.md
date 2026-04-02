@@ -40,6 +40,25 @@ title: Community
   </section>
 
   <section class="community-section">
+    <h2 class="section-title">Learning resources</h2>
+    <p class="section-subtitle">
+      Example repositories you can clone, run, and extend while learning Kemal.
+    </p>
+
+    <div class="ShowcaseGrid">
+      <article class="ShowcaseCard">
+        <h3 class="ShowcaseCard_title">Hands-on projects</h3>
+        <ul>
+          <li>
+            <a href="https://github.com/sdogruyol/kemal-by-example">kemal-by-example</a>
+            – practical applications (blog, e-commerce, todo app, URL shortener, JSON API, OAuth login, webhook inbox, realtime dashboard, Twitter clone, and more) built with Kemal, SQLite, ECR, and WebSockets where needed.
+          </li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <section class="community-section">
     <h2 class="section-title">Talks &amp; videos</h2>
     <p class="section-subtitle">
       Learn Kemal from conference talks, screencasts and live coding sessions.
