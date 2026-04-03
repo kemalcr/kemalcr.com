@@ -799,6 +799,71 @@ The Kemal organization has a variety of useful middleware:
 - [kemal-basic-auth](https://github.com/kemalcr/kemal-basic-auth): Add HTTP Basic Authorization to your Kemal application.
 - [kemal-hmac](https://github.com/kemalcr/kemal-hmac): HMAC middleware for Kemal
 
+# Caching
+
+For expensive HTML pages, catalog-style APIs, or read-heavy routes, you can cache HTTP responses with [kemal-cache](https://github.com/kemalcr/kemal-cache). It is Kemal-native middleware with in-memory or Redis storage, automatic `ETag` / `Last-Modified`, and `304 Not Modified` for conditional requests. Responses include `X-Kemal-Cache: HIT` or `X-Kemal-Cache: MISS` so you can see behavior during development.
+
+## Installation
+
+Add `kemal-cache` beside `kemal` in `shard.yml`:
+
+```yaml
+dependencies:
+  kemal:
+    github: kemalcr/kemal
+  kemal-cache:
+    github: kemalcr/kemal-cache
+```
+
+Then run `shards install`.
+
+## Examples
+
+Default setup uses the in-memory store, caches successful `GET` responses for ten minutes, and skips authenticated or cookie-bearing requests. Register the handler before your routes:
+
+```crystal
+require "kemal"
+require "kemal-cache"
+
+use Kemal::Cache::Handler.new
+
+get "/articles" do
+  "Expensive response"
+end
+
+Kemal.run
+```
+
+Tune TTL and other options with `Kemal::Cache::Config`:
+
+```crystal
+config = Kemal::Cache::Config.new(expires_in: 2.minutes)
+use Kemal::Cache::Handler.new(config)
+
+get "/api/products" do
+  ProductSerializer.render(ProductQuery.latest)
+end
+
+Kemal.run
+```
+
+For Redis, add the `redis` shard and `require "kemal-cache/redis"` — see below.
+
+## Redis
+
+Add the Redis client to `shard.yml` (see the [redis shard](https://github.com/jgaskins/redis) for the current dependency line), then use `RedisStore` when several app processes or servers should share one cache:
+
+```crystal
+require "kemal-cache/redis"
+
+store = Kemal::Cache::RedisStore.from_env("REDIS_URL", namespace: "my-app-cache")
+config = Kemal::Cache::Config.new(store: store)
+
+use Kemal::Cache::Handler.new(config)
+```
+
+Full options, invalidation, custom stores, and observability are documented in the [kemal-cache repository](https://github.com/kemalcr/kemal-cache).
+
 # File Upload
 
 Kemal provides easy access to uploaded files through `env.params.files`. When a file is uploaded via a form, it's automatically stored in a temporary location and accessible through the parameter name.

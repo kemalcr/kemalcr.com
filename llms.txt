@@ -47,6 +47,7 @@ Kemal.run
 - [Context](https://kemalcr.com/guide#context) - Request/response context and storage
 - [Filters](https://kemalcr.com/guide#filters) - Before/after request filters
 - [Middleware](https://kemalcr.com/guide#middleware) - Custom middleware creation
+- [Caching](https://kemalcr.com/guide#caching) - HTTP response caching with kemal-cache
 - [WebSockets](https://kemalcr.com/guide#websockets) - Real-time communication
 - [Templates](https://kemalcr.com/guide#views-templates) - ECR template rendering
 - [Sessions](https://kemalcr.com/guide#sessions) - Session management

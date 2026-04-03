@@ -36,15 +36,19 @@ title: Kemal - Guide
    - [Conditional Middleware Execution](#conditional-middleware-execution)
    - [Creating a custom Logger middleware](#creating-a-custom-logger-middleware)
    - [Kemal Middleware](#kemal-middleware)
-9. [File Upload](#file-upload)
+9. [Caching](#caching)
+   - [Installation](#caching-installation)
+   - [Examples](#caching-examples)
+   - [Redis](#caching-redis)
+10. [File Upload](#file-upload)
    - [Basic File Upload](#basic-file-upload)
    - [Advanced File Upload with Validation](#advanced-file-upload-with-validation)
    - [Multiple File Upload](#multiple-file-upload)
-10. [Sessions](#sessions)
-11. [WebSockets](#websockets)
-12. [Testing](#testing)
-13. [Static Files](#static-files)
-14. [Configuration](#configuration)
+11. [Sessions](#sessions)
+12. [WebSockets](#websockets)
+13. [Testing](#testing)
+14. [Static Files](#static-files)
+15. [Configuration](#configuration)
     - [Server Configuration](#server-configuration)
     - [Static Files Configuration](#static-files-configuration)
     - [Logging Configuration](#logging-configuration)
@@ -52,13 +56,13 @@ title: Kemal - Guide
     - [Environment Configuration](#environment-configuration)
     - [Error Handling](#error-handling)
     - [Handler Configuration](#handler-configuration)
-15. [CLI](#cli)
-16. [SSL](#ssl)
-17. [Security](#security)
+16. [CLI](#cli)
+17. [SSL](#ssl)
+18. [Security](#security)
     - [Resource Limits](#resource-limits)
     - [Helmet](#helmet)
     - [Defense](#defense)
-18. [Deployment](#deployment)
+19. [Deployment](#deployment)
     - [Production Build](#production-build)
     - [Docker Deployment](#docker-deployment)
     - [Cloud Platforms](#cloud-platforms)
@@ -877,6 +881,71 @@ The Kemal organization has a variety of useful middleware.
 
 - [kemal-basic-auth](https://github.com/kemalcr/kemal-basic-auth): Add HTTP Basic Authorization to your Kemal application.
 - [kemal-hmac](https://github.com/kemalcr/kemal-hmac): HMAC middleware for Kemal
+
+# [Caching](#caching)
+
+For expensive HTML pages, catalog-style APIs, or read-heavy routes, you can cache HTTP responses with [kemal-cache](https://github.com/kemalcr/kemal-cache). It is Kemal-native middleware with in-memory or Redis storage, automatic `ETag` / `Last-Modified`, and `304 Not Modified` for conditional requests. Responses include `X-Kemal-Cache: HIT` or `X-Kemal-Cache: MISS` so you can see behavior during development.
+
+## [Installation](#caching-installation)
+
+Add `kemal-cache` beside `kemal` in `shard.yml`:
+
+```
+dependencies:
+  kemal:
+    github: kemalcr/kemal
+  kemal-cache:
+    github: kemalcr/kemal-cache
+```
+
+Then run `shards install`.
+
+## [Examples](#caching-examples)
+
+Default setup uses the in-memory store, caches successful `GET` responses for ten minutes, and skips authenticated or cookie-bearing requests. Register the handler before your routes:
+
+```crystal
+require "kemal"
+require "kemal-cache"
+
+use Kemal::Cache::Handler.new
+
+get "/articles" do
+  "Expensive response"
+end
+
+Kemal.run
+```
+
+Tune TTL and other options with `Kemal::Cache::Config`:
+
+```crystal
+config = Kemal::Cache::Config.new(expires_in: 2.minutes)
+use Kemal::Cache::Handler.new(config)
+
+get "/api/products" do
+  ProductSerializer.render(ProductQuery.latest)
+end
+
+Kemal.run
+```
+
+For Redis, add the `redis` shard and `require "kemal-cache/redis"` — see below.
+
+## [Redis](#caching-redis)
+
+Add the Redis client to `shard.yml` (see the [redis shard](https://github.com/jgaskins/redis) for the current dependency line), then use `RedisStore` when several app processes or servers should share one cache:
+
+```crystal
+require "kemal-cache/redis"
+
+store = Kemal::Cache::RedisStore.from_env("REDIS_URL", namespace: "my-app-cache")
+config = Kemal::Cache::Config.new(store: store)
+
+use Kemal::Cache::Handler.new(config)
+```
+
+Full options, invalidation, custom stores, and observability are documented in the [kemal-cache repository](https://github.com/kemalcr/kemal-cache).
 
 # [File Upload](#file-upload)
 
