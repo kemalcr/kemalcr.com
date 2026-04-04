@@ -209,21 +209,45 @@
     border-radius: 4px;
     font-size: 0.9em;
     color: #e74c3c;
-    font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+    font-family: 'SFMono-Regular', 'Monaco', 'Menlo', 'Consolas', monospace;
   }
-  
+
+  // Rouge wraps blocks in .highlight / .highlighter-rouge — colors in _syntax-highlighting.scss
+  // are designed for a light background; keep pre blocks light for contrast.
+  .highlighter-rouge,
+  .highlight {
+    background: #f6f8fa;
+    border: 1px solid #e1e4e8;
+    border-radius: 8px;
+    margin: 25px 0;
+    overflow-x: auto;
+  }
+
+  .highlighter-rouge pre,
+  .highlight pre {
+    background: transparent;
+    margin: 0;
+    border: 0;
+  }
+
   pre {
-    background: #2c3e50;
-    padding: 20px;
+    background: #f6f8fa;
+    border: 1px solid #e1e4e8;
+    padding: 18px 20px;
     border-radius: 8px;
     overflow-x: auto;
     margin: 25px 0;
-    
+    font-size: 15px;
+    line-height: 1.55;
+    tab-size: 2;
+
     code {
       background: none;
       padding: 0;
-      color: #ecf0f1;
+      color: #24292e;
       border-radius: 0;
+      font-size: inherit;
+      font-family: 'SFMono-Regular', 'Monaco', 'Menlo', 'Consolas', monospace;
     }
   }
   
@@ -328,11 +352,24 @@
     h4 {
       font-size: 20px;
     }
-    
+
+    .highlight,
+    .highlighter-rouge {
+      margin: 20px -15px;
+      border-radius: 0;
+      border-left: none;
+      border-right: none;
+    }
+
     pre {
       padding: 15px;
       margin: 20px -15px;
       border-radius: 0;
+    }
+
+    .highlight pre,
+    .highlighter-rouge pre {
+      margin: 0;
     }
   }
 }
