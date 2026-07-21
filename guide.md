@@ -46,9 +46,13 @@ title: Kemal - Guide
    - [Multiple File Upload](#multiple-file-upload)
 11. [Sessions](#sessions)
 12. [WebSockets](#websockets)
-13. [Testing](#testing)
-14. [Static Files](#static-files)
-15. [Configuration](#configuration)
+    - [Origin Validation](#websocket-origin-validation)
+13. [Server-Sent Events (SSE)](#server-sent-events-sse)
+    - [Sending Events](#sending-sse-events)
+    - [Client Example](#sse-client-example)
+14. [Testing](#testing)
+15. [Static Files](#static-files)
+16. [Configuration](#configuration)
     - [Server Configuration](#server-configuration)
     - [Static Files Configuration](#static-files-configuration)
     - [Logging Configuration](#logging-configuration)
@@ -56,13 +60,13 @@ title: Kemal - Guide
     - [Environment Configuration](#environment-configuration)
     - [Error Handling](#error-handling)
     - [Handler Configuration](#handler-configuration)
-16. [CLI](#cli)
-17. [SSL](#ssl)
-18. [Security](#security)
+17. [CLI](#cli)
+18. [SSL](#ssl)
+19. [Security](#security)
     - [Resource Limits](#resource-limits)
     - [Helmet](#helmet)
     - [Defense](#defense)
-19. [Deployment](#deployment)
+20. [Deployment](#deployment)
     - [Production Build](#production-build)
     - [Docker Deployment](#docker-deployment)
     - [Cloud Platforms](#cloud-platforms)
@@ -107,7 +111,7 @@ You should see something like this:
 ```
 $ shards install
 Updating https://github.com/kemalcr/kemal.git
-Installing kemal (1.10.0)
+Installing kemal (1.12.0)
 ```
 
 That's it! You're now ready to use Kemal in your application.
@@ -208,7 +212,7 @@ mount "/api/v1", api
 Kemal.run
 ```
 
-In this example, the routes are available at `/api/v1/users` and `/api/v1/users/:id`. You can define filters, WebSocket handlers, and additional namespaces within a router. Filters defined inside a namespace are isolated to that router's routes, while global wildcard filters always execute.
+In this example, the routes are available at `/api/v1/users` and `/api/v1/users/:id`. You can define filters, WebSocket handlers, Server-Sent Events (`sse`) routes, and additional namespaces within a router. Filters defined inside a namespace are isolated to that router's routes, while global wildcard filters always execute.
 
 # [HTTP Parameters](#http-parameters)
 
@@ -951,6 +955,12 @@ Full options, invalidation, custom stores, and observability are documented in t
 
 Kemal provides easy access to uploaded files through `env.params.files`. When a file is uploaded via a form, it's automatically stored in a temporary location and accessible through the parameter name.
 
+Each multipart form field (including file parts) is also capped by `Kemal.config.max_multipart_form_field_size` (default **8 MB**). Raise or lower it to match your upload needs:
+
+```crystal
+Kemal.config.max_multipart_form_field_size = 50 * 1024 * 1024  # 50 MB
+```
+
 ## [Basic File Upload](#basic-file-upload)
 
 Here's a simple example of handling file uploads:
@@ -1191,6 +1201,75 @@ ws "/:id" do |socket, context|
 end
 ```
 
+### [Origin Validation](#websocket-origin-validation)
+
+Browsers send an `Origin` header on WebSocket handshakes. You can restrict which origins are allowed to connect by setting an allow list. Connections from unexpected origins are rejected.
+
+```crystal
+Kemal.config.websocket_allowed_origins = ["https://myapp.com", "http://localhost:3000"]
+```
+
+Entries use the serialized origin form (`scheme` + `host` + optional `port`). Use `"null"` to allow the browser's opaque `"null"` origin. When the list is empty (the default), origin checks are not enforced, so existing apps keep working until you opt in.
+
+# [Server-Sent Events (SSE)](#server-sent-events-sse)
+
+For one-way server-to-client push (live dashboards, notifications, progress updates), Kemal provides a first-class `sse` route helper. SSE is plain HTTP streaming—no separate middleware chain like WebSockets. Ideal when you need push without the complexity of a full duplex connection.
+
+```crystal
+require "kemal"
+
+sse "/events" do |stream, env|
+  stream.send("tick", event: "tick", id: 1)
+end
+
+Kemal.run
+```
+
+`sse` registers a regular `GET` handler. Kemal sets the required headers (`Content-Type: text/event-stream`, `Cache-Control: no-cache`, and so on) and yields a `Kemal::EventStream` for framing events.
+
+### [Sending Events](#sending-sse-events)
+
+`stream.send` accepts optional `event`, `id`, and `retry` fields. Multi-line data is split into separate `data:` lines automatically, and the response is flushed after each send:
+
+```crystal
+sse "/events" do |stream, env|
+  3.times do |i|
+    stream.send("tick #{i + 1}", event: "tick", id: i + 1)
+    sleep 1.second
+  end
+end
+```
+
+Keep-alive comments (ignored by clients, useful during idle periods) and explicit flush/close are also available:
+
+```crystal
+sse "/events" do |stream, env|
+  begin
+    loop do
+      stream.comment("keepalive")
+      sleep 15.seconds
+    end
+  ensure
+    stream.close
+  end
+end
+```
+
+### [Client Example](#sse-client-example)
+
+Use the browser's native `EventSource` API (or HTMX) to consume the stream:
+
+```html
+<script>
+  const source = new EventSource("/events");
+  source.addEventListener("tick", (event) => {
+    console.log(event.data);
+  });
+</script>
+```
+
+You can also define `sse` routes inside a `Kemal::Router` the same way you define `get` or `ws` routes.
+
 # [Testing](#testing)
 
 You can test your Kemal application using [spec-kemal](https://github.com/kemalcr/spec-kemal).
@@ -1344,6 +1423,26 @@ Kemal.config.max_request_body_size = nil
 ```
 
 **Note:** Setting this value too low may prevent legitimate large requests from being processed. Choose a value that balances security with your application's requirements.
+
+### [Max Multipart Form Field Size](#max-multipart-form-field-size)
+
+Cap the size of a single multipart form field (including file parts). This closes a gap where chunked multipart bodies could otherwise bypass request body limits:
+
+```crystal
+Kemal.config.max_multipart_form_field_size = 8 * 1024 * 1024  # 8 MB (default)
+```
+
+Tune this for file uploads and form payloads so oversized fields are rejected early. See also [File Upload](#file-upload) and [Security](#security).
+
+### [WebSocket Allowed Origins](#websocket-allowed-origins-config)
+
+Restrict which browser origins may open WebSocket connections:
+
+```crystal
+Kemal.config.websocket_allowed_origins = ["https://myapp.com", "http://localhost:3000"]
+```
+
+See [WebSocket Origin Validation](#websocket-origin-validation) for details.
 
 ## [Static Files Configuration](#static-files-configuration)
 
@@ -1520,6 +1619,8 @@ Kemal.config.host_binding = "0.0.0.0"
 Kemal.config.port = 3000
 Kemal.config.env = "production"
 Kemal.config.max_request_body_size = 1024 * 1024 * 10  # 10 MB limit
+Kemal.config.max_multipart_form_field_size = 8 * 1024 * 1024  # 8 MB per multipart field
+Kemal.config.websocket_allowed_origins = ["https://myapp.com"]
 
 # Static files
 Kemal.config.public_folder = "./public"
@@ -1619,12 +1720,20 @@ require "kemal"
 # Maximum request body size (10 MB)
 Kemal.config.max_request_body_size = 10 * 1024 * 1024
 
+# Maximum size of a single multipart form field (8 MB default)
+Kemal.config.max_multipart_form_field_size = 8 * 1024 * 1024
+
+# Restrict WebSocket upgrades to trusted origins
+Kemal.config.websocket_allowed_origins = ["https://myapp.com"]
+
 # Powered by header (hide for security)
 Kemal.config.powered_by_header = false
 
 # Always rescue in production
 Kemal.config.always_rescue = true
 ```
+
+`max_multipart_form_field_size` applies to chunked multipart bodies as well, so oversized fields cannot bypass the overall body limit. Leave `websocket_allowed_origins` empty only when you intentionally want open WebSocket access.
 
 ## [Helmet](#helmet)
 
