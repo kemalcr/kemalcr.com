@@ -24,7 +24,7 @@ Kemal.run
 
 - **High-performance by default**: Built on Crystal with a thin abstraction layer so you can serve a large number of requests with low latency and low memory footprint.
 - **Full REST & HTTP support**: Handle all HTTP verbs (GET, POST, PUT, PATCH, DELETE, etc.) with a straightforward routing DSL.
-- **WebSocket & real-time**: First-class WebSocket support for building chats, dashboards and other real-time experiences.
+- **WebSocket, SSE & real-time**: First-class WebSocket and Server-Sent Events (`sse`) support for chats, dashboards, notifications and other real-time experiences.
 - **JSON-first APIs**: Native JSON handling makes building JSON APIs and microservices feel natural.
 - **Static assets made easy**: Serve static files (assets, uploads, SPA bundles) efficiently from the same application.
 - **Template engine included**: Built-in ECR template engine for server‑rendered HTML when you need it.
@@ -57,13 +57,14 @@ The lightweight request/response API, built‑in JSON support and test tooling (
 
 ### Real‑time Applications
 
-Use WebSockets to power interactive, low‑latency experiences:
+Use WebSockets and Server-Sent Events to power interactive, low‑latency experiences:
 
 - Chat applications and notifications
 - Live dashboards and monitoring UIs
 - Collaborative tools (e.g. shared documents, whiteboards)
+- One-way push feeds where a full duplex WebSocket would be overkill (`sse`)
 
-Kemal’s WebSocket primitives let you handle connections, broadcasts, rooms and events without heavy abstractions, while still integrating cleanly with the rest of your HTTP routes and middleware.
+Kemal’s WebSocket and `sse` primitives let you handle connections, broadcasts, rooms and event streams without heavy abstractions, while still integrating cleanly with the rest of your HTTP routes and middleware.
 
 # Getting Started
 
@@ -97,7 +98,7 @@ You should see something like this:
 ```
 $ shards install
 Updating https://github.com/kemalcr/kemal.git
-Installing kemal (1.10.0)
+Installing kemal (1.12.0)
 ```
 
 That's it! You're now ready to use Kemal in your application.
@@ -170,7 +171,7 @@ Routes are matched in the order they are defined. The first route that matches t
 
 ## Kemal::Router (Modular Routing)
 
-Kemal provides a modular `Kemal::Router` for organizing routes into namespaces, with scoped filters and WebSocket support. The router can be mounted at any path while keeping the existing DSL fully compatible.
+Kemal provides a modular `Kemal::Router` for organizing routes into namespaces, with scoped filters, WebSocket, and Server-Sent Events (`sse`) support. The router can be mounted at any path while keeping the existing DSL fully compatible.
 
 ```crystal
 require "kemal"
@@ -192,7 +193,7 @@ mount "/api/v1", api
 Kemal.run
 ```
 
-In this example, the routes are available at `/api/v1/users` and `/api/v1/users/:id`. You can define filters, WebSocket handlers, and additional namespaces within a router. Filters defined inside a namespace are isolated to that router's routes, while global wildcard filters always execute.
+In this example, the routes are available at `/api/v1/users` and `/api/v1/users/:id`. You can define filters, WebSocket handlers, Server-Sent Events (`sse`) routes, and additional namespaces within a router. Filters defined inside a namespace are isolated to that router's routes, while global wildcard filters always execute.
 Routes are matched in the order they are defined. The first route that matches the request is invoked.
 
 # HTTP Parameters
@@ -868,6 +869,12 @@ Full options, invalidation, custom stores, and observability are documented in t
 
 Kemal provides easy access to uploaded files through `env.params.files`. When a file is uploaded via a form, it's automatically stored in a temporary location and accessible through the parameter name.
 
+Each multipart form field (including file parts) is also capped by `Kemal.config.max_multipart_form_field_size` (default **8 MB**). Raise or lower it to match your upload needs:
+
+```crystal
+Kemal.config.max_multipart_form_field_size = 50 * 1024 * 1024  # 50 MB
+```
+
 ## Basic File Upload
 
 ```crystal
@@ -1064,6 +1071,75 @@ ws "/:id" do |socket, context|
 end
 ```
 
+## Origin Validation
+
+Browsers send an `Origin` header on WebSocket handshakes. You can restrict which origins are allowed to connect by setting an allow list. Connections from unexpected origins are rejected.
+
+```crystal
+Kemal.config.websocket_allowed_origins = ["https://myapp.com", "http://localhost:3000"]
+```
+
+Entries use the serialized origin form (`scheme` + `host` + optional `port`). Use `"null"` to allow the browser's opaque `"null"` origin. When the list is empty (the default), origin checks are not enforced, so existing apps keep working until you opt in.
+
+# Server-Sent Events (SSE)
+
+For one-way server-to-client push (live dashboards, notifications, progress updates), Kemal provides a first-class `sse` route helper. SSE is plain HTTP streaming—no separate middleware chain like WebSockets. Ideal when you need push without the complexity of a full duplex connection.
+
+```crystal
+require "kemal"
+
+sse "/events" do |stream, env|
+  stream.send("tick", event: "tick", id: 1)
+end
+
+Kemal.run
+```
+
+`sse` registers a regular `GET` handler. Kemal sets the required headers (`Content-Type: text/event-stream`, `Cache-Control: no-cache`, and so on) and yields a `Kemal::EventStream` for framing events.
+
+## Sending Events
+
+`stream.send` accepts optional `event`, `id`, and `retry` fields. Multi-line data is split into separate `data:` lines automatically, and the response is flushed after each send:
+
+```crystal
+sse "/events" do |stream, env|
+  3.times do |i|
+    stream.send("tick #{i + 1}", event: "tick", id: i + 1)
+    sleep 1.second
+  end
+end
+```
+
+Keep-alive comments (ignored by clients, useful during idle periods) and explicit flush/close are also available:
+
+```crystal
+sse "/events" do |stream, env|
+  begin
+    loop do
+      stream.comment("keepalive")
+      sleep 15.seconds
+    end
+  ensure
+    stream.close
+  end
+end
+```
+
+## Client Example
+
+Use the browser's native `EventSource` API (or HTMX) to consume the stream:
+
+```html
+<script>
+  const source = new EventSource("/events");
+  source.addEventListener("tick", (event) => {
+    console.log(event.data);
+  });
+</script>
+```
+
+You can also define `sse` routes inside a `Kemal::Router` the same way you define `get` or `ws` routes.
+
 # Testing
 
 You can test your Kemal application using [spec-kemal](https://github.com/kemalcr/spec-kemal).
@@ -1172,6 +1248,26 @@ Command line:
 Kemal.config.max_request_body_size = 1024 * 1024 * 10  # 10 MB
 # Default: 8 MB
 ```
+
+### Max Multipart Form Field Size
+
+Cap the size of a single multipart form field (including file parts). This closes a gap where chunked multipart bodies could otherwise bypass request body limits:
+
+```crystal
+Kemal.config.max_multipart_form_field_size = 8 * 1024 * 1024  # 8 MB (default)
+```
+
+Tune this for file uploads and form payloads so oversized fields are rejected early.
+
+### WebSocket Allowed Origins
+
+Restrict which browser origins may open WebSocket connections:
+
+```crystal
+Kemal.config.websocket_allowed_origins = ["https://myapp.com", "http://localhost:3000"]
+```
+
+See Origin Validation under WebSockets for details.
 
 ## Static Files Configuration
 
@@ -1313,12 +1409,20 @@ require "kemal"
 # Maximum request body size (10 MB)
 Kemal.config.max_request_body_size = 10 * 1024 * 1024
 
+# Maximum size of a single multipart form field (8 MB default)
+Kemal.config.max_multipart_form_field_size = 8 * 1024 * 1024
+
+# Restrict WebSocket upgrades to trusted origins
+Kemal.config.websocket_allowed_origins = ["https://myapp.com"]
+
 # Hide powered by header
 Kemal.config.powered_by_header = false
 
 # Always rescue in production
 Kemal.config.always_rescue = true
 ```
+
+`max_multipart_form_field_size` applies to chunked multipart bodies as well, so oversized fields cannot bypass the overall body limit. Leave `websocket_allowed_origins` empty only when you intentionally want open WebSocket access.
 
 ## Helmet
 

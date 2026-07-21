@@ -31,7 +31,7 @@ Kemal.run
 
 - **High-performance by default**: Built on Crystal with a thin abstraction layer so you can serve a large number of requests with low latency and low memory footprint.
 - **Full REST & HTTP support**: Handle all HTTP verbs (GET, POST, PUT, PATCH, DELETE, etc.) with a straightforward routing DSL.
-- **WebSocket & real-time**: First-class WebSocket support for building chats, dashboards and other real-time experiences.
+- **WebSocket, SSE & real-time**: First-class WebSocket and Server-Sent Events (`sse`) support for chats, dashboards, notifications and other real-time experiences.
 - **JSON-first APIs**: Native JSON handling makes building JSON APIs and microservices feel natural.
 - **Static assets made easy**: Serve static files (assets, uploads, SPA bundles) efficiently from the same application.
 - **Template engine included**: Built-in ECR template engine for server‑rendered HTML when you need it.
@@ -48,9 +48,11 @@ Kemal.run
 - [Filters](https://kemalcr.com/guide#filters) - Before/after request filters
 - [Middleware](https://kemalcr.com/guide#middleware) - Custom middleware creation
 - [Caching](https://kemalcr.com/guide#caching) - HTTP response caching with kemal-cache
-- [WebSockets](https://kemalcr.com/guide#websockets) - Real-time communication
+- [WebSockets](https://kemalcr.com/guide#websockets) - Real-time communication with optional origin validation
+- [Server-Sent Events (SSE)](https://kemalcr.com/guide#server-sent-events-sse) - One-way server push with the `sse` helper
 - [Templates](https://kemalcr.com/guide#views-templates) - ECR template rendering
 - [Sessions](https://kemalcr.com/guide#sessions) - Session management
+- [Security](https://kemalcr.com/guide#security) - Resource limits, multipart field caps, Helmet, Defense
 - [Testing](https://kemalcr.com/guide#testing) - Testing with spec-kemal
 - [Deployment](https://kemalcr.com/guide#deployment) - Production deployment guide
 
