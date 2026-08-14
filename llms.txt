@@ -30,7 +30,7 @@ Kemal.run
 ## Key Features
 
 - **High-performance by default**: Built on Crystal with a thin abstraction layer so you can serve a large number of requests with low latency and low memory footprint.
-- **Full REST & HTTP support**: Handle all HTTP verbs (GET, POST, PUT, PATCH, DELETE, etc.) with a straightforward routing DSL.
+- **Full REST & HTTP support**: Handle all HTTP verbs (GET, POST, PUT, PATCH, DELETE, QUERY, etc.) with a straightforward routing DSL.
 - **WebSocket, SSE & real-time**: First-class WebSocket and Server-Sent Events (`sse`) support for chats, dashboards, notifications and other real-time experiences.
 - **JSON-first APIs**: Native JSON handling makes building JSON APIs and microservices feel natural.
 - **Static assets made easy**: Serve static files (assets, uploads, SPA bundles) efficiently from the same application.
@@ -42,7 +42,7 @@ Kemal.run
 
 ## Core Concepts
 
-- [Routes](https://kemalcr.com/guide#routes) - HTTP method routing (GET, POST, PUT, DELETE, PATCH)
+- [Routes](https://kemalcr.com/guide#routes) - HTTP method routing (GET, POST, PUT, DELETE, PATCH, QUERY)
 - [Parameters](https://kemalcr.com/guide#http-parameters) - URL, query, and post parameters
 - [Context](https://kemalcr.com/guide#context) - Request/response context and storage
 - [Filters](https://kemalcr.com/guide#filters) - Before/after request filters

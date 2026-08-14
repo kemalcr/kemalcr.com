@@ -164,10 +164,51 @@ end
 delete "/" do
   "Deleting resource"
 end
+
+# QUERY - Read data with the query in the request body (RFC 10008)
+query "/" do
+  "Answering a query"
+end
 ```
 
 Any **string** returned from a route will output to the browser.
 Routes are matched in the order they are defined. The first route that matches the request is invoked.
+
+## HTTP QUERY Method
+
+`QUERY` ([RFC 10008](https://www.rfc-editor.org/rfc/rfc10008)) is a safe and idempotent method — like `GET` — that carries the query in the request body instead of the URL. It's a good fit when a search is too long, too structured, or too sensitive to sit in a query string.
+
+```crystal
+require "kemal"
+
+query "/search" do |env|
+  # For "Content-Type: application/json"
+  q = env.params.json["q"]?.to_s
+
+  # For "Content-Type: application/x-www-form-urlencoded"
+  # q = env.params.body["q"]?.to_s
+
+  env.json({query: q, results: [] of String})
+end
+
+Kemal.run
+```
+
+Try it with `curl`:
+
+```bash
+curl -X QUERY http://localhost:3000/search \
+  -H "Content-Type: application/json" \
+  -d '{"q": "crystal"}'
+```
+
+Things to keep in mind:
+
+- `QUERY` is safe and idempotent, so the handler must not change server state. Use `POST` when the request has side effects.
+- A `QUERY` request that has a body but no `Content-Type` header is rejected with `400` by Kemal, as the RFC requires the content to carry a media type.
+- Deciding whether a query format is supported (`415`), acceptable (`406`), or processable (`422`) is up to your handler. You can advertise the formats you accept with the `Accept-Query` response header.
+- `QUERY` is not a CORS-safelisted method, so browsers always send a preflight request for it.
+- `before_query` / `after_query` filters and `Kemal::Router#query` work like every other verb.
 
 ## Kemal::Router (Modular Routing)
 
@@ -263,6 +304,8 @@ end
 ```
 
 **NOTE:** For Array or Hash like parameters, Kemal will group like keys for you. Alternatively, you can use the square bracket notation `likes[]=ruby&likes[]=crystal`. Be sure to access the param name exactly how it was passed. (i.e. `env.params.body["likes[]"]`).
+
+**NOTE:** `env.params.json` and `env.params.body` work the same way for any method with a body, including QUERY.
 
 ## Override Method (PUT, PATCH, DELETE from Forms)
 
@@ -518,8 +561,8 @@ _Important note: This should **not** be used by plugins/addons, instead they sho
 
 Available filters:
 
-- before_all, before_get, before_post, before_put, before_patch, before_delete
-- after_all, after_get, after_post, after_put, after_patch, after_delete
+- before_all, before_get, before_post, before_put, before_patch, before_delete, before_options, before_query
+- after_all, after_get, after_post, after_put, after_patch, after_delete, after_options, after_query
 
 The `Filter` middleware is lazily added as soon as a call to `after_X` or `before_X` is made. It will not even be instantiated unless a call to `after_X` or `before_X` is made.
 
@@ -1181,6 +1224,16 @@ describe "Your::Kemal::App" do
   it "renders /" do
     get "/"
     response.body.should eq "Hello World!"
+  end
+
+  # get, post, put, patch, delete and query helpers are available.
+  # A QUERY body needs a Content-Type, otherwise Kemal responds with 400.
+  it "searches" do
+    query "/search",
+      headers: HTTP::Headers{"Content-Type" => "application/json"},
+      body: {q: "crystal"}.to_json
+
+    response.status_code.should eq 200
   end
 end
 ```
