@@ -1,6 +1,6 @@
-# Kemal Site (http://kemalcr.com)
+# Kemal Site (https://kemalcr.com)
 
-This is the repo for the official [Kemal](http://kemalcr.com) site.
+This is the repo for the official [Kemal](https://kemalcr.com) site.
 
 ## Installation
 
