@@ -9,7 +9,7 @@ This is the repo for the official [Kemal](https://kemalcr.com) site.
 * `bundle install` installs all the necessary gems
 * `bundle exec jekyll serve` boots website locally
 
-Now open up `http://locahost:4000` to view the site locally.
+Now open up `http://localhost:4000` to view the site locally.
 
 ## Contributing
 
