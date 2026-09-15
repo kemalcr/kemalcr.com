@@ -10,6 +10,7 @@ title: Kemal - Guide
    - [Using Kemal](#using-kemal)
    - [Running Kemal](#running-kemal)
 2. [Routes](#routes)
+   - [HTTP 405 Method Not Allowed](#http-405-method-not-allowed)
    - [HTTP QUERY Method](#http-query-method)
    - [Kemal::Router (Modular Routing)](#kemal-router-modular-routing)
 3. [HTTP Parameters](#http-parameters)
@@ -44,7 +45,9 @@ title: Kemal - Guide
 10. [File Upload](#file-upload)
    - [Basic File Upload](#basic-file-upload)
    - [Advanced File Upload with Validation](#advanced-file-upload-with-validation)
+   - [File Upload Properties](#file-upload-properties)
    - [Multiple File Upload](#multiple-file-upload)
+   - [Testing File Upload](#testing-file-upload)
 11. [Sessions](#sessions)
 12. [WebSockets](#websockets)
     - [Origin Validation](#websocket-origin-validation)
@@ -82,7 +85,7 @@ title: Kemal - Guide
 
 # [Getting Started](#getting-started)
 
-This guide assumes that you already have Crystal installed. If not, check out the [Crystal installation methods](https://crystal-lang.org/install/) and come back when you're done.
+This guide assumes that you already have Crystal installed. Kemal 1.14 requires **Crystal >= 1.12.0**. If not, check out the [Crystal installation methods](https://crystal-lang.org/install/) and come back when you're done.
 
 ### [Installing Kemal](#installing-kemal)
 
@@ -112,7 +115,7 @@ You should see something like this:
 ```
 $ shards install
 Updating https://github.com/kemalcr/kemal.git
-Installing kemal (1.12.0)
+Installing kemal (1.14.0)
 ```
 
 That's it! You're now ready to use Kemal in your application.
@@ -194,6 +197,32 @@ end
 
 Any **string** returned from a route will output to the browser.
 Routes are matched in the order they are defined. The first route that matches the request is invoked.
+
+A `HEAD` request with no `HEAD` route of its own is served by the matching `GET` handler. `before_get` / `after_get` and `only` / `exclude` rules scoped to `GET` therefore also run for that `HEAD`.
+
+### [HTTP 405 Method Not Allowed](#http-405-method-not-allowed)
+
+A path that exists for another HTTP method answers **`405 Method Not Allowed`** with an `Allow` header, per [RFC 9110 §15.5.6](https://www.rfc-editor.org/rfc/rfc9110#section-15.5.6). A path that is not routed at all is still a `404`. `HEAD` appears in `Allow` wherever a `GET` route exists.
+
+```crystal
+get "/posts" do
+  "posts"
+end
+
+# POST /posts -> 405, Allow: GET, HEAD
+# GET /nope   -> 404
+
+error 405 do |env|
+  env.response.content_type = "application/json"
+  {error: "Method not allowed", allow: env.response.headers["Allow"]}.to_json
+end
+```
+
+The `Allow` header is set **before** the error handler runs, so a custom `error 405` owns the body but cannot drop the header.
+
+A `ws` route counts as `GET` when collecting `Allow`. With only `ws "/chat"`, a plain `POST /chat` is `405` with `Allow: GET`. A plain `GET` without an `Upgrade` header stays a `404` — it is a handshake missing its headers, not a wrong method.
+
+A request whose method is not an [RFC 9110 §5.6.2](https://www.rfc-editor.org/rfc/rfc9110#section-5.6.2) token is refused with `400 Bad Request` and `Connection: close`. Unfamiliar but well-formed methods are untouched: a `PROPFIND` still reaches the router.
 
 ### [HTTP QUERY Method](#http-query-method)
 
@@ -322,8 +351,20 @@ end
 
 **NOTE:** For Array or Hash like parameters, Kemal will group like keys for you. Alternatively, you can use the square bracket notation `likes[]=ruby&likes[]=crystal`. Be sure to access the param name exactly how it was passed. (i.e. `env.params.body["likes[]"]`).
 
+**NOTE:** `env.params.json` is filled when the `Content-Type` is `application/json` or another `application/*+json` type such as `application/vnd.api+json` ([RFC 6839](https://www.rfc-editor.org/rfc/rfc6839)). `application/jsonp` is not treated as JSON. Invalid JSON and unparseable multipart are answered with `400 Bad Request`.
+
 **NOTE:** `env.params.json` and `env.params.body` work the same way for any method with a body, including [QUERY](#http-query-method).
 
+### [Raw Body (Multi-Handler Access)](#raw-body-multi-handler-access)
+
+`env.params.raw_body` returns the request body as a `String`, cached on first access so several handlers can read it (for example next to `kemal-session`). It works for any content type except `multipart/form-data`, which returns `""` because that body is streamed part by part — use `files` and `body` instead. The read is subject to `Kemal.config.max_request_body_size`.
+
+```crystal
+post "/" do |env|
+  raw = env.params.raw_body   # text/plain, XML, JSON, or no Content-Type
+  name = env.params.body["name"]?  # still available after raw_body
+end
+```
 
 ### [Override Method (PUT, PATCH, DELETE from Forms)](#override-method-put-patch-delete-from-forms)
 
@@ -586,6 +627,8 @@ To solve this problem, you can use `<%= yield_content "scripts_and_styles" %>` i
 your `layout.ecr`, inside the `<head>` tag, and each view can call `content_for`
 with the appropriate set of tags that should be added to the layout.
 
+`content_for` and `yield_content` only work inside `render(view, layout)` — in the view, the layout, or a partial that render includes. They are not usable in a view rendered without a layout. Captured blocks belong to that one render call, so concurrent requests cannot see each other's content.
+
 ## [Using Common Paths](#using-common-paths)
 
 Since Crystal does not allow using variables in macro literals, you need to generate
@@ -619,6 +662,12 @@ Available filters:
  - after\_all, after\_get, after\_post, after\_put, after\_patch, after\_delete, after\_options, after\_query
 
 The `Filter` middleware is lazily added as soon as a call to `after_X` or `before_X` is made. It will __not__ even be instantiated unless a call to `after_X` or `before_X` is made.
+
+`HEAD` requests served by a `GET` route also run `before_get` / `after_get`. An authentication filter registered with `before_get` therefore protects both.
+
+`before_all` runs for every request, including unmatched paths (`404` / `405`). An authentication guard in `before_all` holds in production and under `KEMAL_ENV=test`.
+
+A trailing `/*` on a filter path marks a subtree: `before_get "/admin/*"` scopes the filter to that tree. Inside a `Kemal::Router`, `"/*"` covers every route in that router.
 
 When using `before_all` and `after_all` keep in mind that they will be evaluated in the following order:
 
@@ -701,6 +750,8 @@ get "/logout" do |env|
 end
 ```
 
+`redirect` **sets** `Location` rather than adding a second one, so a later redirect replaces an earlier one.
+
 **Note:** For configuration options like logging and public folder settings, see the [Configuration](#configuration) section.
 
 ### [Halt](#halt)
@@ -730,23 +781,50 @@ error 404 do
   "This is a customized 404 page."
 end
 
+error 405 do |env|
+  env.response.content_type = "application/json"
+  {error: "Method not allowed", allow: env.response.headers["Allow"]}.to_json
+end
+
 error 403 do
   "Access Forbidden!"
 end
 ```
 
+A path that exists for another method reaches `error 405`, not `error 404`. See [HTTP 405 Method Not Allowed](#http-405-method-not-allowed).
+
+`Kemal::Exceptions::RouteNotFound#message` is the bare `Not Found`. The request is on `ex.context` if you need it. Interpolating request data into HTML without `HTML.escape` is a reflected XSS:
+
+```crystal
+require "html"
+
+error 404 do |env, ex|
+  # Safe: "Not Found"
+  # Unsafe: interpolating env.request.path or ex.context.request.path into HTML
+  HTML.escape(ex.message.to_s)
+end
+```
+
+Built-in bodies for `400`, `405`, and `413` go out as `text/plain`. A registered `error` handler owns its content type. An error page **replaces** a body written before the error, instead of appending to it.
+
+An `error MyException` handler still logs the exception at `error` level before it renders. The handler owns the response.
+
 To handle a custom error based on a raised exception, you pass the exception to `error`
 
 ```crystal
+require "html"
+
+class AppError < Exception; end
+
 get "/" do |env|
   if some_condition
-    raise ValueError.new
+    raise AppError.new("something went wrong")
   end
   {"message": "Hello Kemal"}.to_json
 end
 
-error ValueError do
-  "Something has gone wrong"
+error AppError do |env, ex|
+  HTML.escape(ex.message.to_s)
 end
 ```
 
@@ -796,6 +874,14 @@ You can extend the registered type list by calling `MIME.register` with an exten
 ```crystal
 MIME.register ".cr", "text/crystal"
 ```
+
+`send_file` honors `Range` per [RFC 9110 §14](https://www.rfc-editor.org/rfc/rfc9110#section-14): suffix ranges (`bytes=-5`), clamping past the end of the file, `416` with `Content-Range: bytes */<length>` when nothing is satisfiable, and each part of a `multipart/byteranges` response carrying the file's media type. A `Range` header with more than `Kemal.config.max_ranges` parts (default **16**), or one that asks for more bytes than the file holds, is ignored and the full file is served instead. Set `max_ranges` to `0` to ignore `Range` headers entirely.
+
+```crystal
+Kemal.config.max_ranges = 16
+```
+
+`HEAD` on a `send_file` that would send the stored bytes unchanged answers from the file's size without reading the body. `Content-Disposition` follows [RFC 6266](https://www.rfc-editor.org/rfc/rfc6266#section-4.3): quotes are escaped, and non-ASCII names go out as `filename*=UTF-8''…`.
 
 > **Security Notice:**  
 > When using `send_file` with dynamic file paths (such as those based on user input), always **sanitize and validate** the path to prevent directory traversal and unauthorized file access. Never pass unchecked user input directly to `send_file`.  
@@ -851,13 +937,14 @@ Kemal gives you access to two handy filters `only` and `exclude`. These can be u
 
 ```crystal
 class OnlyHandler < Kemal::Handler
-  # Matches GET /specials and GET /deals
+  # Matches GET /specials and GET /deals (default method is GET, default match is exact path)
   only ["/specials", "/deals"]
 
   def call(env)
     # continue on to next handler unless the request matches the only filter
     return call_next(env) unless only_match?(env)
     puts "If the path is /specials or /deals, I will be doing some processing here."
+    call_next(env)
   end
 end
 
@@ -866,9 +953,20 @@ class PostOnlyHandler < Kemal::Handler
   only ["/blogs"], "POST"
 
   def call(env)
-    # call_next is called for GET /blogs, but not POST /blogs
+    # call_next is called for GET /blogs, but not skipped for POST /blogs
     return call_next(env) unless only_match?(env)
     puts "If the request is a POST to /blogs, I will do some processing here."
+    call_next(env)
+  end
+end
+
+class PrefixHandler < Kemal::Handler
+  # Matches any HTTP method under /api/ (`"*"` = all methods, `"/*"` = path prefix)
+  only ["/api/*"], "*"
+
+  def call(env)
+    return call_next(env) unless only_match?(env)
+    call_next(env)
   end
 end
 ```
@@ -881,6 +979,7 @@ class ExcludeHandler < Kemal::Handler
   def call(env)
     return call_next(env) if exclude_match?(env)
     puts "If the path is not / I will be doing some processing here."
+    call_next(env)
   end
 end
 
@@ -891,9 +990,12 @@ class PostExcludeHandler < Kemal::Handler
   def call(env)
     return call_next(env) if exclude_match?(env)
     puts "If the request is not a POST to /, I will do some processing here."
+    call_next(env)
   end
 end
 ```
+
+`only` / `exclude` also match the method of the route that serves the request. A `HEAD` served by a `GET` route is therefore covered by a `GET` rule. Defaults remain GET and an exact path.
 
 ### [Creating a custom Logger middleware](#creating-a-custom-logger-middleware)
 
@@ -998,13 +1100,16 @@ Full options, invalidation, custom stores, and observability are documented in t
 
 # [File Upload](#file-upload)
 
-Kemal provides easy access to uploaded files through `env.params.files`. When a file is uploaded via a form, it's automatically stored in a temporary location and accessible through the parameter name.
+Kemal provides easy access to uploaded files through `env.params.files`. When a file is uploaded via a form, it is spooled to a temporary file that is removed when the request is over — including when a `before` filter `halt`s or an exception is raised.
 
-Each multipart form field (including file parts) is also capped by `Kemal.config.max_multipart_form_field_size` (default **8 MB**). Raise or lower it to match your upload needs:
+Each multipart form field (including file parts) is capped by `Kemal.config.max_multipart_form_field_size` (default **8 MB**). The number of **file** parts is capped by `Kemal.config.max_file_uploads` (default **128**); a request carrying more is answered with `413` before the next part is written to disk. Form fields without a filename are not counted.
 
 ```crystal
-Kemal.config.max_multipart_form_field_size = 50 * 1024 * 1024  # 50 MB
+Kemal.config.max_multipart_form_field_size = 50 * 1024 * 1024  # 50 MB per field
+Kemal.config.max_file_uploads = 128
 ```
+
+Read an upload with `FileUpload#open`, which yields a `File` and closes it, or copy/move it by `path`. `FileUpload#tempfile` is deprecated: it still returns an open handle, so existing code keeps working and pays the descriptor only while it does.
 
 ## [Basic File Upload](#basic-file-upload)
 
@@ -1012,17 +1117,19 @@ Here's a simple example of handling file uploads:
 
 ```crystal
 post "/upload" do |env|
-  # Get the uploaded file from the form field named "image"
-  file = env.params.files["image"].tempfile
-  
-  # Create the destination path
-  file_path = ::File.join [Kemal.config.public_folder, "uploads/", File.basename(file.path)]
-  
-  # Copy the uploaded file to the destination
-  File.open(file_path, "w") do |f|
-    IO.copy(file, f)
+  upload = env.params.files["image"]
+
+  file_path = ::File.join([Kemal.config.public_folder, "uploads/", File.basename(upload.filename || "upload")])
+
+  upload.open do |file|
+    File.open(file_path, "w") do |f|
+      IO.copy(file, f)
+    end
   end
-  
+
+  # Or copy from the temporary path without holding a handle:
+  # File.copy(upload.path, file_path)
+
   "Upload successful!"
 end
 ```
@@ -1033,86 +1140,73 @@ For production applications, you should validate uploaded files:
 
 ```crystal
 post "/upload" do |env|
-  # Check if file was uploaded
   unless env.params.files.has_key?("image")
     halt env, status_code: 400, response: "No file uploaded"
   end
-  
+
   uploaded_file = env.params.files["image"]
-  
-  # Validate file size (e.g., max 5MB)
-  max_size = 5 * 1024 * 1024
-  if uploaded_file.size > max_size
+
+  max_size = (5 * 1024 * 1024).to_u64
+  if (size = uploaded_file.size) && size > max_size
     halt env, status_code: 400, response: "File too large"
   end
-  
-  # Validate file type by extension
+
   allowed_extensions = [".jpg", ".jpeg", ".png", ".gif"]
   file_extension = File.extname(uploaded_file.filename || "").downcase
   unless allowed_extensions.includes?(file_extension)
     halt env, status_code: 400, response: "Invalid file type"
   end
-  
-  # Generate a unique filename to prevent conflicts
+
   unique_filename = "#{Time.utc.to_unix}_#{uploaded_file.filename}"
-  file_path = ::File.join [Kemal.config.public_folder, "uploads/", unique_filename]
-  
-  # Save the file
-  File.open(file_path, "w") do |f|
-    IO.copy(uploaded_file.tempfile, f)
-  end
-  
+  file_path = ::File.join([Kemal.config.public_folder, "uploads/", unique_filename])
+
+  File.copy(uploaded_file.path, file_path)
+
   "File uploaded successfully as: #{unique_filename}"
 end
 ```
 
 ## [File Upload Properties](#file-upload-properties)
 
-The uploaded file object has the following properties:
+`Kemal::FileUpload` is a `class`. Each uploaded file has:
 
 - `filename`: Original filename of the uploaded file
-- `tempfile`: Temporary file object containing the uploaded data
-- `size`: Size of the uploaded file in bytes
+- `path`: Path of the temporary file holding the upload
+- `open(&)`: Opens the upload for reading, yields the `File`, and closes it
+- `size`: Bytes actually written to disk (`UInt64?`)
 - `headers`: HTTP headers associated with the file upload
+- `tempfile`: **Deprecated.** Open handle kept until request cleanup; prefer `open` or `path`
 
 ## [Multiple File Upload](#multiple-file-upload)
 
-Kemal also supports uploading multiple files using array notation in form field names:
+Kemal stores `name[]` file fields on `env.params.all_files` (an array per field name). `env.params.files` holds single parts whose names do not end in `[]`. `all_files` parses the body on its own.
 
 ```crystal
 post "/upload-multiple" do |env|
   uploaded_file_names = [] of String
-  
-  # Get all files from the images[] field
-  if env.params.files.has_key?("images[]")
-    # env.params.files["images[]"] returns an array of uploaded files
-    env.params.files["images[]"].each do |uploaded_file|
-      # Validate each file
-      max_size = 5 * 1024 * 1024
-      if uploaded_file.size > max_size
-        next # Skip files that are too large
+
+  if files = env.params.all_files["images[]"]?
+    files.each do |uploaded_file|
+      max_size = (5 * 1024 * 1024).to_u64
+      if (size = uploaded_file.size) && size > max_size
+        next
       end
-      
-      # Validate file type
+
       allowed_extensions = [".jpg", ".jpeg", ".png", ".gif"]
       file_extension = File.extname(uploaded_file.filename || "").downcase
       unless allowed_extensions.includes?(file_extension)
-        next # Skip invalid file types
+        next
       end
-      
-      # Generate unique filename
+
       unique_filename = "#{Time.utc.to_unix}_#{Random.rand(1000)}_#{uploaded_file.filename}"
-      file_path = ::File.join [Kemal.config.public_folder, "uploads/", unique_filename]
-      
-      # Save the file
-      File.open(file_path, "w") do |f|
-        IO.copy(uploaded_file.tempfile, f)
-      end
-      
+      file_path = ::File.join([Kemal.config.public_folder, "uploads/", unique_filename])
+
+      File.copy(uploaded_file.path, file_path)
+
       uploaded_file_names << unique_filename
     end
   end
-  
+
   if uploaded_file_names.empty?
     "No valid files were uploaded"
   else
@@ -1248,13 +1342,24 @@ end
 
 ### [Origin Validation](#websocket-origin-validation)
 
-Browsers send an `Origin` header on WebSocket handshakes. You can restrict which origins are allowed to connect by setting an allow list. Connections from unexpected origins are rejected.
+Browsers send an `Origin` header on WebSocket handshakes. By default an empty `websocket_allowed_origins` requires `Origin` to match the request `Host` (scheme taken from `Origin`, so reverse-proxy TLS termination keeps working). Missing or empty `Origin` is rejected with `403`. Explicit allowlists behave as before. Set `["*"]` to allow any origin, including requests without `Origin`.
 
 ```crystal
+# Default: same-origin (secure)
+# Kemal.config.websocket_allowed_origins = [] of String
+
+# Explicit allowlist
 Kemal.config.websocket_allowed_origins = ["https://myapp.com", "http://localhost:3000"]
+
+# Allow any origin, including requests without Origin (opt-in)
+Kemal.config.websocket_allowed_origins = ["*"]
 ```
 
-Entries use the serialized origin form (`scheme` + `host` + optional `port`). Use `"null"` to allow the browser's opaque `"null"` origin. When the list is empty (the default), origin checks are not enforced, so existing apps keep working until you opt in.
+Entries use the serialized origin form (`scheme` + `host` + optional `port`). Use `"null"` to allow the browser's opaque `"null"` origin.
+
+WebSocket upgrades require the `GET` method per [RFC 6455 §4.1](https://datatracker.ietf.org/doc/html/rfc6455#section-4.1). Any other method carrying valid upgrade headers is rejected with `405 Method Not Allowed`. A `before` filter that already answered (for example `halt` with `401`) does not attempt the upgrade.
+
+Rejected upgrades send `Connection: close`. Malformed `Origin` values are rejected with `403` rather than `500`.
 
 # [Server-Sent Events (SSE)](#server-sent-events-sse)
 
@@ -1314,6 +1419,8 @@ Use the browser's native `EventSource` API (or HTMX) to consume the stream:
 ```
 
 You can also define `sse` routes inside a `Kemal::Router` the same way you define `get` or `ws` routes.
+
+`HEAD` on an `sse` route sets the stream's headers and returns without running the handler, so an endless loop in the handler cannot pin a fiber. Newlines in `event` / `id` are rejected; CR/LF in `data` / `comment` are normalized. A WebSocket or SSE connection counts as in flight for [graceful shutdown](#graceful-shutdown) for as long as it stays open.
 
 # [Testing](#testing)
 
@@ -1392,6 +1499,31 @@ Run the tests:
 
 ```
 KEMAL_ENV=test crystal spec
+```
+
+Unmatched routes return `404` in every environment, including `KEMAL_ENV=test`. Wrong-method requests return `405` with an `Allow` header. `before_all` runs for unmatched paths in specs the same way it does in production.
+
+`before_all` / `after_all` **inside a `describe`** register spec-library hooks. Call them **outside** `describe` to register Kemal filters:
+
+```crystal
+require "./spec_helper"
+
+# Kemal filter — outside describe
+before_all do |env|
+  env.response.headers["X-App"] = "test"
+end
+
+describe "Your::Kemal::App" do
+  it "renders /" do
+    get "/"
+    response.body.should eq "Hello World!"
+  end
+
+  it "answers 404 for an unknown path" do
+    get "/nope"
+    response.status_code.should eq 404
+  end
+end
 ```
 
 # [Static Files](#static-files)
@@ -1474,12 +1606,9 @@ Kemal.config.max_request_body_size = 1024 * 100  # 100 KB
 
 # For file upload applications
 Kemal.config.max_request_body_size = 1024 * 1024 * 50  # 50 MB
-
-# No limit (use with caution in production)
-Kemal.config.max_request_body_size = nil
 ```
 
-**Note:** Setting this value too low may prevent legitimate large requests from being processed. Choose a value that balances security with your application's requirements.
+The value is an `Int32` (bytes). Choose a limit that balances security with your application's requirements.
 
 ### [Max Multipart Form Field Size](#max-multipart-form-field-size)
 
@@ -1491,9 +1620,25 @@ Kemal.config.max_multipart_form_field_size = 8 * 1024 * 1024  # 8 MB (default)
 
 Tune this for file uploads and form payloads so oversized fields are rejected early. See also [File Upload](#file-upload) and [Security](#security).
 
+### [Max File Uploads](#max-file-uploads)
+
+Cap the number of file parts in a single `multipart/form-data` request. Every file part is spooled to its own temporary file, so the count bounds descriptors and disk entries one request can hold — `max_request_body_size` does not. Default is **128**. A request carrying more is answered with `413`. Form fields without a filename are not counted. `0` refuses file uploads altogether.
+
+```crystal
+Kemal.config.max_file_uploads = 128
+```
+
+### [Max Ranges](#max-ranges)
+
+Maximum number of byte ranges accepted in a single `Range` request header (default **16**). A header listing more parts is ignored and the full file is served with `200`. `0` ignores `Range` headers entirely.
+
+```crystal
+Kemal.config.max_ranges = 16
+```
+
 ### [WebSocket Allowed Origins](#websocket-allowed-origins-config)
 
-Restrict which browser origins may open WebSocket connections:
+Restrict which browser origins may open WebSocket connections. The default (empty list) is **same-origin**. Set `["*"]` to allow any origin.
 
 ```crystal
 Kemal.config.websocket_allowed_origins = ["https://myapp.com", "http://localhost:3000"]
@@ -1519,13 +1664,17 @@ Enable or disable static file serving:
 Kemal.config.serve_static = false  # Default: true
 ```
 
-You can also pass options for gzip compression and directory listing:
+You can also pass options for gzip compression, directory listing, and directory index:
 
 ```crystal
-Kemal.config.serve_static = {"gzip" => true, "dir_listing" => false}
+Kemal.config.serve_static = {"gzip" => true, "dir_listing" => false, "dir_index" => false}
 ```
 
+Prefer `serve_static({"gzip" => true})` for static assets. `gzip true` installs Crystal's `HTTP::CompressHandler`, which does not honor `Accept-Encoding` qvalues, `Vary`, or pre-compressed `.gz` files the way Kemal's static handler does.
+
 By default `Kemal` gzips most files, skipping only very small files, or those which don't benefit from gzipping. If you are running `Kemal` behind a proxy, you may wish to disable this feature.
+
+A directory under `public/` is redirected with a trailing slash only when a listing or an `index.html` would be served at the slashed URL. Otherwise it is a `404`, the same as a missing path. A static file that exists but cannot be opened is also a `404`, with no `ETag` or `Last-Modified`.
 
 ### [Static Headers](#static-headers)
 
@@ -1566,12 +1715,13 @@ Kemal.config.logger = MyCustomLogger.new
 
 ## [SSL Configuration](#ssl-configuration)
 
-Configure SSL/TLS for HTTPS:
+Configure SSL/TLS for HTTPS from the command line (see [SSL](#ssl)), or programmatically:
 
 ```crystal
-Kemal.config.ssl = true
-Kemal.config.ssl_certificate_file = "/path/to/cert.pem"
-Kemal.config.ssl_key_file = "/path/to/key.pem"
+ssl = Kemal::SSL.new
+ssl.key_file = "/path/to/key.pem"
+ssl.cert_file = "/path/to/cert.pem"
+Kemal.config.ssl = ssl.context
 ```
 
 Or use command line flags:
@@ -1596,7 +1746,17 @@ If you prefer to do this from within your application, use:
 Kemal.config.env = "production"
 ```
 
-When the `KEMAL_ENV` environment variable is not set to `production`, e.g. `development`, an exception page is rendered when an exception is raised which provides a lot of useful information for debugging. However, if the environment variable is set to `production` a standard error page is rendered (see [source](https://github.com/kemalcr/kemal/blob/master/src/kemal/helpers/exception_page.cr#L16)).
+The development error page (exception message, backtrace, headers, cookies) is shown **only** when `KEMAL_ENV` is `"development"`. Every other value — `production`, `staging`, `test`, and typos such as `prod` — gets the production page. Override that with:
+
+```crystal
+# Show the development page in another environment
+Kemal.config.show_exceptions = true
+
+# Never show the development page
+Kemal.config.show_exceptions = false
+```
+
+A registered `error 500` handler is unaffected; `show_exceptions` only chooses between the two built-in pages.
 
 **Note:** `KEMAL_ENV` should ***always*** be set to `production` in a production environment for security reasons.
 
@@ -1604,12 +1764,11 @@ When the `KEMAL_ENV` environment variable is not set to `production`, e.g. `deve
 
 ### [Powered By Header](#powered-by-header)
 
-Hide or customize the "X-Powered-By" header:
+The `X-Powered-By` header is **disabled** by default. Set `powered_by_header` to `true` to send `X-Powered-By: Kemal`:
 
 ```crystal
-Kemal.config.powered_by_header = false       # Disable header
-Kemal.config.powered_by_header = "MyApp"     # Custom value
-# Default: "Kemal"
+Kemal.config.powered_by_header = true   # Send X-Powered-By: Kemal
+Kemal.config.powered_by_header = false  # Default
 ```
 
 ### [Always Rescue](#always-rescue)
@@ -1658,10 +1817,12 @@ Kemal.config.server.not_nil!.bind_tcp "0.0.0.0", 3000, reuse_port: true
 
 ### [Shutdown Timeout](#shutdown-timeout)
 
-Configure graceful shutdown timeout:
+`Kemal.run` returns only once every request that was in flight has finished, or `shutdown_timeout` has elapsed, whichever comes first. Default is **`30.seconds`**. `0` cuts in-flight requests off as soon as the listeners close. `Kemal.stop` itself does not block. A second termination signal during the drain exits immediately.
+
+A WebSocket or SSE connection counts as in flight for as long as it stays open. `Kemal.config.running` is set to `false` before the listeners close, so a health route can report the drain. Code after `Kemal.run` runs on `SIGTERM`.
 
 ```crystal
-Kemal.config.shutdown_timeout = 10.seconds  # Default: nil (no timeout)
+Kemal.config.shutdown_timeout = 30.seconds
 ```
 
 ## [Complete Configuration Example](#complete-configuration-example)
@@ -1677,6 +1838,9 @@ Kemal.config.port = 3000
 Kemal.config.env = "production"
 Kemal.config.max_request_body_size = 1024 * 1024 * 10  # 10 MB limit
 Kemal.config.max_multipart_form_field_size = 8 * 1024 * 1024  # 8 MB per multipart field
+Kemal.config.max_file_uploads = 128
+Kemal.config.max_ranges = 16
+Kemal.config.shutdown_timeout = 30.seconds
 Kemal.config.websocket_allowed_origins = ["https://myapp.com"]
 
 # Static files
@@ -1686,16 +1850,18 @@ Kemal.config.serve_static = {"gzip" => true, "dir_listing" => false}
 # Logging
 Kemal.config.logging = true
 
-# SSL
-Kemal.config.ssl = true
-Kemal.config.ssl_certificate_file = "./ssl/cert.pem"
-Kemal.config.ssl_key_file = "./ssl/key.pem"
+# SSL (or pass --ssl --ssl-key-file --ssl-cert-file on the command line)
+ssl = Kemal::SSL.new
+ssl.key_file = "./ssl/key.pem"
+ssl.cert_file = "./ssl/cert.pem"
+Kemal.config.ssl = ssl.context
 
-# Headers
-Kemal.config.powered_by_header = "MyApp/1.0"
+# Headers (off by default)
+Kemal.config.powered_by_header = false
 
 # Error handling
 Kemal.config.always_rescue = true
+Kemal.config.show_exceptions = false
 
 # Add custom handler
 Kemal.config.add_handler MyAuthHandler.new
@@ -1752,6 +1918,8 @@ A Kemal application accepts a few optional command-line flags:
 |            | `--ssl-cert-file FILE` | SSL certificate file                          |
 {:.mbtablestyle}
 
+An invalid argument prints a message and exits `1` instead of raising. Ports are checked against `0..65535` before bind (`0` still asks the OS for a free port). `--help` shows the actual host/port defaults when they have been overridden in code.
+
 **Note:** For detailed configuration options and programmatic configuration, see the [Configuration](#configuration) section.
 
 # [SSL](#ssl)
@@ -1780,17 +1948,23 @@ Kemal.config.max_request_body_size = 10 * 1024 * 1024
 # Maximum size of a single multipart form field (8 MB default)
 Kemal.config.max_multipart_form_field_size = 8 * 1024 * 1024
 
-# Restrict WebSocket upgrades to trusted origins
+# Maximum file parts per multipart request (128 default)
+Kemal.config.max_file_uploads = 128
+
+# Maximum Range parts per request (16 default; 0 ignores Range)
+Kemal.config.max_ranges = 16
+
+# Restrict WebSocket upgrades to trusted origins (empty list = same-origin)
 Kemal.config.websocket_allowed_origins = ["https://myapp.com"]
 
-# Powered by header (hide for security)
+# X-Powered-By is off by default
 Kemal.config.powered_by_header = false
 
 # Always rescue in production
 Kemal.config.always_rescue = true
 ```
 
-`max_multipart_form_field_size` applies to chunked multipart bodies as well, so oversized fields cannot bypass the overall body limit. Leave `websocket_allowed_origins` empty only when you intentionally want open WebSocket access.
+`max_multipart_form_field_size` applies to chunked multipart bodies as well, so oversized fields cannot bypass the overall body limit. An empty `websocket_allowed_origins` is same-origin; use `["*"]` only when you intentionally want open WebSocket access.
 
 ## [Helmet](#helmet)
 
@@ -1928,7 +2102,7 @@ Create a `Dockerfile` in your project root:
 
 ```dockerfile
 # Build stage
-FROM crystallang/crystal:1.11.2-alpine AS builder
+FROM crystallang/crystal:1.21.0-alpine AS builder
 
 WORKDIR /app
 
@@ -2738,16 +2912,21 @@ Ensure your application shuts down gracefully, completing in-flight requests.
 ```crystal
 require "kemal"
 
-# Configure graceful shutdown
-Kemal.config.shutdown_timeout = 10.seconds
+# Drain in-flight requests on SIGTERM (default 30 seconds)
+Kemal.config.shutdown_timeout = 30.seconds
 
-# Your routes...
-get "/" do
-  "Hello World"
+get "/health" do |env|
+  if Kemal.config.running
+    env.text "ok"
+  else
+    halt env, status_code: 503, response: "draining"
+  end
 end
 
 Kemal.run
 ```
+
+`Kemal.run` returns only after in-flight requests finish or the timeout elapses. A WebSocket or SSE connection counts as in flight until it is closed; close those connections yourself if you need a faster drain. A second `SIGTERM` during the wait exits immediately.
 
 ## [Deployment Strategies](#deployment-strategies)
 
