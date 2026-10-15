@@ -3,18 +3,27 @@
 ---
 @charset "utf-8";
 
-
-@mixin media-query($device) {
-    @media screen and (max-width: $device) {
-        @content;
-    }
-}
-
-
-
-// Import partials from `sass_dir` (defaults to `_sass`)
+// Partials live in _sass/: app/ for tokens, base and responsive rules,
+// components/ for each part of the site. Order matters: it is the cascade.
 @import
-        "app/main",
-        "syntax-highlighting",
-        "components/copy-code"
-;
+  "app/tokens",
+  "app/base",
+  "components/header",
+  "components/buttons",
+  "components/home/hero",
+  "components/home/demo",
+  "components/home/logos",
+  "components/home/performance",
+  "components/home/build",
+  "components/home/vision",
+  "components/home/steps",
+  "components/home/sponsors",
+  "components/home/cta",
+  "components/footer",
+  "app/responsive",
+  "components/page",
+  "components/prose",
+  "components/code",
+  "components/cookbook",
+  "components/blog",
+  "components/companies";

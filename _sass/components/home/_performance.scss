@@ -1,0 +1,18 @@
+/* performance */
+.k-perf{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:clamp(32px,5vw,64px);align-items:center}
+.k-perf .k-h2{margin-bottom:18px}
+.k-statgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-top:24px}
+.k-statgrid>div{background:var(--bg);padding:14px 16px;display:flex;flex-direction:column;gap:2px}
+.k-statgrid strong{font:500 20px 'JetBrains Mono',monospace}
+.k-statgrid span{font-size:13px;color:var(--muted)}
+.k-bench{padding:clamp(20px,3vw,28px);display:flex;flex-direction:column;gap:18px}
+.k-bench__head{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+.k-bench__head strong{color:var(--fg)}
+.k-bench__row{display:flex;flex-direction:column;gap:7px}
+.k-bench__label{display:flex;justify-content:space-between;font-size:14px;color:var(--muted);font-weight:500}
+.k-bench__label span+span{font:13px 'JetBrains Mono',monospace}
+.k-bench__row.is-primary .k-bench__label{color:var(--fg);font-weight:650}
+.k-bar{height:8px;border-radius:999px;background:var(--bg2);overflow:hidden}
+.k-bar__fill{height:100%;width:0;border-radius:999px;background:var(--faint);transition:width 1.3s cubic-bezier(.2,.8,.2,1)}
+.is-primary .k-bar__fill,.k-goal .k-bar__fill{background:var(--red)}
+.is-grown .k-bar__fill{width:var(--w)}

@@ -1,33 +1,19 @@
 ---
 layout: default
 ---
-<article class="Post" itemscope itemtype="http://schema.org/BlogPosting">
-
-  <header class="Post-header">
-    <div class="Post-back">
-      <a href="/blog/" class="Post-back-link">← Back to Blog</a>
-    </div>
-    <h1 class="Post-title" itemprop="name headline">{{ page.title }}</h1>
-    <div class="Post-meta">
-      <time class="Post-date" datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
-        {{ page.date | date: "%B %-d, %Y" }}
-      </time>
-      {% if page.author %}
-      <span class="Post-author">
-        • <span itemprop="author" itemscope itemtype="http://schema.org/Person">
-          <span itemprop="name">{{ page.author }}</span>
-        </span>
-      </span>
-      {% endif %}
+<article class="k-article k-post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header class="k-article__header">
+    <a href="{{ site.baseurl }}/blog/" class="k-back">← Blog</a>
+    <h1 itemprop="name headline">{{ page.title }}</h1>
+    <div class="k-meta">
+      <time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">{{ page.date | date: "%B %-d, %Y" }}</time>
+      {% if page.author %}<span>· <span itemprop="author">{{ page.author }}</span></span>{% endif %}
     </div>
   </header>
-  
-  <div class="Post-content" itemprop="articleBody">
+  <div class="k-prose" itemprop="articleBody">
     {{ content }}
   </div>
-
-  <footer class="Post-footer">
-    <a href="/blog/" class="Post-footer-link">← Back to Blog</a>
+  <footer class="k-post__footer">
+    <a href="{{ site.baseurl }}/blog/" class="k-back">← Back to Blog</a>
   </footer>
-
 </article>

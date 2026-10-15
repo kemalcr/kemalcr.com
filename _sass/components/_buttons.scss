@@ -1,0 +1,10 @@
+/* buttons */
+.k-btn{display:inline-flex;align-items:center;gap:8px;height:46px;padding:0 20px;border-radius:10px;font:600 15px 'Mona Sans',sans-serif;cursor:pointer;border:1px solid transparent}
+.k-btn--primary{background:var(--red);color:#fff;box-shadow:0 8px 24px -8px var(--glow),inset 0 1px 0 rgba(255,255,255,.2)}
+.k-btn--primary:hover{filter:brightness(1.08);color:#fff}
+.k-btn--primary span{opacity:.8}
+.k-btn--ghost{border-color:var(--line2);background:var(--card);color:var(--fg)}
+.k-btn--ghost:hover{border-color:var(--faint);color:var(--fg)}
+.k-btn--cmd{gap:12px;padding:0 16px;border-color:var(--line2);background:var(--card);box-shadow:var(--hi);font:13.5px 'JetBrains Mono',monospace;color:var(--fg)}
+.k-btn--cmd:hover{border-color:var(--faint)}
+.k-btn__hint{font:500 12px 'Mona Sans',sans-serif;color:var(--faint);min-width:42px;text-align:right}

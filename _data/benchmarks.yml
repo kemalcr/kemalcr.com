@@ -1,0 +1,5 @@
+# Hello World req/sec, 100 connections (from the Kemal README)
+- { name: Kemal, value: "~85,000", percent: 100, primary: true }
+- { name: Express, value: "~15,000", percent: 17.6 }
+- { name: Sinatra, value: "~5,000", percent: 5.9 }
+- { name: Flask, value: "~3,000", percent: 3.5 }

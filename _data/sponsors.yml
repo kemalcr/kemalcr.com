@@ -1,0 +1,24 @@
+# GitHub Sponsors of @sdogruyol. Avatars live in /img/sponsors/<login>.png
+goal: 1000
+goal_label: "$1,000"
+goal_percent: 23
+people:
+  - nbrandaleone
+  - luislavena
+  - hahwul
+  - jwoertink
+  - laktosterror
+  - tarikcayir
+  - treagod
+  - f
+  - marsus-com
+  - pyrsmk
+  - JadeKharats
+tiers:
+  - { name: Coffee, price: 5, perk: "Sponsor badge on your profile." }
+  - { name: Kebab, price: 10, perk: "Badge and a personal thanks." }
+  - { name: Backer, price: 20, perk: "Your name in the README." }
+  - { name: Champion, price: 50, perk: "Name and logo in the README." }
+  - { name: Corporate, price: 100, perk: "Listed as a corporate sponsor." }
+  - { name: Gold, price: 250, perk: "Top of the README." }
+  - { name: Platinum, price: 500, perk: "Your logo on kemalcr.com.", highlight: true }

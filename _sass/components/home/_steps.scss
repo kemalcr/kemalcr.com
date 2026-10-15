@@ -1,0 +1,8 @@
+/* steps */
+.k-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:20px 16px;margin-top:28px}
+.k-step{display:flex;flex-direction:column;gap:12px;min-width:0}
+.k-step__head{display:flex;align-items:baseline;gap:10px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.k-step__head span{font:13px 'JetBrains Mono',monospace;color:var(--faint)}
+.k-step__head strong{font-weight:600;font-size:16px}
+.k-term{margin:0;flex:1;background:var(--code-bg);border:1px solid var(--line);border-radius:10px;padding:16px;font:13px/1.75 'JetBrains Mono',monospace;color:var(--code-fg);overflow-x:auto}
+.k-term .k-dim{color:var(--c-com)}

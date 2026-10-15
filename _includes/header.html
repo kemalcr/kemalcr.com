@@ -1,28 +1,23 @@
-<header class="Header">
-  <div class="container">
-    <div class="Header_content">
-      <a href="{{ site.baseurl }}/" class="Header_logo"><img src="{{ site.baseurl }}/img/kemal.png" alt="Kemal"></a>
-      <div class="Header_content_right Header_menu">
-        <nav id="main-menu" class="Header_menu_nav">
-          {% for my_page in site.nav_bars %}
-            {% if my_page.title %}
-            <a href="{{ my_page.url }}" class="Header_menu_item">
-            {% if my_page.title == "Github" %}
-              <svg class="icon" title="Kemal on Github">
-                <use xlink:href="#icon-github"></use>
-              </svg>
-            {% elsif my_page.title == "Twitter" %}
-              <svg class="icon" viewBox="0 0 24 24" title="Kemal on X" aria-label="Kemal on X">
-                <path d="M18.244 2H21l-6.543 7.475L22 22h-6.828l-5.356-6.99L3.5 22H1l7.045-8.05L2 2h6.828l4.865 6.35L18.244 2Zm-1.2 18h1.897L7.06 4H5.1l11.944 16Z"/>
-              </svg>
-            {% else %}
-              {{ my_page.title }}
-            {% endif %}
-            </a>
-            {% endif %}
-          {% endfor %}
-        </nav>
-      </div>
+<header class="k-header">
+  <div class="k-header__inner">
+    <a href="{{ site.baseurl }}/" class="k-brand">
+      <img src="{{ site.baseurl }}/img/kemal.png" alt="" width="28" height="28">
+      <span>Kemal</span>
+    </a>
+    <nav class="k-nav" id="k-nav" aria-label="Main">
+      <a href="{{ site.baseurl }}/guide">Guide</a>
+      <a href="{{ site.baseurl }}/cookbook/hello_world">Cookbook</a>
+      <a href="{{ site.baseurl }}/companies_using_kemal">Companies</a>
+      <a href="{{ site.baseurl }}/#vision">Vision</a>
+      <a href="{{ site.baseurl }}/#sponsors">Sponsors</a>
+      <a href="{{ site.baseurl }}/blog">Blog</a>
+      <a href="{{ site.baseurl }}/community">Community</a>
+      <a href="{{ site.baseurl }}/guide#getting-started" class="k-nav__cta">Get started</a>
+    </nav>
+    <div class="k-header__actions">
+      <button type="button" class="k-iconbtn" data-theme-toggle aria-label="Toggle theme">☀</button>
+      <a href="https://github.com/kemalcr/kemal" class="k-starbtn">★ <span>{{ site.data.kemal.stars }}</span></a>
+      <button type="button" class="k-iconbtn k-menubtn" data-menu-toggle aria-label="Menu" aria-expanded="false" aria-controls="k-nav">☰</button>
     </div>
   </div>
 </header>

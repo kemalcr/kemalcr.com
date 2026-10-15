@@ -1,0 +1,10 @@
+/* Kemal — docs, guide, blog, cookbook and content pages */
+.k-page{padding:clamp(40px,6vw,64px) 0 clamp(64px,8vw,96px)}
+.k-prose-wrap{min-width:0}
+.k-article{max-width:780px;margin:0 auto}
+.k-article__header{margin-bottom:32px}
+.k-article__header h1{margin:0;font-weight:700;font-stretch:108%;font-size:clamp(32px,4.4vw,48px);line-height:1.05;letter-spacing:-.035em;text-wrap:balance}
+.k-meta{margin-top:12px;font-size:14px;color:var(--muted);display:flex;gap:6px;flex-wrap:wrap}
+.k-back{display:inline-block;margin-bottom:18px;font-size:14px;font-weight:500;color:var(--muted)}
+.k-back:hover{color:var(--fg)}
+.k-post__footer{margin-top:56px;padding-top:24px;border-top:1px solid var(--line)}

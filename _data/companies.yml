@@ -1,0 +1,33 @@
+# Logos shown on the home page (full list lives in companies_using_kemal.md)
+- name: Nikola Motor
+  url: https://nikolamotor.com/
+  logo: /img/nikola_motor.png
+  height: 20
+- name: Bright Security
+  url: https://brightsec.com/
+  logo: /img/bright_sec.png
+  height: 26
+- name: Pingly
+  url: https://www.pingly.com/
+  logo: /img/pingly.png
+  height: 36
+- name: Invidious
+  url: https://invidious.io/
+  logo: /img/invidious.png
+  height: 38
+- name: CircuitLab
+  url: https://www.circuitlab.com/
+  logo: /img/circuitlab.png
+  height: 30
+- name: Westfield
+  url: https://www.westfield.com/
+  logo: /img/westfield.png
+  height: 24
+- name: Rainforest QA
+  url: https://www.rainforestqa.com/
+  logo: /img/rainforest.png
+  height: 28
+- name: Translucent
+  url: https://www.translucent.dk/
+  logo: /img/translucent.png
+  height: 36
