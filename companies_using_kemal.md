@@ -6,6 +6,7 @@ title: Companies using Kemal in Production
 <div class="companies-page">
   <div class="container">
     <div class="companies-header">
+      <span class="k-eyebrow">In production</span>
       <h1 class="companies-title">Companies Using Kemal in Production</h1>
       <p class="companies-subtitle">Trusted by organizations around the world to power their web applications</p>
     </div>
@@ -98,11 +99,11 @@ title: Companies using Kemal in Production
 
     <div class="companies-cta">
       <div class="cta-card">
-        <h3>Is Your Company Using Kemal?</h3>
-        <p>Join the list of companies using Kemal in production environments.</p>
-        <a href="https://github.com/kemalcr/kemal/wiki/Companies-using-Kemal-in-Production/_edit" class="cta-button" target="_blank">
-          Add Your Company
-        </a>
+        <div>
+          <h3>Is Your Company Using Kemal?</h3>
+          <p>Join the list of companies using Kemal in production environments.</p>
+        </div>
+        <a href="https://github.com/kemalcr/kemal/wiki/Companies-using-Kemal-in-Production/_edit" class="cta-button" target="_blank">Add Your Company →</a>
       </div>
     </div>
   </div>

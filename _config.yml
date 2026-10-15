@@ -32,11 +32,6 @@ nav_bars:
   - title: "Twitter"
     url: "https://twitter.com/crystalkemal"
 
-
-jsarr:
-  - name: "/js/browser.js"
-  - name: "/js/copy-code.js"
-
 plugins:
   - jemoji
 

@@ -11,21 +11,13 @@ title: Kemal - Blog
 <div class="Blog-container">
   {% for post in site.posts %}
     <article class="Blog-card">
-      <div class="Blog-card-content">
-        <h2 class="Blog-card-title">
-          <a href="{{ post.url | prepend: site.baseurl }}" class="Blog-card-link">
-            {{ post.title }}
-          </a>
-        </h2>
-        {% if post.excerpt %}
-          <p class="Blog-card-excerpt">{{ post.excerpt | strip_html | truncatewords: 30 }}</p>
-        {% endif %}
-      </div>
-      <div class="Blog-card-footer">
-        <a href="{{ post.url | prepend: site.baseurl }}" class="Blog-card-readmore">
-          Read more →
-        </a>
-      </div>
+      <time class="Blog-card-date" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%B %-d, %Y" }}</time>
+      <h2 class="Blog-card-title">
+        <a href="{{ post.url | prepend: site.baseurl }}" class="Blog-card-link">{{ post.title }}</a>
+      </h2>
+      {% if post.excerpt %}
+        <p class="Blog-card-excerpt">{{ post.excerpt | strip_html | truncatewords: 30 }}</p>
+      {% endif %}
     </article>
   {% endfor %}
 </div>

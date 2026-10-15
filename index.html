@@ -2,203 +2,291 @@
 layout: home
 ---
 
-<section class="Hero">
-  <div class="Hero_inner container">
-    <div class="Hero_copy">
-      <p class="Hero_kicker">Kemal</p>
-      <h1 class="Hero_title">Fast, Effective, Simple web framework for Crystal</h1>
-      <div class="Hero_actions">
-        <a href="/guide#getting-started" class="btn btn-primary Hero_primaryCta">
-          Get Started
-        </a>
-        <a href="/cookbook/hello_world" class="btn btn-default Hero_secondaryCta">
-          View Examples
-        </a>
-        <a href="https://github.com/sponsors/sdogruyol" class="btn btn-primary Hero_primaryCta" style="background:#30363D;border-color:#30363D;" target="_blank" rel="noopener noreferrer">
-          💜 Sponsor
-        </a>
+<section class="k-hero">
+  <div class="k-hero__glow" aria-hidden="true"></div>
+  <div class="k-container k-hero__copy">
+    <a href="https://github.com/sdogruyol/gcry" class="k-pill">
+      <span class="k-pill__tag">New</span>
+      <span>gcry: Crystal's GC, written in Crystal</span>
+      <span class="k-pill__arrow">→</span>
+    </a>
+    <h1 class="k-hero__title">Fast, effective,<br><span>simple.</span></h1>
+    <p class="k-hero__lead">The web framework for Crystal. Native performance with the expressive syntax you love. Built in Istanbul, running in production worldwide.</p>
+    <div class="k-hero__actions">
+      <a href="{{ site.baseurl }}/guide#getting-started" class="k-btn k-btn--primary">Get started <span>→</span></a>
+      <button type="button" class="k-btn k-btn--cmd" data-copy="crystal init app my-app">
+        <span class="k-dim">$</span>crystal init app my-app<span class="k-btn__hint" data-copy-label>Copy</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="k-container k-hero__demo">
+    <div class="k-demo">
+      <div class="k-demo__inner">
+        <div class="k-demo__code">
+          <div class="k-code__bar"><span class="k-dots"><i></i><i></i><i></i></span><span>src/app.cr</span></div>
+          <pre class="k-hero-code"><span class="k-line"><i>1</i><span><b class="t-kw">require</b> <b class="t-str">"kemal"</b></span></span><span class="k-line"><i>2</i><span> </span></span><span class="k-line" data-route="root"><i>3</i><span><b class="t-kw">get</b> <b class="t-str">"/"</b> <b class="t-kw">do</b></span></span><span class="k-line" data-route="root"><i>4</i><span>  <b class="t-str">"Hello from Kemal 🚀"</b></span></span><span class="k-line" data-route="root"><i>5</i><span><b class="t-kw">end</b></span></span><span class="k-line"><i>6</i><span> </span></span><span class="k-line" data-route="api"><i>7</i><span><b class="t-kw">get</b> <b class="t-str">"/api"</b> <b class="t-kw">do</b> <b class="t-pipe">|env|</b></span></span><span class="k-line" data-route="api"><i>8</i><span>  { <b class="t-sym">framework:</b> <b class="t-str">"kemal"</b>, <b class="t-sym">language:</b> <b class="t-str">"crystal"</b> }.to_json</span></span><span class="k-line" data-route="api"><i>9</i><span><b class="t-kw">end</b></span></span><span class="k-line"><i>10</i><span> </span></span><span class="k-line"><i>11</i><span><b class="t-con">Kemal</b>.run</span></span></pre>
+          <div class="k-demo__routes">
+            <button type="button" class="k-route is-active" data-route-btn="root" data-body="Hello from Kemal 🚀">GET /</button>
+            <button type="button" class="k-route" data-route-btn="api" data-body='{"framework":"kemal","language":"crystal"}'>GET /api</button>
+            <span class="k-demo__resp" data-route-resp>← Hello from Kemal 🚀</span>
+          </div>
+        </div>
+        <div class="k-demo__live">
+          <div class="k-code__bar"><span class="k-live"><i></i>kemal · production</span><span title="Simulated from the ~85,000 req/sec in the Kemal README">illustrative</span></div>
+          <div class="k-demo__stats">
+            <div><span>Requests / sec</span><strong data-rps>85,000</strong></div>
+            <div><span>Served since you arrived</span><strong class="k-red" data-served>0</strong></div>
+          </div>
+          <div class="k-demo__log" data-log aria-hidden="true"></div>
+        </div>
       </div>
     </div>
+  </div>
+</section>
 
-    <div class="Hero_code">
-      {% highlight ruby %}
+<section class="k-container k-logos">
+  <p class="k-muted">Trusted in production by teams worldwide</p>
+  <div class="k-logos__grid">
+    {% for c in site.data.companies %}
+    <a href="{{ c.url }}" target="_blank" rel="noopener" title="{{ c.name }}" class="k-logo">
+      <img src="{{ c.logo | prepend: site.baseurl }}" alt="{{ c.name }}" style="max-height:{{ c.height }}px" loading="lazy">
+    </a>
+    {% endfor %}
+  </div>
+  <a href="{{ site.baseurl }}/companies_using_kemal" class="k-link">See all companies →</a>
+</section>
+
+<section class="k-container k-section k-perf">
+  <div class="k-perf__text">
+    <span class="k-eyebrow">Performance</span>
+    <h2 class="k-h2">Native speed, with syntax that feels like Ruby.</h2>
+    <p class="k-lead">Crystal compiles down to native code and starts in milliseconds. No JVM, no Node, no Ruby VM. Just a native binary.</p>
+    <div class="k-statgrid">
+      <div><strong>~50,000</strong><span>req/sec JSON</span></div>
+      <div><strong>~40,000</strong><span>req/sec static files</span></div>
+      <div><strong>~0.5 KB</strong><span>memory per request</span></div>
+      <div><strong>~2 MB</strong><span>binary size</span></div>
+    </div>
+  </div>
+  <div class="k-card k-bench" data-bench>
+    <div class="k-bench__head"><strong>Hello World throughput</strong><span>req/sec · 100 connections</span></div>
+    {% for b in site.data.benchmarks %}
+    <div class="k-bench__row{% if b.primary %} is-primary{% endif %}">
+      <div class="k-bench__label"><span>{{ b.name }}</span><span>{{ b.value }}</span></div>
+      <div class="k-bar"><div class="k-bar__fill" style="--w:{{ b.percent }}%"></div></div>
+    </div>
+    {% endfor %}
+    <span class="k-fine">Source: Kemal README benchmarks.</span>
+  </div>
+</section>
+
+<section class="k-container k-section" id="build">
+  <div class="k-section__head">
+    <div>
+      <span class="k-eyebrow">What you can build</span>
+      <h2 class="k-h2">From microservices to full-scale applications.</h2>
+    </div>
+    <div class="k-tabs" role="tablist">
+      <button type="button" role="tab" class="is-active" data-tab="web">Web Applications</button>
+      <button type="button" role="tab" data-tab="api">APIs</button>
+      <button type="button" role="tab" data-tab="rt">Real‑time</button>
+    </div>
+  </div>
+  <div class="k-card k-build">
+      <div class="k-build__panel" data-panel="web">
+        <div class="k-build__text">
+          <h3>Web Applications</h3>
+          <p>Build full-featured web apps for any scale—from MVPs to enterprise platforms with rich templates, dynamic routing, and powerful middleware.</p>
+          <ul class="k-checks">
+            <li>ECR templates and layouts</li>
+            <li>Sessions and CSRF protection</li>
+            <li>Composable before/after filters</li>
+          </ul>
+          <a href="{{ site.baseurl }}/cookbook/hello_world" class="k-link">Open the Cookbook →</a>
+        </div>
+        <div class="k-code k-code--flush">
+          <div class="k-code__bar"><span>src/blog.cr</span></div>
+{% highlight ruby %}
 require "kemal"
 
-get "/" do
-  "Hello from Kemal 🚀"
+# Shared logic for every /admin route
+before_all "/admin/*" do |env|
+  halt env, 401 unless env.session.string?("user")
 end
 
-get "/api" do |env|
-  { framework: "kemal", language: "crystal" }.to_json
+get "/posts/:slug" do |env|
+  post = Post.find(env.params.url["slug"])
+  render "src/views/post.ecr", "src/views/layout.ecr"
 end
 
 Kemal.run
-      {% endhighlight %}
+{% endhighlight %}
+        </div>
+      </div>
+      <div class="k-build__panel" data-panel="api" hidden>
+        <div class="k-build__text">
+          <h3>APIs</h3>
+          <p>Design fast, stateless APIs that plug into your existing front‑ends and microservices.</p>
+          <ul class="k-checks">
+            <li>Native JSON handling</li>
+            <li>All HTTP verbs, including QUERY</li>
+            <li>No forced ORM</li>
+          </ul>
+          <a href="{{ site.baseurl }}/cookbook/hello_world" class="k-link">Open the Cookbook →</a>
+        </div>
+        <div class="k-code k-code--flush">
+          <div class="k-code__bar"><span>src/api.cr</span></div>
+{% highlight ruby %}
+require "kemal"
+require "json"
+
+before_all do |env|
+  env.response.content_type = "application/json"
+end
+
+post "/users" do |env|
+  name = env.params.json["name"].as(String)
+  { id: User.create(name).id, name: name }.to_json
+end
+
+Kemal.run
+{% endhighlight %}
+        </div>
+      </div>
+      <div class="k-build__panel" data-panel="rt" hidden>
+        <div class="k-build__text">
+          <h3>Real‑time</h3>
+          <p>Use WebSockets to build live dashboards, chats and collaboration tools with minimal boilerplate.</p>
+          <ul class="k-checks">
+            <li>WebSockets built in</li>
+            <li>Fibers for concurrency</li>
+            <li>No extra dependencies</li>
+          </ul>
+          <a href="{{ site.baseurl }}/cookbook/hello_world" class="k-link">Open the Cookbook →</a>
+        </div>
+        <div class="k-code k-code--flush">
+          <div class="k-code__bar"><span>src/chat.cr</span></div>
+{% highlight ruby %}
+require "kemal"
+
+SOCKETS = [] of HTTP::WebSocket
+
+ws "/chat" do |socket|
+  SOCKETS << socket
+
+  socket.on_message do |msg|
+    SOCKETS.each { |s| s.send msg }
+  end
+
+  socket.on_close { SOCKETS.delete(socket) }
+end
+
+Kemal.run
+{% endhighlight %}
+        </div>
+      </div>
+  </div>
+  <div class="k-features">
+    <div><strong>Simple</strong><p>Super clean DSL with effortless configuration. Routes, middleware, and settings are intuitive and straightforward.</p></div>
+    <div><strong>Type‑safe by default</strong><p>Crystal's type system catches whole classes of bugs at compile time, without sacrificing the familiar Ruby‑like syntax.</p></div>
+    <div><strong>Batteries included</strong><p>JSON responses, static file serving, views, error handling and a rich middleware ecosystem out of the box.</p></div>
+  </div>
+</section>
+
+<section class="k-container k-section" id="vision">
+  <div class="k-vision">
+    <div class="k-vision__glow" aria-hidden="true"></div>
+    <div class="k-vision__main">
+      <div>
+        <span class="k-eyebrow k-eyebrow--light">Made in Türkiye · {{ site.time | date: "%Y" | minus: site.data.kemal.since }} years of open source</span>
+        <h2 class="k-h2">From Istanbul to developers around the world.</h2>
+        <p>Serdar Doğruyol started Kemal in {{ site.data.kemal.since }}. Today organizations around the world use it to power their production web applications.</p>
+        <figure class="k-quote k-quote--byline">
+          <figcaption>
+            <img src="{{ site.baseurl }}/img/sponsors/sdogruyol.png" alt="Serdar Doğruyol" width="44" height="44">
+            <span><strong>Serdar Doğruyol</strong><span>Creator of Kemal · Crystal core member</span></span>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+    <a href="https://github.com/sdogruyol/gcry" class="k-vision__next">
+      <span class="k-vision__nexttext">
+        <span class="k-dimlight">What's next</span>
+        <strong>gcry, Crystal's GC, written in Crystal <span class="k-dimlight">↗</span></strong>
+        <span>The goal: Crystal's default GC.</span>
+      </span>
+      <span class="k-vision__nums">
+        <span><b>~102%</b><span>of Boehm's throughput on Kemal /json</span></span>
+      </span>
+    </a>
+  </div>
+</section>
+
+<section class="k-container k-section" id="start">
+  <span class="k-eyebrow">Get started</span>
+  <h2 class="k-h2">Up and running in a minute.</h2>
+  <div class="k-steps">
+    <div class="k-step">
+      <div class="k-step__head"><span>01</span><strong>Create a project</strong></div>
+      <pre class="k-term"><span class="k-dim">$</span> crystal init app my-app
+<span class="k-dim">$</span> cd my-app</pre>
+    </div>
+    <div class="k-step">
+      <div class="k-step__head"><span>02</span><strong>Add Kemal to shard.yml</strong></div>
+      <pre class="k-term"><b class="t-sym">dependencies:</b>
+  <b class="t-sym">kemal:</b>
+    <b class="t-sym">github:</b> <b class="t-str">kemalcr/kemal</b></pre>
+    </div>
+    <div class="k-step">
+      <div class="k-step__head"><span>03</span><strong>Install and run</strong></div>
+      <pre class="k-term"><span class="k-dim">$</span> shards install
+<span class="k-dim">$</span> crystal run src/my-app.cr
+<b class="t-str">→ http://localhost:3000</b></pre>
     </div>
   </div>
 </section>
 
-<section class="Section Section_stats">
-  <div class="container">
-    <div class="StatsBar">
-      <div class="Stat">
-        <div class="Stat_label">Latest Version</div>
-        <div class="Stat_value">
-          <a href="https://github.com/kemalcr/kemal/releases" target="_blank" rel="noopener noreferrer">v1.13.0</a>
+<section class="k-container k-section" id="sponsors">
+  <div class="k-card k-sponsors">
+    <div class="k-sponsors__main">
+      <div>
+        <span class="k-eyebrow">Sponsors</span>
+        <h2 class="k-h3">Independent, and funded by the people who use it.</h2>
+        <p class="k-muted">If Kemal helps you or your company, consider sponsoring. Your support helps maintain Kemal and build the Crystal ecosystem full time.</p>
+        <a href="https://github.com/sponsors/sdogruyol" class="k-btn k-btn--primary">♥ Become a sponsor</a>
+      </div>
+      <div class="k-sponsors__people">
+        <div class="k-avatars">
+          {% for login in site.data.sponsors.people %}
+          <a href="https://github.com/{{ login }}" title="@{{ login }}"><img src="{{ site.baseurl }}/img/sponsors/{{ login }}.png" alt="@{{ login }}" width="48" height="48" loading="lazy"></a>
+          {% endfor %}
+          <a href="https://github.com/sponsors/sdogruyol" title="Become a sponsor" class="k-avatars__add">+</a>
+        </div>
+        <div class="k-goal">
+          <div><span>{{ site.data.sponsors.people | size }} sponsors</span><span>{{ site.data.sponsors.goal_percent }}% of {{ site.data.sponsors.goal_label }}/month goal</span></div>
+          <div class="k-bar"><div class="k-bar__fill" style="--w:{{ site.data.sponsors.goal_percent }}%"></div></div>
         </div>
       </div>
-      <div class="Stat">
-        <div class="Stat_label">Downloads</div>
-        <div class="Stat_value">
-          <strong>5M+</strong>
-        </div>
-      </div>
-      <div class="Stat">
-        <div class="Stat_label">GitHub Stars</div>
-        <div class="Stat_value">
-          <a href="https://github.com/kemalcr/kemal" target="_blank" rel="noopener noreferrer">
-            <img src="https://img.shields.io/github/stars/kemalcr/kemal?style=social" alt="GitHub stars">
-          </a>
-        </div>
-      </div>
-      <div class="Stat">
-        <div class="Stat_label">Contributors</div>
-        <div class="Stat_value">
-          <a href="https://github.com/kemalcr/kemal/graphs/contributors" target="_blank" rel="noopener noreferrer">
-            <img src="https://img.shields.io/github/contributors/kemalcr/kemal" alt="Contributors">
-          </a>
-        </div>
-      </div>
-      <div class="Stat">
-        <div class="Stat_label">Used By</div>
-        <div class="Stat_value">
-          <a href="/companies_using_kemal">Worldwide</a>
-        </div>
-      </div>
+    </div>
+    <div class="k-tiers">
+      {% for t in site.data.sponsors.tiers %}
+      <a href="https://github.com/sponsors/sdogruyol" class="k-tier{% if t.highlight %} is-highlight{% endif %}">
+        <span class="k-tier__price">${{ t.price }}<small>/mo</small></span>
+        <strong>{{ t.name }}</strong>
+        <span>{{ t.perk }}</span>
+      </a>
+      {% endfor %}
     </div>
   </div>
 </section>
 
-<section class="Section Section_features">
-  <div class="container">
-    <header class="Section_header">
-      <h2 class="Section_title">Why Kemal?</h2>
-      <p class="Section_subtitle">
-        Blazing fast performance with expressive syntax - the simplest way to build web applications.
-      </p>
-    </header>
-
-    <div class="FeatureGrid">
-      <article class="FeatureCard">
-        <h3 class="FeatureCard_title">Blazing fast</h3>
-        <p class="FeatureCard_body">
-          Crystal compiles down to native code.<br>
-          <strong>~85,000 req/sec</strong> on a single core · <strong>~50,000 req/sec</strong> JSON<br>
-          <strong>~40,000 req/sec</strong> static files · <strong>~0.5 KB</strong> memory per request<br>
-          Starts in milliseconds.
-        </p>
-      </article>
-
-      <article class="FeatureCard">
-        <h3 class="FeatureCard_title">Simple</h3>
-        <p class="FeatureCard_body">
-          Super clean DSL with effortless configuration.
-          Routes, middleware, and settings are intuitive and straightforward—start building in minutes.
-        </p>
-      </article>
-
-      <article class="FeatureCard">
-        <h3 class="FeatureCard_title">Type‑safe by default</h3>
-        <p class="FeatureCard_body">
-          Crystal's type system catches whole classes of bugs at compile time,
-          without sacrificing the familiar Ruby‑like syntax.
-        </p>
-      </article>
-
-      <article class="FeatureCard">
-        <h3 class="FeatureCard_title">Batteries included</h3>
-        <p class="FeatureCard_body">
-          JSON responses, static file serving, views, error handling and a rich middleware ecosystem
-          are available out of the box.
-        </p>
-      </article>
-    </div>
+<section class="k-container k-cta">
+  <img src="{{ site.baseurl }}/img/kemal.png" alt="" width="56" height="56">
+  <h2 class="k-h2">Build your next app with Kemal.</h2>
+  <div class="k-cta__actions">
+    <a href="{{ site.baseurl }}/guide#getting-started" class="k-btn k-btn--primary">Read the guide</a>
+    <a href="https://github.com/kemalcr/kemal" class="k-btn k-btn--ghost">★ Star on GitHub</a>
+    <a href="https://discord.gg/prSVAZJEpz" class="k-btn k-btn--ghost">Join Discord</a>
   </div>
 </section>
-
-<section class="Section Section_showcase">
-  <div class="container">
-    <header class="Section_header">
-      <h2 class="Section_title">What you can build</h2>
-      <p class="Section_subtitle">
-        From microservices to full-scale applications, Kemal empowers you with simplicity and performance.
-      </p>
-    </header>
-
-    <div class="ShowcaseGrid">
-      <article class="ShowcaseCard">
-        <h3 class="ShowcaseCard_title">Web Applications</h3>
-        <p class="ShowcaseCard_body">
-          Build full-featured web apps for any scale—from MVPs to enterprise platforms with rich templates, dynamic routing, and powerful middleware.
-        </p>
-      </article>
-
-      <article class="ShowcaseCard">
-        <h3 class="ShowcaseCard_title">APIs</h3>
-        <p class="ShowcaseCard_body">
-          Design fast, stateless APIs that plug into your existing front‑ends and microservices.
-        </p>
-      </article>
-
-      <article class="ShowcaseCard">
-        <h3 class="ShowcaseCard_title">Real‑time apps</h3>
-        <p class="ShowcaseCard_body">
-          Use WebSockets to build live dashboards, chats and collaboration tools with minimal boilerplate.
-        </p>
-      </article>
-    </div>
-  </div>
-</section>
-
-<section class="Section Section_companies">
-  <div class="container">
-    <header class="Section_header">
-      <h2 class="Section_title">Trusted by companies worldwide</h2>
-      <p class="Section_subtitle">
-        Organizations around the world use Kemal to power their production web applications.
-      </p>
-    </header>
-
-    <div class="CompaniesGrid">
-      <a href="https://nikolamotor.com/" target="_blank" rel="noopener noreferrer" class="CompanyLogo" title="Nikola Motor">
-        <img src="{{ site.baseurl }}/img/nikola_motor.png" alt="Nikola Motor">
-      </a>
-      <a href="https://brightsec.com/" target="_blank" rel="noopener noreferrer" class="CompanyLogo" title="Bright Security">
-        <img src="{{ site.baseurl }}/img/bright_sec.png" alt="Bright Security">
-      </a>
-      <a href="https://www.pingly.com/" target="_blank" rel="noopener noreferrer" class="CompanyLogo" title="Pingly">
-        <img src="{{ site.baseurl }}/img/pingly.png" alt="Pingly">
-      </a>
-      <a href="https://invidious.io/" target="_blank" rel="noopener noreferrer" class="CompanyLogo" title="Invidious">
-        <img src="{{ site.baseurl }}/img/invidious.png" alt="Invidious">
-      </a>
-      <a href="https://www.circuitlab.com/" target="_blank" rel="noopener noreferrer" class="CompanyLogo" title="CircuitLab">
-        <img src="{{ site.baseurl }}/img/circuitlab.png" alt="CircuitLab">
-      </a>
-      <a href="https://www.westfield.com/" target="_blank" rel="noopener noreferrer" class="CompanyLogo" title="Westfield">
-        <img src="{{ site.baseurl }}/img/westfield.png" alt="Westfield">
-      </a>
-      <a href="https://www.rainforestqa.com/" target="_blank" rel="noopener noreferrer" class="CompanyLogo" title="Rainforest QA">
-        <img src="{{ site.baseurl }}/img/rainforest.png" alt="Rainforest QA">
-      </a>
-      <a href="https://www.translucent.dk/" target="_blank" rel="noopener noreferrer" class="CompanyLogo" title="Translucent">
-        <img src="{{ site.baseurl }}/img/translucent.png" alt="Translucent">
-      </a>
-    </div>
-
-    <div class="Section_cta">
-      <a href="/companies_using_kemal" class="btn btn-default">View All Companies</a>
-    </div>
-  </div>
-</section>
-

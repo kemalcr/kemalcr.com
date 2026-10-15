@@ -1,20 +1,20 @@
 ---
 layout: default
 ---
-
-<div class="DocsLayout">
-  <aside class="DocsLayout_sidebar">
-    {% include doc-sidebar.md %}
+<div class="k-docs">
+  <aside class="k-docs__sidebar">
+    <details open data-docs-menu>
+      <summary>Cookbook menu</summary>
+      {% include doc-sidebar.md %}
+    </details>
   </aside>
-
-  <main class="DocsLayout_content" role="main">
-    <header class="doc-header">
-      <h1 class="doc-title">{{ page.title }}</h1>
+  <article class="k-docs__content">
+    <header class="k-article__header">
+      <span class="k-eyebrow">Cookbook</span>
+      <h1>{{ page.title }}</h1>
     </header>
-
-    <div class="doc-content">
+    <div class="k-prose">
       {{ content }}
     </div>
-  </main>
+  </article>
 </div>
-
