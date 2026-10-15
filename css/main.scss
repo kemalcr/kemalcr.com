@@ -1,0 +1,29 @@
+---
+# Only the main Sass file needs front matter (the dashes are enough)
+---
+@charset "utf-8";
+
+// Partials live in _sass/: app/ for tokens, base and responsive rules,
+// components/ for each part of the site. Order matters: it is the cascade.
+@import
+  "app/tokens",
+  "app/base",
+  "components/header",
+  "components/buttons",
+  "components/home/hero",
+  "components/home/demo",
+  "components/home/logos",
+  "components/home/performance",
+  "components/home/build",
+  "components/home/vision",
+  "components/home/steps",
+  "components/home/sponsors",
+  "components/home/cta",
+  "components/footer",
+  "app/responsive",
+  "components/page",
+  "components/prose",
+  "components/code",
+  "components/cookbook",
+  "components/blog",
+  "components/companies";

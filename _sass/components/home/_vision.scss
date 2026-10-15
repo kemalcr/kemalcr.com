@@ -1,0 +1,21 @@
+/* vision (always dark) */
+.k-vision{position:relative;border-radius:20px;overflow:hidden;background:#0E0B0A;color:#F4F1EE;border:1px solid rgba(255,236,224,.08)}
+.k-vision__glow{position:absolute;right:-120px;top:-160px;width:640px;height:640px;background:radial-gradient(closest-side,rgba(242,54,43,.35),transparent);pointer-events:none}
+.k-vision__main{position:relative;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:clamp(32px,5vw,56px);padding:clamp(28px,5vw,56px);align-items:center}
+.k-vision .k-h2{font-size:clamp(34px,4.6vw,56px);margin-bottom:20px}
+.k-vision__main p{margin:0;max-width:620px;font-size:17px;line-height:1.6;color:#B4ACA5;text-wrap:pretty}
+.k-quote{margin:0;padding:clamp(22px,3vw,32px);border-radius:16px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);display:flex;flex-direction:column;gap:22px}
+.k-quote blockquote{margin:0;font-weight:550;font-size:clamp(20px,2.1vw,25px);line-height:1.38;letter-spacing:-.015em;text-wrap:pretty}
+.k-quote figcaption{display:flex;align-items:center;gap:12px}
+.k-quote img{border-radius:50%;display:block}
+.k-quote figcaption>span{display:flex;flex-direction:column;font-size:13px;color:#B4ACA5}
+.k-quote strong{font-size:15px;color:#F4F1EE}
+.k-quote--byline{margin-top:28px;padding:0;background:none;border:0}
+.k-vision__next{position:relative;display:flex;flex-wrap:wrap;align-items:center;gap:24px 40px;padding:clamp(22px,3vw,28px) clamp(28px,5vw,56px);border-top:1px solid rgba(255,255,255,.08);color:#F4F1EE}
+.k-vision__next:hover{background:rgba(255,255,255,.03);color:#F4F1EE}
+.k-vision__nexttext{flex:1 1 320px;display:flex;flex-direction:column;gap:4px;font-size:14.5px;color:#B4ACA5}
+.k-vision__nexttext strong{font-weight:650;font-size:20px;letter-spacing:-.02em;color:#F4F1EE}
+.k-dimlight{color:#8A827B;font-size:13px}
+.k-vision__nums{display:flex;gap:36px}
+.k-vision__nums>span{display:flex;flex-direction:column;font-size:13px;color:#B4ACA5}
+.k-vision__nums b{font:500 28px 'JetBrains Mono',monospace;color:#FF6157}

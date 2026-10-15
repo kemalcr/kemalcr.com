@@ -1,0 +1,16 @@
+/* header */
+.k-header{position:sticky;top:0;z-index:20;background:var(--nav);backdrop-filter:saturate(1.4) blur(16px);-webkit-backdrop-filter:saturate(1.4) blur(16px);border-bottom:1px solid var(--line)}
+.k-header__inner{max-width:1200px;margin:0 auto;height:60px;padding:0 20px;display:flex;align-items:center;gap:28px}
+.k-brand{display:flex;align-items:center;gap:9px;color:var(--fg);font-weight:700;font-size:18px;letter-spacing:-.02em}
+.k-brand:hover{color:var(--fg)}.k-brand img{display:block}
+.k-nav{flex:1;display:flex;gap:4px;font-size:14px;font-weight:500}
+.k-nav a{padding:8px 12px;border-radius:8px;color:var(--muted)}
+.k-nav a:hover,.k-nav a.is-current{color:var(--fg);background:var(--bg2)}
+.k-nav .k-nav__cta{display:none}
+.k-header__actions{display:flex;align-items:center;gap:8px}
+.k-iconbtn{appearance:none;border:0;background:none;cursor:pointer;width:36px;height:36px;border-radius:8px;color:var(--muted);font-size:16px;display:flex;align-items:center;justify-content:center}
+.k-iconbtn:hover{color:var(--fg);background:var(--bg2)}
+.k-menubtn{display:none;color:var(--fg);font-size:17px}
+.k-starbtn{display:flex;align-items:center;gap:8px;height:36px;padding:0 12px;border-radius:8px;border:1px solid var(--line2);color:var(--fg);font-size:13px;font-weight:600}
+.k-starbtn span{font-family:'JetBrains Mono',monospace;font-weight:500}
+.k-starbtn:hover{background:var(--bg2);color:var(--fg)}

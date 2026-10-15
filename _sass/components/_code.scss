@@ -1,0 +1,20 @@
+/* code blocks (Rouge) — follow the theme */
+.k-prose .highlighter-rouge,.k-prose>pre,.k-prose-wrap>pre,.k-prose-wrap>.highlighter-rouge{position:relative;margin:0 0 22px;border-radius:12px;background:var(--code-bg);color:var(--code-fg);border:1px solid var(--line);overflow:hidden}
+.highlighter-rouge .highlight,.highlight{margin:0;background:transparent;border:0;border-radius:0;position:relative}
+.highlight pre,pre.highlight,.k-prose>pre,.k-prose-wrap>pre{margin:0;padding:18px 20px;background:transparent;border:0;border-radius:0;font:13.5px/1.7 'JetBrains Mono',monospace;overflow-x:auto;color:var(--code-fg)}
+.k-prose pre code,.highlight code{font:inherit;background:none;border:0;padding:0;color:inherit}
+.highlight .c,.highlight .c1,.highlight .cm,.highlight .cs,.highlight .cp{color:var(--c-com);font-style:italic}
+.highlight .k,.highlight .kd,.highlight .kn,.highlight .kp,.highlight .kr,.highlight .kt,.highlight .kc,.highlight .nb,.highlight .ow{color:var(--c-kw)}
+.highlight .s,.highlight .s1,.highlight .s2,.highlight .sb,.highlight .sc,.highlight .sd,.highlight .se,.highlight .sh,.highlight .si,.highlight .sx,.highlight .sr,.highlight .dl{color:var(--c-str)}
+.highlight .ss,.highlight .na,.highlight .nl,.highlight .nt{color:var(--c-sym)}
+.highlight .nc,.highlight .no,.highlight .nn,.highlight .vc{color:var(--c-con)}
+.highlight .m,.highlight .mi,.highlight .mf,.highlight .mh,.highlight .mo,.highlight .il{color:var(--c-sym)}
+.highlight .nf,.highlight .fm,.highlight .n,.highlight .nx{color:var(--code-fg)}
+.highlight .o,.highlight .p{color:var(--c-punc)}
+.highlight .nv,.highlight .vi,.highlight .vg{color:var(--c-var)}
+.highlight .err{color:var(--c-kw);background:none}
+.highlight .gd{color:var(--c-kw)}.highlight .gi{color:var(--c-str)}
+.copy-code-button{position:absolute;top:10px;right:10px;z-index:2;appearance:none;border:1px solid var(--line2);background:var(--card);color:var(--muted);font:500 12px 'Mona Sans',sans-serif;padding:5px 10px;border-radius:7px;cursor:pointer;opacity:0;transition:opacity .15s}
+.highlight:hover .copy-code-button,.copy-code-button:focus{opacity:1}
+.copy-code-button:hover{color:var(--fg);border-color:var(--faint)}
+@media (hover:none){.copy-code-button{opacity:1}}

@@ -1,0 +1,11 @@
+/* blog index */
+.Blog-header{margin:0 auto 36px;max-width:780px}
+.Blog-title{margin:0;font-weight:700;font-stretch:108%;font-size:clamp(32px,4.4vw,48px);letter-spacing:-.035em;line-height:1.05}
+.Blog-subtitle{margin:10px 0 0;color:var(--muted);font-size:17px}
+.Blog-container{max-width:780px;margin:0 auto;display:flex;flex-direction:column;border-top:1px solid var(--line)}
+.Blog-card{display:flex;flex-direction:column;gap:6px;padding:22px 0;border-bottom:1px solid var(--line)}
+.Blog-card-date{font:12.5px 'JetBrains Mono',monospace;color:var(--faint)}
+.Blog-card-title{margin:0;font-weight:650;font-size:20px;letter-spacing:-.02em;line-height:1.3}
+.Blog-card-link{color:var(--fg)}.Blog-card-link:hover{color:var(--redtx)}
+.Blog-card-excerpt{margin:0;color:var(--muted);font-size:15px;line-height:1.55}
+.Blog-card-footer{display:none}

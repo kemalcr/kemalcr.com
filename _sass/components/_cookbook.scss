@@ -1,0 +1,23 @@
+/* cookbook layout */
+.k-docs{display:grid;grid-template-columns:240px minmax(0,1fr);gap:clamp(32px,5vw,64px);align-items:start}
+.k-docs__sidebar{position:sticky;top:84px;max-height:calc(100vh - 100px);overflow-y:auto;padding-right:8px}
+.k-docs__content{min-width:0;max-width:780px}
+.k-docs .k-eyebrow{margin-bottom:10px}
+.k-docs__sidebar summary{display:none}
+.Sidebar_title{font-weight:650;font-size:15px;margin-bottom:16px}
+.Sidebar_nav{display:flex;flex-direction:column;gap:22px}
+.Sidebar_category{display:flex;flex-direction:column;gap:2px}
+.Sidebar_category_title{font-size:12px;font-weight:600;color:var(--faint);margin-bottom:6px;letter-spacing:.02em}
+.Sidebar_category a{display:block;padding:6px 10px;margin-left:-10px;border-radius:7px;font-size:14px;color:var(--muted)}
+.Sidebar_category a:hover{color:var(--fg);background:var(--bg2)}
+.Sidebar_category a.is-current{color:var(--fg);background:var(--bg2);box-shadow:inset 2px 0 0 var(--red)}
+@media (max-width:899px){
+  .k-docs{grid-template-columns:minmax(0,1fr)}
+  .k-docs__sidebar{position:static;max-height:none;padding:0;border:1px solid var(--line);border-radius:12px;background:var(--bg2)}
+  .k-docs__sidebar .Sidebar_title{display:none}
+  .k-docs__sidebar details{padding:0 16px}
+  .k-docs__sidebar details summary{cursor:pointer;list-style:none;padding:14px 0;font-weight:600;font-size:15px;display:flex;justify-content:space-between}
+  .k-docs__sidebar details summary::after{content:"▾";color:var(--faint)}
+  .k-docs__sidebar details[open] summary::after{content:"▴"}
+  .k-docs__sidebar details .Sidebar_nav{padding-bottom:16px}
+}
