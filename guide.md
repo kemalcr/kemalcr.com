@@ -1681,9 +1681,9 @@ A directory under `public/` is redirected with a trailing slash only when a list
 Add custom headers to static files served by `Kemal::StaticFileHandler`. This is especially useful for CORS or caching:
 
 ```crystal
-static_headers do |response, filepath, filestat|
+static_headers do |env, filepath, filestat|
   if filepath =~ /\.html$/
-    response.headers.add("Access-Control-Allow-Origin", "*")
+    env.response.headers.add("Access-Control-Allow-Origin", "*")
   end
   response.headers.add("Content-Size", filestat.size.to_s)
 end
